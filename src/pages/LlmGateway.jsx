@@ -40,9 +40,9 @@ const LlmGateway = () => {
     const cardRef = useRef(null);
 
     const defaultContexts = [
+        "You are a powerful assistant in providing accurate answers based on given context",
         "You are a powerful assistant in converting Text to SQL.Read the following instructions carefully and strictly follow it without fail.",
-        "You are a Text to SQL Assistant, Strictly use the context provided only and answer the asked question.",
-        "You are a powerful assistant in providing accurate answers based on given context"
+        "You are a Text to SQL Assistant, Strictly use the context provided only and answer the asked question."
     ];
 
     useEffect(() => {
@@ -114,7 +114,7 @@ const LlmGateway = () => {
     }, [apiResponse]);
 
     return (
-        <Box sx={{marginBottom: "50px"}}>
+        <Box sx={{ marginBottom: "50px" }}>
             {/* Header */}
             <AppBar position="static" sx={{ backgroundColor: "#fff", alignItems: "center" }}>
                 <Toolbar>
@@ -155,7 +155,7 @@ const LlmGateway = () => {
                         ))}
                     </Select>
                 </FormControl>
-                
+
             </Box>
 
             {/* Conditional Dropdowns and Input */}
@@ -178,12 +178,12 @@ const LlmGateway = () => {
                             {models.map((model) => (
                                 <MenuItem key={model} value={model}>{model}</MenuItem>
                             ))}
-                            
+
                         </Select>
                     </FormControl>
 
-                     {/* Context Selection */}
-                     <Typography variant="h6" sx={{ mt: 2, fontWeight: "bold", color: "#6c5ce7" }}>
+                    {/* Context Selection */}
+                    <Typography variant="h6" sx={{ mt: 2, fontWeight: "bold", color: "#6c5ce7" }}>
                         Choose Context or Enter Custom
                     </Typography>
                     <FormControl fullWidth margin="normal">
@@ -209,6 +209,9 @@ const LlmGateway = () => {
                         onChange={(e) => setCustomContext(e.target.value)}
                     />
 
+                    <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', fontFamily: 'Roboto, sans-serif', fontSize: "20px", color: "#6c5ce7" }}>
+                        Add Prompt
+                    </Typography>
                     {/* Prompt Input */}
                     <TextField
                         fullWidth
@@ -254,7 +257,7 @@ const LlmGateway = () => {
                 justifyContent: 'center'
             }}>
                 {apiResponse && (
-                    <Card  ref={cardRef} elevation={3} sx={{ mt: 4, mx: "auto", maxWidth: 670, backgroundColor: '#f5f5f5', border: '1px solid #ddd', borderRadius: 2, boxShadow: 2 }}>
+                    <Card ref={cardRef} elevation={3} sx={{ mt: 4, mx: "auto", maxWidth: 670, backgroundColor: '#f5f5f5', border: '1px solid #ddd', borderRadius: 2, boxShadow: 2 }}>
                         <CardContent>
                             <Typography variant="body2" sx={{ whiteSpace: 'pre-line', textAlign: 'left' }}>{formatApiResponse(apiResponse)}</Typography>
                         </CardContent>
