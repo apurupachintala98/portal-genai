@@ -13,24 +13,29 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { Link } from "react-router-dom";
 import ScrollableCards from "./ScrollableCards";
 import bgVideo from "../assets/images/bgDashboard.mp4";
+import bgImage from "../assets/images/bg-AI.jpg";
 
 const menuData = [
   {
     title: "Applications",
     items: [
       { name: "LLM Gateway", url: "/llm-gateway" },
-      { name: "HEDIS Chat Assistant", url: "/" },
-      { name: "Safety Net", url: "/" },
-      { name: "ARB Agent", url: "/" },
-      { name: "Data Genie", url: "/" },
+      { name: "HEDIS Chat Assistant", url: "http://10.126.192.122:3020/" },
+      { name: "Safety Net", url: "http://10.126.192.122:3010/" },
+      { name: "ARB Agent", url: "https://arbassist.edagenaidev.awsdns.internal.das/" },
+      { name: "Data Genie", url: "http://10.126.192.122:3040/" },
       { name: "EDA Ontology", url: "/" },
-      { name: "Intern Selector", url: "/" },
-      { name: "Gen AI UI", url: "/" },
+      { name: "Intern Selector", url: "http://10.126.192.122:3050/" },
+      { name: "FHIR", url: "http://10.126.192.122:3090/" },
     ],
   },
   {
     title: "EDA Applications",
-    items: [{ name: "Smart Help", url: "/" }],
+    items: [{ name: "Smart Help", url: "/" },
+      { name: "Clara", url: "/" },
+      { name: "RMA.ai", url: "/" },
+      { name: "IQT", url: "/" }
+    ],
   },
 ];
 
@@ -48,14 +53,14 @@ function Home() {
   return (
     <>
       {/* Navigation Bar */}
-      <AppBar position="static" color="transparent" elevation={0} sx={{ backgroundColor: "#fff" }}>
+      <AppBar position="static" color="transparent" elevation={0} sx={{ backgroundColor: "#1a3673", color: "#fff" }}>
         <Toolbar>
           <Typography
             variant="h6"
             sx={{
               flexGrow: 1,
               fontWeight: "bold",
-              color: "#6c5ce7",
+              color: "#fff",
               fontFamily:
                 "AkkuratMono,SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace",
             }}
@@ -64,92 +69,94 @@ function Home() {
           </Typography>
 
           {/* Dropdown Menu */}
-          <Box
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleClose}
-            sx={{ position: "relative", cursor: "pointer" }}
+
+<Box
+  onMouseEnter={handleMouseEnter}
+  onMouseLeave={handleClose}
+  sx={{ position: "relative", cursor: "pointer" }}
+>
+  <Button endIcon={<ArrowDropDownIcon />} color="primary" sx={{ color: "#fff" }}>
+    Applications
+  </Button>
+  <Menu
+    anchorEl={anchorEl}
+    open={Boolean(anchorEl)}
+    onClose={handleClose}
+    MenuListProps={{ onMouseLeave: handleClose }}
+    sx={{
+      mt: 2,
+      "& .MuiPaper-root": {
+        width: "600px",
+        p: 3,
+        borderRadius: 2,
+        boxShadow: 3,
+        overflow: "hidden",
+        backgroundColor: "#1a3673",
+        color: "#fff",
+      },
+    }}
+  >
+    <Grid container spacing={2}>
+      {menuData.map((section, index) => (
+        <Grid item xs={12} sm={6} key={index}>
+          <Typography
+            variant="subtitle1"
+            sx={{ fontWeight: "bold", mb: 1 }}
           >
-            <Button endIcon={<ArrowDropDownIcon />} color="primary">
-              Applications
-            </Button>
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-              MenuListProps={{ onMouseLeave: handleClose }}
+            {section.title}
+          </Typography>
+          {section.items.map((item, i) => (
+            <MenuItem
+              key={i}
               sx={{
-                mt: 2,
-                "& .MuiPaper-root": {
-                  width: "600px",
-                  p: 3,
-                  borderRadius: 2,
-                  boxShadow: 3,
-                  overflow: "hidden",
+                py: 0.5,
+                px: 0,
+                fontWeight: "normal", // Default text weight
+                transition: "all 0.3s", // Smooth transition
+                ":hover": {
+                  backgroundColor: "rgba(255, 255, 255, 0.1)", // Transparent background
+                  fontWeight: "bold", // Bold text on hover
                 },
               }}
+              component={Link}
+              to={item.url}
             >
-              <Grid container spacing={2}>
-                {menuData.map((section, index) => (
-                  <Grid item xs={12} sm={6} key={index}>
-                    <Typography
-                      variant="subtitle1"
-                      sx={{ fontWeight: "bold", mb: 1 }}
-                    >
-                      {section.title}
-                    </Typography>
-                    {section.items.map((item, i) => (
-                      <MenuItem
-                        key={i}
-                        sx={{ py: 0.5, px: 0 }}
-                        component={Link}
-                        to={item.url}
-                      >
-                        {item.name}
-                      </MenuItem>
-                    ))}
-                  </Grid>
-                ))}
-              </Grid>
-            </Menu>
-          </Box>
+              {item.name}
+            </MenuItem>
+          ))}
+        </Grid>
+      ))}
+    </Grid>
+  </Menu>
+</Box>
+
 
           <Button
             variant="contained"
             color="primary"
             component={Link}
             to="/dashboard"
+            sx={{backgroundColor: "#fff", color: "#1a3673"}}
           >
             Dashboard
           </Button>
         </Toolbar>
       </AppBar>
 
-      {/* Background Video */}
       <Box
-        sx={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          overflow: "hidden",
-          zIndex: -1,
-        }}
-      >
-        <video
-          autoPlay
-          loop
-          muted
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-          }}
-        >
-          <source src={bgVideo} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </Box>
+  sx={{
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    zIndex: -1,
+    backgroundImage: `url(${bgImage})`, // Add the background image
+    backgroundSize: "cover", // Ensure the image covers the entire area
+    backgroundPosition: "center", // Center the image
+    backgroundRepeat: "no-repeat", // Prevent the image from repeating
+  }}
+></Box>
 
       {/* Scrollable Content */}
       <Box
@@ -182,7 +189,7 @@ function Home() {
             component="h1"
             sx={{
               fontWeight: "300",
-              color: "#6c5ce7",
+              color: "#1a3673",
               mb: 2,
               fontFamily:
                 "AkkuratMono,SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace",
@@ -213,11 +220,50 @@ function Home() {
           <ScrollableCards />
         </Box>
 
-        <Box sx={{
-          background: 'rgba(46, 4, 86, .75)', color: "#fff", padding: "5%"
-        }}>
-          <Typography sx={{ fontSize: "1.7rem" }}>&ldquo; The Data Intelligence Platform is a generative AI solution tailored for marketing teams. It leverages a profound understanding of the marketing landscape to deliver innovative tools and workflows that empower users and boost their success. By integrating state-of-the-art architectures, frameworks, and accelerators, the platform drives advanced, efficient, and impactful marketing. &rdquo;</Typography>
+        <Box
+          sx={{
+            background: "rgba(26, 54, 115, .75)",
+            color: "#fff",
+            padding: "5%",
+            position: "relative", // Ensure this section is positioned relative to contain the video
+            overflow: "hidden",   // Prevent video overflow
+          }}
+        >
+          {/* Background Video */}
+          <Box
+            sx={{
+              position: "absolute", // Make video fixed to the box
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              zIndex: -1,          // Send video behind content
+            }}
+          >
+            <video
+              autoPlay
+              loop
+              muted
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover", // Ensure video covers the entire background
+              }}
+            >
+              <source src={bgVideo} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </Box>
 
+          <Typography
+            sx={{
+              fontSize: "1.7rem",
+              position: "relative", // Ensure text appears above the video
+              zIndex: 1,
+            }}
+          >
+            &ldquo; The Data Intelligence Platform is a generative AI solution tailored for marketing teams. It leverages a profound understanding of the marketing landscape to deliver innovative tools and workflows that empower users and boost their success. By integrating state-of-the-art architectures, frameworks, and accelerators, the platform drives advanced, efficient, and impactful marketing. &rdquo;
+          </Typography>
         </Box>
 
         <Box
@@ -227,13 +273,12 @@ function Home() {
             bottom: 0,
             width: "100%",
             background: 'linear-gradient(0deg, #fff, #f6f6f6)',
-            color: "#6c5ce7",
+            color: "#1a3673",
             py: 2,
             px: 4,
-            fontWeight: "bold"
           }}
         >
-          <Typography variant="body2" sx={{ textAlign: "left" }}>
+          <Typography variant="body2" sx={{ textAlign: "left", fontWeight: "bolder" }}>
             © 2024 Elevance Health.
           </Typography>
         </Box>

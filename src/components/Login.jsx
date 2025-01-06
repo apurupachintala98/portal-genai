@@ -64,8 +64,8 @@ const Login = ({ setIsLoggedIn }) => {
         <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
           <Box textAlign="center">
             <img src={logo} alt="Logo" width={180} />
-            <Typography variant="h5" color="primary" sx={{ mt: 2, fontWeight: 600 }}>
-              Hi, Welcome Back
+            <Typography variant="h5" color="primary" sx={{ mt: 2, fontWeight: 600 , color: "#1a3673", fontSize: "1rem"}}>
+              Hi, Welcome to Elevance Health Data Intelligence Platform
             </Typography>
             <Typography color="text.secondary">
               Enter your credentials to continue
@@ -106,7 +106,7 @@ const Login = ({ setIsLoggedIn }) => {
                     control={<Field as={Checkbox} name="remember" />}
                     label="Remember me"
                   />
-                  <Link href="#" underline="hover">
+                  <Link href="#" underline="hover" sx={{color: "#1a3673"}}>
                     Forgot Password?
                   </Link>
                 </Box>
@@ -114,7 +114,7 @@ const Login = ({ setIsLoggedIn }) => {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  sx={{ mt: 2, textTransform: "none" }}
+                  sx={{ mt: 2, textTransform: "none", background: "#1a3673" }}
                 >
                   Sign In
                 </Button>
@@ -123,7 +123,7 @@ const Login = ({ setIsLoggedIn }) => {
           </Formik>
           <Typography textAlign="center" sx={{ mt: 2 }}>
             Don’t have an account?{" "}
-            <Link component={RouterLink} to="/SignUp" underline="hover">
+            <Link component={RouterLink} to="/SignUp" underline="hover" sx={{color: "#1a3673"}}>
               Sign up
             </Link>
           </Typography>

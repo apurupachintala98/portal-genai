@@ -65,7 +65,7 @@ const SignUp = () => {
       <Grid item xs={12} sm={8} md={4}>
         <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
           <Box textAlign="center">
-            <Typography variant="h5" color="primary" sx={{ mt: 2, fontWeight: 600 }}>
+            <Typography variant="h5" color="primary" sx={{ mt: 2, fontWeight: 600, color: "#1a3673" }}>
               Sign up
             </Typography>
             <Typography color="text.secondary">
@@ -160,7 +160,7 @@ const SignUp = () => {
                   label={
                     <>
                       Agree with{" "}
-                      <Link href="#" underline="hover">
+                      <Link href="#" underline="hover" sx={{color: "#1a3673"}}>
                         Terms & Condition
                       </Link>
                     </>
@@ -176,7 +176,7 @@ const SignUp = () => {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  sx={{ mt: 2, textTransform: "none" }}
+                  sx={{ mt: 2, textTransform: "none", background: "#1a3673" }}
                 >
                   Sign Up
                 </Button>
@@ -185,7 +185,7 @@ const SignUp = () => {
           </Formik>
           <Typography textAlign="center" sx={{ mt: 2 }}>
             Already have an account?{" "}
-            <Link component={RouterLink} to="/" underline="hover">
+            <Link component={RouterLink} to="/" underline="hover" sx={{color: "#1a3673"}}>
               Sign in
             </Link>
           </Typography>

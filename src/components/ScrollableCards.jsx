@@ -14,53 +14,67 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 // Card Data
 const cards = [
   {
-    title: "LLM Gateway",
-    description: "Coming Soon",
-    link: { text: "Click Here", url: "" },
-  },
-  {
     title: "HEDIS Chat Assistant",
-    description: "Coming Soon",
-    link: { text: "Click Here", url: "" },
+    description: "HEDIS (Healthcare Effectiveness Data and Information Set) is a set of health care performance measures used to track how well health care organizations perform in providing important health services to enrolled populations. <b>Learn more...</b>",
+    link: { text: "Click Here", url: "http://10.126.192.122:3020/" },
   },
   {
     title: "Safety Net",
-    description: "Coming Soon",
-    link: { text: "Click Here", url: "" },
+    description: "Safety Net Provider comprehensive view contains both Organizations and Individual Provider details along with corresponding error table information. Organizations can also be called as Orgs and Orgnization groups or groups or org Individual providers can also be called as Individuals or professionals. <b>Learn more...</b>",
+    link: { text: "Click Here", url: "http://10.126.192.122:3010/" },
   },
   {
     title: "ARB Agent",
     description: "Coming Soon",
-    link: { text: "Click Here", url: "" },
+    link: { text: "Click Here", url: "https://arbassist.edagenaidev.awsdns.internal.das/" },
   },
   {
     title: "Data Genie",
+    description: "Data Genie is the process of creating artificial data that mimics real-world data patterns. It uses techniques like statistical modeling, simulations, or machine learning algorithms to produce realistic datasets for training, testing, and analysis, often in scenarios where real data is scarce or sensitive. <b>Learn more...</b>",
+    link: { text: "Click Here", url: "http://10.126.192.122:3040/" },
+  },
+  {
+    title: "LLM Gateway",
     description: "Coming Soon",
-    link: { text: "Click Here", url: "" },
+    link: { text: "Click Here", url: "/llm-gateway" },
   },
   {
     title: "EDA Ontology",
     description: "Coming Soon",
-    link: { text: "Click Here", url: "" },
+    link: { text: "Click Here", url: "/" },
   },
   {
     title: "Intern Selector",
     description: "Coming Soon",
-    link: { text: "Click Here", url: "" },
+    link: { text: "Click Here", url: "http://10.126.192.122:3050/" },
   },
   {
-    title: "Gen AI UI",
+    title: "FHIR",
     description: "Coming Soon",
-    link: { text: "Click Here", url: "" },
+    link: { text: "Click Here", url: "http://10.126.192.122:3090/" },
   },
   {
     title: "Smart Help",
     description: "Coming Soon",
-    link: { text: "Click Here", url: "" },
+    link: { text: "Click Here", url: "/" },
+  },
+  {
+    title: "Clara",
+    description: "Coming Soon",
+    link: { text: "Click Here", url: "/" },
+  },
+  {
+    title: "RMA.ai",
+    description: "Coming Soon",
+    link: { text: "Click Here", url: "/" },
+  },
+  {
+    title: "IQT",
+    description: "Coming Soon",
+    link: { text: "Click Here", url: "/" },
   },
 ];
 
-console.log(cards);
 
 
 const ScrollableCards = () => {
@@ -81,7 +95,7 @@ const ScrollableCards = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ my: 4 ,}} >
+    <Container maxWidth="lg" sx={{ my: 4, }} >
       {/* Section Title */}
       {/* <Typography
         variant="h4"
@@ -98,10 +112,10 @@ const ScrollableCards = () => {
       <Box
         sx={{
           display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      position: "relative", // Add relative positioning here
-      mb: 2,
+          justifyContent: "space-between",
+          alignItems: "center",
+          position: "relative", // Add relative positioning here
+          mb: 2,
         }}
       >
         {/* Section Title */}
@@ -109,7 +123,7 @@ const ScrollableCards = () => {
           variant="h4"
           sx={{
             fontWeight: "bold",
-            color: "#333",
+            color: "#1a3673",
             textAlign: "left",
           }}
         >
@@ -117,7 +131,7 @@ const ScrollableCards = () => {
         </Typography>
 
         {/* Arrows */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 , position: "relative" }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, position: "relative" }}>
           {/* Right Arrow */}
           <IconButton
             onClick={scrollRight}
@@ -127,6 +141,7 @@ const ScrollableCards = () => {
               top: "50%",
               transform: "translateY(-50%)",
               zIndex: 2,
+              color: "#1a3673",
               backgroundColor: "#fff",
               boxShadow: 2,
               marginRight: "10px",
@@ -145,6 +160,7 @@ const ScrollableCards = () => {
               top: "50%",
               transform: "translateY(-50%)",
               zIndex: 2,
+              color: "#1a3673",
               backgroundColor: "#fff",
               boxShadow: 2,
               "&:hover": { backgroundColor: "#f1f1f1" },
@@ -178,6 +194,7 @@ const ScrollableCards = () => {
                 borderRadius: 3,
                 flexShrink: 0,
                 backgroundColor: "#fff",
+                color: "#1a3673",
                 textAlign: "left",
                 boxShadow: '0 0 0 #bd95ff00, 0 0 6.9px #bd95ff46, 0 0 11.1px #bd95ff5f',
                 margin: "10px",
@@ -190,8 +207,7 @@ const ScrollableCards = () => {
               <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
                 {card.title}
               </Typography>
-              <Typography variant="body2" sx={{ color: "#666", mb: 2 }}>
-                {card.description}
+              <Typography variant="body2" sx={{ color: "#666", mb: 2 }} dangerouslySetInnerHTML={{ __html: card.description }}>
               </Typography>
               <Link
                 href={card.link.url}

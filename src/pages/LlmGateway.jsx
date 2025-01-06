@@ -14,8 +14,11 @@ import {
     Paper,
     CircularProgress,
     Card,
-    CardContent
+    CardContent,
+    IconButton
 } from "@mui/material";
+import { Link } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
 import { getPlatforms, getModelsByPlatform, getLLMResponse } from "../services/apiService";
 import LLM_Image from '../assets/images/LLM.png';
 
@@ -116,14 +119,40 @@ const LlmGateway = () => {
     return (
         <Box sx={{ marginBottom: "50px" }}>
             {/* Header */}
-            <AppBar position="static" sx={{ backgroundColor: "#fff", alignItems: "center" }}>
+            {/* <AppBar position="static" sx={{ backgroundColor: "#fff", alignItems: "center" }}>
                 <Toolbar>
                     <Typography variant="h6" sx={{ color: "#6c5ce7", fontWeight: "bold" }}>
                         Data Intelligence Platform - LLM Gateway
                     </Typography>
                 </Toolbar>
-            </AppBar>
+            </AppBar> */}
+<AppBar position="static" sx={{ backgroundColor: "#fff", alignItems: "center" }}>
+  <Toolbar sx={{ width: "100%", justifyContent: "space-between" }}>
+    {/* App Bar Title */}
+    <Typography variant="h6" sx={{ color: "#1a3673", fontWeight: "bold" }}>
+      Data Intelligence Platform - LLM Gateway
+    </Typography>
 
+    {/* Home Icon with Text */}
+    <Box
+      component={Link}
+      to="/home" // Replace with your home route
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        textDecoration: "none",
+        color: "inherit",
+      }}
+    >
+      <IconButton color="inherit" sx={{ color: "#1a3673" }}>
+        <HomeIcon />
+      </IconButton>
+      <Typography sx={{ fontWeight: "bold", color: "#1a3673" }}>
+        Home
+      </Typography>
+    </Box>
+  </Toolbar>
+</AppBar>
             {/* Banner */}
             <Banner />
 
@@ -137,7 +166,7 @@ const LlmGateway = () => {
                     mt: 4
                 }}
             >
-                <Typography variant="h5" gutterBottom sx={{ alignItems: 'left', fontWeight: 'bold', fontFamily: 'Roboto, sans-serif', fontSize: "20px", color: "#6c5ce7" }}>
+                <Typography variant="h5" gutterBottom sx={{ alignItems: 'left', fontWeight: 'bold', fontFamily: 'Roboto, sans-serif', fontSize: "20px", color: "#1a3673" }}>
                     Choose LLM Platform
                 </Typography>
                 <FormControl sx={{ width: 300 }}>
@@ -162,7 +191,7 @@ const LlmGateway = () => {
             {selectedPlatform && (
                 <Paper elevation={3} sx={{ padding: 4, mt: 4, mx: "auto", maxWidth: 600 }}>
                     {/* Select Model */}
-                    <Typography variant="h6" mb={2} sx={{ fontWeight: "bold", color: "#6c5ce7" }}>
+                    <Typography variant="h6" mb={2} sx={{ fontWeight: "bold", color: "#1a3673" }}>
                         Ask using Snowflake Cortex
                     </Typography>
 
@@ -183,7 +212,7 @@ const LlmGateway = () => {
                     </FormControl>
 
                     {/* Context Selection */}
-                    <Typography variant="h6" sx={{ mt: 2, fontWeight: "bold", color: "#6c5ce7" }}>
+                    <Typography variant="h6" sx={{ mt: 2, fontWeight: "bold", color: "#1a3673" }}>
                         Choose Context or Enter Custom
                     </Typography>
                     <FormControl fullWidth margin="normal">
@@ -209,7 +238,7 @@ const LlmGateway = () => {
                         onChange={(e) => setCustomContext(e.target.value)}
                     />
 
-                    <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', fontFamily: 'Roboto, sans-serif', fontSize: "20px", color: "#6c5ce7" }}>
+                    <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', fontFamily: 'Roboto, sans-serif', fontSize: "20px", color: "#1a3673" }}>
                         Add Prompt
                     </Typography>
                     {/* Prompt Input */}
@@ -234,7 +263,7 @@ const LlmGateway = () => {
 
                     <Button
                         variant="contained"
-                        sx={{ backgroundColor: "#6c5ce7", mt: 2 }}
+                        sx={{ backgroundColor: "#1a3673", mt: 2 }}
                         onClick={handleSubmit}
                         disabled={loading}
                     >
