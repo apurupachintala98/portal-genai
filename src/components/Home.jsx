@@ -13,7 +13,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { Link } from "react-router-dom";
 import ScrollableCards from "./ScrollableCards";
 import bgVideo from "../assets/images/bgDashboard.mp4";
-import bgImage from "../assets/images/bg-AI.jpg";
+import bgImage from "../assets/images/bg-AI.jpeg";
 
 const menuData = [
   {
@@ -32,9 +32,9 @@ const menuData = [
   {
     title: "EDA Applications",
     items: [{ name: "Smart Help", url: "/" },
-      { name: "Clara", url: "/" },
-      { name: "RMA.ai", url: "/" },
-      { name: "IQT", url: "/" }
+    { name: "Clara", url: "/" },
+    { name: "RMA.ai", url: "/" },
+    { name: "IQT", url: "/" }
     ],
   },
 ];
@@ -70,65 +70,65 @@ function Home() {
 
           {/* Dropdown Menu */}
 
-<Box
-  onMouseEnter={handleMouseEnter}
-  onMouseLeave={handleClose}
-  sx={{ position: "relative", cursor: "pointer" }}
->
-  <Button endIcon={<ArrowDropDownIcon />} color="primary" sx={{ color: "#fff" }}>
-    Applications
-  </Button>
-  <Menu
-    anchorEl={anchorEl}
-    open={Boolean(anchorEl)}
-    onClose={handleClose}
-    MenuListProps={{ onMouseLeave: handleClose }}
-    sx={{
-      mt: 2,
-      "& .MuiPaper-root": {
-        width: "600px",
-        p: 3,
-        borderRadius: 2,
-        boxShadow: 3,
-        overflow: "hidden",
-        backgroundColor: "#1a3673",
-        color: "#fff",
-      },
-    }}
-  >
-    <Grid container spacing={2}>
-      {menuData.map((section, index) => (
-        <Grid item xs={12} sm={6} key={index}>
-          <Typography
-            variant="subtitle1"
-            sx={{ fontWeight: "bold", mb: 1 }}
+          <Box
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleClose}
+            sx={{ position: "relative", cursor: "pointer" }}
           >
-            {section.title}
-          </Typography>
-          {section.items.map((item, i) => (
-            <MenuItem
-              key={i}
+            <Button endIcon={<ArrowDropDownIcon />} color="primary" sx={{ color: "#fff" }}>
+              Applications
+            </Button>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+              MenuListProps={{ onMouseLeave: handleClose }}
               sx={{
-                py: 0.5,
-                px: 0,
-                fontWeight: "normal", // Default text weight
-                transition: "all 0.3s", // Smooth transition
-                ":hover": {
-                  backgroundColor: "rgba(255, 255, 255, 0.1)", // Transparent background
-                  fontWeight: "bold", // Bold text on hover
+                mt: 2,
+                "& .MuiPaper-root": {
+                  width: "600px",
+                  p: 3,
+                  borderRadius: 2,
+                  boxShadow: 3,
+                  overflow: "hidden",
+                  backgroundColor: "#1a3673",
+                  color: "#fff",
                 },
               }}
-              component={Link}
-              to={item.url}
             >
-              {item.name}
-            </MenuItem>
-          ))}
-        </Grid>
-      ))}
-    </Grid>
-  </Menu>
-</Box>
+              <Grid container spacing={2}>
+                {menuData.map((section, index) => (
+                  <Grid item xs={12} sm={6} key={index}>
+                    <Typography
+                      variant="subtitle1"
+                      sx={{ fontWeight: "bold", mb: 1 }}
+                    >
+                      {section.title}
+                    </Typography>
+                    {section.items.map((item, i) => (
+                      <MenuItem
+                        key={i}
+                        sx={{
+                          py: 0.5,
+                          px: 0,
+                          fontWeight: "normal", // Default text weight
+                          transition: "all 0.3s", // Smooth transition
+                          ":hover": {
+                            backgroundColor: "rgba(255, 255, 255, 0.1)", // Transparent background
+                            fontWeight: "bold", // Bold text on hover
+                          },
+                        }}
+                        component={Link}
+                        to={item.url}
+                      >
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </Grid>
+                ))}
+              </Grid>
+            </Menu>
+          </Box>
 
 
           <Button
@@ -136,7 +136,7 @@ function Home() {
             color="primary"
             component={Link}
             to="/dashboard"
-            sx={{backgroundColor: "#fff", color: "#1a3673"}}
+            sx={{ backgroundColor: "#fff", color: "#1a3673" }}
           >
             Dashboard
           </Button>
@@ -144,19 +144,19 @@ function Home() {
       </AppBar>
 
       <Box
-  sx={{
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    zIndex: -1,
-    backgroundImage: `url(${bgImage})`, // Add the background image
-    backgroundSize: "cover", // Ensure the image covers the entire area
-    backgroundPosition: "center", // Center the image
-    backgroundRepeat: "no-repeat", // Prevent the image from repeating
-  }}
-></Box>
+        sx={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          zIndex: -1,
+          backgroundImage: `url(${bgImage})`, // Add the background image
+          backgroundSize: "cover", // Ensure the image covers the entire area
+          backgroundPosition: "center", // Center the image
+          backgroundRepeat: "no-repeat", // Prevent the image from repeating
+        }}
+      ></Box>
 
       {/* Scrollable Content */}
       <Box
@@ -173,7 +173,7 @@ function Home() {
             top: 0,
             left: 0,
             width: "50%",
-            height: "70%",
+            height: "75%",
             backgroundColor: "rgba(255, 255, 255, 0.9)",
             display: "flex",
             flexDirection: "column",
