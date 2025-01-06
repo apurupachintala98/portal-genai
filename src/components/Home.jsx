@@ -199,7 +199,7 @@ function Home() {
               maxWidth: "32ch",
             }}
           >
-            Welcome to the EDA Gen AI Center of Excellence
+            Welcome to the Elevance Data Intelligence Platform
           </Typography>
           <Typography
             variant="subtitle1"
