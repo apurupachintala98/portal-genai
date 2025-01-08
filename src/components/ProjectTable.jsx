@@ -55,16 +55,6 @@ const ProjectTable = () => {
     }
   };
 
-  // const handleEdit = (id) => {
-  //   setEditRowId(id);
-  //   const projectToEdit = projects.find((proj) => proj.SL_NO === id);
-  //   setEditedData({ ...projectToEdit });
-  // };
-
-  // const handleDeleteClick = (id) => {
-  //   setProjects((prevProjects) => prevProjects.filter((proj) => proj.SL_NO !== id));
-  // };
-
   const handleAddClick = () => {
     setIsNewRow(true);
     setEditedRow({ SL_NO: projects.length + 1, PRJ_NM: "", LEAD_NM: "", MANAGER_NM: "", CURRENT_PHASE: "", LLM_PLATFORM: "", DEPLOYMENT_DT: "" });

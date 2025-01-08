@@ -45,7 +45,7 @@ export const insertNewProjectDetails = async (newProject) => {
 // Update project details
 export const updateProjectDetails = async (sl_no, updatedProject) => {
   try {
-    const response = await axios.put(
+    const response = await axios.post(
       `${Dashboard_BASE_URL}/update_project_details/`,
       { sl_no, ...updatedProject },
       {
@@ -64,7 +64,7 @@ export const updateProjectDetails = async (sl_no, updatedProject) => {
 // Delete project details
 export const deleteProjectDetails = async (sl_no) => {
   try {
-    const response = await axios.delete(`${Dashboard_BASE_URL}/delete_project_details/`, {
+    const response = await axios.post(`${Dashboard_BASE_URL}/delete_project_details/`, {
       data: { sl_no },
       headers: {
         "Content-Type": "application/json",
