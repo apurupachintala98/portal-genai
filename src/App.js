@@ -53,7 +53,7 @@ function SettingsButton({ primaryColor, setSettingsOpen }) {
 
 function App() {
   const [themeMode, setThemeMode] = useState("light");
-  const [primaryColor, setPrimaryColor] = useState("#673ab7");
+  const [primaryColor, setPrimaryColor] = useState("#1a3673");
   const [sidebarType, setSidebarType] = useState("full");
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);

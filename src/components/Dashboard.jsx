@@ -55,8 +55,8 @@ const Dashboard = ({
     ];
 
     const stats = [
-        { title: "Projects", value: "10", image: projectsIcon, bgColor: "#e7f5ff" },
-        { title: "Reports", value: "1", image: reportsIcon, bgColor: "#f3f4ff" },
+        { title: "Projects", value: "42", image: projectsIcon, bgColor: "#e7f5ff" },
+        // { title: "Reports", value: "1", image: reportsIcon, bgColor: "#f3f4ff" },
     ];
 
     const user = { name: "John Doe", avatarUrl: "/avatar.png" };
@@ -151,7 +151,7 @@ const Dashboard = ({
                         </Box>
 
                         {/* User Avatar */}
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                        {/* <Box sx={{ display: "flex", alignItems: "center" }}>
                             <Avatar
                                 alt={user.name}
                                 src={user.avatarUrl}
@@ -167,7 +167,7 @@ const Dashboard = ({
                             >
                                 <UserMenu user={user} onLogout={handleLogout} />
                             </Avatar>
-                        </Box>
+                        </Box> */}
                     </Toolbar>
                 </AppBar>
 

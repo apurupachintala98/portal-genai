@@ -21,7 +21,7 @@ const Settings = ({
   theme,
   sidebarType,
 }) => {
-  const themeColors = ["#673ab7", "#1976d2", "#9c27b0", "#ff9800", "#4caf50"];
+  const themeColors = ["#1a3673", "#1976d2", "#9c27b0", "#ff9800", "#4caf50"];
 
   return (
     <Drawer anchor="right" open={open} onClose={onClose}>
