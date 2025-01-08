@@ -47,11 +47,57 @@ const Chart = ({ theme, themeColor }) => {
     return value; // Return other fields as-is
   };
 
+  // const chartOptions = useMemo(() => {
+  //   if (!xAxisField || !yAxisField || projectData.length === 0) {
+  //     return null;
+  //   }
+
+  //   return {
+  //     chart: {
+  //       type: chartType,
+  //       backgroundColor: theme === "light" ? "#ffffff" : "#333333",
+  //     },
+  //     title: { text: "Pictorial Representation of Projects" },
+  //     credits: { enabled: false },
+  //     xAxis: {
+  //       categories: projectData.map((item) => item[xAxisField]),
+  //       title: { text: xAxisField },
+  //       labels: {
+  //         style: { color: theme === "light" ? "#333333" : "#ffffff" },
+  //       },
+  //     },
+  //     yAxis: {
+  //       title: { text: yAxisField, style: { color: theme === "light" ? "#333333" : "#ffffff" } },
+  //       labels: { style: { color: theme === "light" ? "#333333" : "#ffffff" } },
+  //     },
+  //     series: [
+  //       {
+  //         name: yAxisField,
+  //         data: projectData.map((item) =>
+  //           yAxisField === "DEPLOYMENT_DT"
+  //             ? new Date(item[yAxisField]).getTime()
+  //             : parseFloat(item[yAxisField]) || 0
+  //         ),
+  //         color: themeColor,
+  //       },
+  //     ],
+  //   };
+  // }, [xAxisField, yAxisField, theme, themeColor, chartType, projectData]);
+
   const chartOptions = useMemo(() => {
     if (!xAxisField || !yAxisField || projectData.length === 0) {
       return null;
     }
-
+  
+    // Process data for the pie chart
+    const pieData =
+      chartType === "pie"
+        ? projectData.map((item) => ({
+            name: item[xAxisField],
+            y: parseFloat(item[yAxisField]) || 0, // Use Y-axis field for the value
+          }))
+        : [];
+  
     return {
       chart: {
         type: chartType,
@@ -59,31 +105,53 @@ const Chart = ({ theme, themeColor }) => {
       },
       title: { text: "Pictorial Representation of Projects" },
       credits: { enabled: false },
-      xAxis: {
+      tooltip: {
+        pointFormat: chartType === "pie" ? "{series.name}: <b>{point.y}</b>" : undefined,
+      },
+      plotOptions: {
+        pie: {
+          allowPointSelect: true,
+          cursor: "pointer",
+          dataLabels: {
+            enabled: true,
+            format: "{point.name}: {point.y}", // Show name and value
+            style: {
+              color: theme === "light" ? "#333333" : "#ffffff",
+            },
+          },
+        },
+      },
+      xAxis: chartType !== "pie" && {
         categories: projectData.map((item) => item[xAxisField]),
         title: { text: xAxisField },
         labels: {
           style: { color: theme === "light" ? "#333333" : "#ffffff" },
         },
       },
-      yAxis: {
+      yAxis: chartType !== "pie" && {
         title: { text: yAxisField, style: { color: theme === "light" ? "#333333" : "#ffffff" } },
         labels: { style: { color: theme === "light" ? "#333333" : "#ffffff" } },
       },
       series: [
-        {
-          name: yAxisField,
-          data: projectData.map((item) =>
-            yAxisField === "DEPLOYMENT_DT"
-              ? new Date(item[yAxisField]).getTime()
-              : parseFloat(item[yAxisField]) || 0
-          ),
-          color: themeColor,
-        },
+        chartType === "pie"
+          ? {
+              name: yAxisField,
+              colorByPoint: true,
+              data: pieData,
+            }
+          : {
+              name: yAxisField,
+              data: projectData.map((item) =>
+                yAxisField === "DEPLOYMENT_DT"
+                  ? new Date(item[yAxisField]).getTime()
+                  : parseFloat(item[yAxisField]) || 0
+              ),
+              color: themeColor,
+            },
       ],
     };
   }, [xAxisField, yAxisField, theme, themeColor, chartType, projectData]);
-
+  
   useEffect(() => {
     if (chartRef.current && chartOptions) {
       const chart = chartRef.current.chart;
