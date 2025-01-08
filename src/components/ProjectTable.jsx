@@ -64,7 +64,7 @@ const ProjectTable = () => {
   const handleSave = async (SL_NO) => {
     try {
       const sanitizedData = { ...editedData }; // Clone the data
-      sanitizedData.sl = SL_NO; // Map SL_NO to sl for the payload
+      sanitizedData.sl_no = SL_NO; // Map SL_NO to sl for the payload
       delete sanitizedData.SL_NO; // Remove SL_NO from the payload
   
       await updateProjectDetails(SL_NO, sanitizedData); // Pass sanitized data to the API

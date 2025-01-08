@@ -41,7 +41,7 @@ export const updateProjectDetails = async (sl_no, updatedProject) => {
     const { SL_NO, ...projectData } = updatedProject; // Exclude SL_NO from the original object
     const payload = { sl_no: SL_NO, ...projectData }; // Rename and include it as `sl`
 
-    const response = await axios.put(`${Dashboard_BASE_URL}/update_project_details/`, payload, {
+    const response = await axios.post(`${Dashboard_BASE_URL}/update_project_details/`, payload, {
       headers: {
         "Content-Type": "application/json",
       },
