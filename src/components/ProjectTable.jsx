@@ -56,9 +56,36 @@ const ProjectTable = () => {
   };
 
   const handleAddClick = () => {
+    // Calculate the next SL_NO based on the current projects list
+    const nextSL_NO = projects.length > 0 
+      ? Math.max(...projects.map((p) => p.SL_NO)) + 1 
+      : 1;
+  
     setIsNewRow(true);
-    setEditedRow({ SL_NO: projects.length + 1, PRJ_NM: "", LEAD_NM: "", MANAGER_NM: "", CURRENT_PHASE: "", LLM_PLATFORM: "", DEPLOYMENT_DT: "" });
+    setNewProject({
+      SL_NO: nextSL_NO, // Assign the calculated SL_NO
+      PRJ_NM: "",
+      LEAD_NM: "",
+      MANAGER_NM: "",
+      CURRENT_PHASE: "Build", // Default status
+      LLM_PLATFORM: "",
+      DEPLOYMENT_DT: "",
+      TGOV_NO: "",
+      APM_NO: "",
+      LLM_MODEL: "",
+      APP_TYPE: "",
+      PRJ_DESC: "",
+      BASE_APLCTN_NM: "",
+      EKS_ENABLED_YN: "",
+      REACT_UI_ENABLED_YN: "",
+      AI_TASKFORCE_REVIEWED_YN: "",
+      AI_TASKFORCE_APPROVED_YN: "",
+      TARGET_USERS: "",
+      COMMENTS: "",
+    });
   };
+  
+  
 
 
   const handleSave = async (SL_NO) => {
@@ -88,13 +115,50 @@ const ProjectTable = () => {
   };
 
 
+  // const handleChange = (e, field) => {
+  //   setEditedData((prev) => ({ ...prev, [field]: e.target.value }));
+  // };
+
   const handleChange = (e, field) => {
-    setEditedData((prev) => ({ ...prev, [field]: e.target.value }));
+    const value = e.target.value;
+    if (isNewRow) {
+      // Update the new project data
+      setNewProject((prev) => ({ ...prev, [field]: value }));
+    } else {
+      // Update the edited row data
+      setEditedData((prev) => ({ ...prev, [field]: value }));
+    }
   };
+  
 
   // const handleAddProject = async () => {
   //   try {
-  //     await insertNewProjectDetails(newProject); // Add new project to the API
+  //     // Create a new project with default values for all fields
+  //     const sanitizedNewProject = {
+  //       PRJ_NM: newProject.PRJ_NM || "",
+  //       LEAD_NM: newProject.LEAD_NM || "",
+  //       MANAGER_NM: newProject.MANAGER_NM || "",
+  //       CURRENT_PHASE: newProject.CURRENT_PHASE || "",
+  //       LLM_PLATFORM: newProject.LLM_PLATFORM || "",
+  //       DEPLOYMENT_DT: newProject.DEPLOYMENT_DT || "",
+  //       TGOV_NO: "", // Add other fields as empty strings or default values
+  //       APM_NO: "",
+  //       LLM_MODEL: "",
+  //       APP_TYPE: "",
+  //       PRJ_DESC: "",
+  //       BASE_APLCTN_NM: "",
+  //       EKS_ENABLED_YN: "",
+  //       REACT_UI_ENABLED_YN: "",
+  //       AI_TASKFORCE_REVIEWED_YN: "",
+  //       AI_TASKFORCE_APPROVED_YN: "",
+  //       TARGET_USERS: "",
+  //       COMMENTS: "",
+  //     };
+  
+  //     // Call the API to insert the new project
+  //     await insertNewProjectDetails(sanitizedNewProject);
+  
+  //     // Reset the new project form
   //     setNewProject({
   //       PRJ_NM: "",
   //       LEAD_NM: "",
@@ -102,50 +166,26 @@ const ProjectTable = () => {
   //       CURRENT_PHASE: "",
   //       LLM_PLATFORM: "",
   //       DEPLOYMENT_DT: "",
-  //     }); // Reset the form
-  //     fetchProjects(); // Refresh the project list
+  //     });
+  
+  //     // Refresh the project list
+  //     fetchProjects();
   //   } catch (error) {
   //     console.error("Failed to add project:", error);
   //     setError("Failed to add project. Please try again.");
   //   }
   // };
-
+  
   const handleAddProject = async () => {
     try {
-      // Create a new project with default values for all fields
-      const sanitizedNewProject = {
-        PRJ_NM: newProject.PRJ_NM || "",
-        LEAD_NM: newProject.LEAD_NM || "",
-        MANAGER_NM: newProject.MANAGER_NM || "",
-        CURRENT_PHASE: newProject.CURRENT_PHASE || "",
-        LLM_PLATFORM: newProject.LLM_PLATFORM || "",
-        DEPLOYMENT_DT: newProject.DEPLOYMENT_DT || "",
-        TGOV_NO: "", // Add other fields as empty strings or default values
-        APM_NO: "",
-        LLM_MODEL: "",
-        APP_TYPE: "",
-        PRJ_DESC: "",
-        BASE_APLCTN_NM: "",
-        EKS_ENABLED_YN: "",
-        REACT_UI_ENABLED_YN: "",
-        AI_TASKFORCE_REVIEWED_YN: "",
-        AI_TASKFORCE_APPROVED_YN: "",
-        TARGET_USERS: "",
-        COMMENTS: "",
-      };
+      const sanitizedNewProject = { ...newProject }; // Use the current newProject state
   
       // Call the API to insert the new project
       await insertNewProjectDetails(sanitizedNewProject);
   
-      // Reset the new project form
-      setNewProject({
-        PRJ_NM: "",
-        LEAD_NM: "",
-        MANAGER_NM: "",
-        CURRENT_PHASE: "",
-        LLM_PLATFORM: "",
-        DEPLOYMENT_DT: "",
-      });
+      // Reset the form and state
+      setNewProject({});
+      setIsNewRow(false);
   
       // Refresh the project list
       fetchProjects();
@@ -155,7 +195,7 @@ const ProjectTable = () => {
     }
   };
   
-
+  
   const handleEditClick = (sl_no) => {
     const project = projects.find((p) => p.SL_NO === sl_no);
     setEditRowId(sl_no);
