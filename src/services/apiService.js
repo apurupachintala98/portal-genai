@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const BASE_URL = "https://llmgwassist.edagenaidev.awsdns.internal.das";
-const Dashboard_BASE_URL = "http://10.126.192.122:3070/";
+const Dashboard_BASE_URL = "http://10.126.192.122:3070";
 
 
 export const getPlatforms = async () => {

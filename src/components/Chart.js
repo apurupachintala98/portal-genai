@@ -978,8 +978,6 @@ const Chart = ({ theme, themeColor }) => {
       "PRJ_NM",
       "MANAGER_NM",
       "DEPLOYMENT_DT",
-      "LEAD_NM",
-      "LLM_PLATFORM",
       "CURRENT_PHASE",
   ];
 
