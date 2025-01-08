@@ -61,12 +61,13 @@ const ProjectTable = () => {
   };
 
 
-  const handleSave = async (sl_no) => {
+  const handleSave = async (SL_NO) => {
     try {
-      // Exclude sl_no from editedData if it exists
-      const { sl_no: _, ...sanitizedData } = editedData;
+      const sanitizedData = { ...editedData }; // Clone the data
+      sanitizedData.sl = SL_NO; // Map SL_NO to sl for the payload
+      delete sanitizedData.SL_NO; // Remove SL_NO from the payload
   
-      await updateProjectDetails(sl_no, sanitizedData); // Call the API with sanitized data
+      await updateProjectDetails(SL_NO, sanitizedData); // Pass sanitized data to the API
       fetchProjects(); // Refresh the project list
       setEditRowId(null); // Exit edit mode
       setEditedData({});

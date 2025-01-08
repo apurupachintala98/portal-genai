@@ -37,11 +37,11 @@ export const insertNewProjectDetails = async (newProject) => {
 
 export const updateProjectDetails = async (sl_no, updatedProject) => {
   try {
-    // Ensure sl_no is not duplicated in the payload
-    const { sl_no: _, ...projectData } = updatedProject; // Exclude sl_no from updatedProject
-    const payload = { sl_no, ...projectData }; // Add sl_no explicitly
+    // Rename SL_NO to sl in the payload
+    const { SL_NO, ...projectData } = updatedProject; // Exclude SL_NO from the original object
+    const payload = { sl_no: SL_NO, ...projectData }; // Rename and include it as `sl`
 
-    const response = await axios.post(`${Dashboard_BASE_URL}/update_project_details/`, payload, {
+    const response = await axios.put(`${Dashboard_BASE_URL}/update_project_details/`, payload, {
       headers: {
         "Content-Type": "application/json",
       },
