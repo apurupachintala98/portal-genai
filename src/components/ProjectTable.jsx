@@ -56,11 +56,10 @@ const ProjectTable = () => {
   };
 
   const handleAddClick = () => {
-    // Calculate the next SL_NO based on the current projects list
-    const nextSL_NO = projects.length > 0 
-      ? Math.max(...projects.map((p) => p.SL_NO)) + 1 
+    const nextSL_NO = projects.length > 0
+      ? Math.max(...projects.map((p) => p.SL_NO)) + 1
       : 1;
-  
+
     setIsNewRow(true);
     setNewProject({
       SL_NO: nextSL_NO, // Assign the calculated SL_NO
@@ -84,15 +83,12 @@ const ProjectTable = () => {
       COMMENTS: "",
     });
   };
-  
-  
-
 
   const handleSave = async (SL_NO) => {
     try {
       const sanitizedData = { ...editedData }; // Clone the data
       delete sanitizedData.SL_NO; // Remove SL_NO from the payload
-  
+
       await updateProjectDetails(SL_NO, sanitizedData); // Pass SL_NO as a query parameter
       fetchProjects(); // Refresh the project list
       setEditRowId(null); // Exit edit mode
@@ -101,9 +97,6 @@ const ProjectTable = () => {
       console.error("Failed to update project:", error);
     }
   };
-  
-  
-  
 
   const handleDelete = async (sl_no) => {
     try {
@@ -113,11 +106,6 @@ const ProjectTable = () => {
       console.error("Failed to delete project:", error);
     }
   };
-
-
-  // const handleChange = (e, field) => {
-  //   setEditedData((prev) => ({ ...prev, [field]: e.target.value }));
-  // };
 
   const handleChange = (e, field) => {
     const value = e.target.value;
@@ -129,64 +117,14 @@ const ProjectTable = () => {
       setEditedData((prev) => ({ ...prev, [field]: value }));
     }
   };
-  
 
-  // const handleAddProject = async () => {
-  //   try {
-  //     // Create a new project with default values for all fields
-  //     const sanitizedNewProject = {
-  //       PRJ_NM: newProject.PRJ_NM || "",
-  //       LEAD_NM: newProject.LEAD_NM || "",
-  //       MANAGER_NM: newProject.MANAGER_NM || "",
-  //       CURRENT_PHASE: newProject.CURRENT_PHASE || "",
-  //       LLM_PLATFORM: newProject.LLM_PLATFORM || "",
-  //       DEPLOYMENT_DT: newProject.DEPLOYMENT_DT || "",
-  //       TGOV_NO: "", // Add other fields as empty strings or default values
-  //       APM_NO: "",
-  //       LLM_MODEL: "",
-  //       APP_TYPE: "",
-  //       PRJ_DESC: "",
-  //       BASE_APLCTN_NM: "",
-  //       EKS_ENABLED_YN: "",
-  //       REACT_UI_ENABLED_YN: "",
-  //       AI_TASKFORCE_REVIEWED_YN: "",
-  //       AI_TASKFORCE_APPROVED_YN: "",
-  //       TARGET_USERS: "",
-  //       COMMENTS: "",
-  //     };
-  
-  //     // Call the API to insert the new project
-  //     await insertNewProjectDetails(sanitizedNewProject);
-  
-  //     // Reset the new project form
-  //     setNewProject({
-  //       PRJ_NM: "",
-  //       LEAD_NM: "",
-  //       MANAGER_NM: "",
-  //       CURRENT_PHASE: "",
-  //       LLM_PLATFORM: "",
-  //       DEPLOYMENT_DT: "",
-  //     });
-  
-  //     // Refresh the project list
-  //     fetchProjects();
-  //   } catch (error) {
-  //     console.error("Failed to add project:", error);
-  //     setError("Failed to add project. Please try again.");
-  //   }
-  // };
-  
   const handleAddProject = async () => {
     try {
-      const sanitizedNewProject = { ...newProject }; // Use the current newProject state
-  
-      // Call the API to insert the new project
+      const sanitizedNewProject = { ...newProject };
       await insertNewProjectDetails(sanitizedNewProject);
-  
-      // Reset the form and state
       setNewProject({});
       setIsNewRow(false);
-  
+
       // Refresh the project list
       fetchProjects();
     } catch (error) {
@@ -194,8 +132,8 @@ const ProjectTable = () => {
       setError("Failed to add project. Please try again.");
     }
   };
-  
-  
+
+
   const handleEditClick = (sl_no) => {
     const project = projects.find((p) => p.SL_NO === sl_no);
     setEditRowId(sl_no);
@@ -367,7 +305,7 @@ const ProjectTable = () => {
                 <TableRow hover>
                   <TableCell sx={{ fontSize: "14px" }}>
                     <TextField
-                      value={editedData.PRJ_NM || ""}
+                      value={newProject.PRJ_NM || ""}
                       onChange={(e) => handleChange(e, "PRJ_NM")}
                       fullWidth
                       placeholder="Enter Project Name"
@@ -375,7 +313,7 @@ const ProjectTable = () => {
                   </TableCell>
                   <TableCell sx={{ fontSize: "14px" }}>
                     <TextField
-                      value={editedData.LEAD_NM || ""}
+                      value={newProject.LEAD_NM || ""}
                       onChange={(e) => handleChange(e, "LEAD_NM")}
                       fullWidth
                       placeholder="Enter Lead Name"
@@ -383,7 +321,7 @@ const ProjectTable = () => {
                   </TableCell>
                   <TableCell sx={{ fontSize: "14px" }}>
                     <TextField
-                      value={editedData.MANAGER_NM || ""}
+                      value={newProject.MANAGER_NM || ""}
                       onChange={(e) => handleChange(e, "MANAGER_NM")}
                       fullWidth
                       placeholder="Enter Manager Name"
@@ -391,14 +329,14 @@ const ProjectTable = () => {
                   </TableCell>
                   <TableCell sx={{ fontSize: "14px" }}>
                     <TextField
-                      value={editedData.CURRENT_PHASE || "Build"}
+                      value={newProject.CURRENT_PHASE || "Build"}
                       onChange={(e) => handleChange(e, "CURRENT_PHASE")}
                       fullWidth
                     />
                   </TableCell>
                   <TableCell sx={{ fontSize: "14px" }}>
                     <TextField
-                      value={editedData.LLM_PLATFORM || ""}
+                      value={newProject.LLM_PLATFORM || ""}
                       onChange={(e) => handleChange(e, "LLM_PLATFORM")}
                       fullWidth
                       placeholder="Enter Domain"
@@ -407,7 +345,7 @@ const ProjectTable = () => {
                   <TableCell sx={{ fontSize: "14px" }}>
                     <TextField
                       type="date"
-                      value={editedData.DEPLOYMENT_DT || ""}
+                      value={newProject.DEPLOYMENT_DT || ""}
                       onChange={(e) => handleChange(e, "DEPLOYMENT_DT")}
                       fullWidth
                     />
