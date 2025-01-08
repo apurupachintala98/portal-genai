@@ -27,14 +27,7 @@ export const getAllProjectDetails = async () => {
 export const insertNewProjectDetails = async (newProject) => {
   try {
     const response = await axios.post(
-      `${Dashboard_BASE_URL}/insert_new_project_details/`,
-      newProject,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+      `${Dashboard_BASE_URL}/insert_new_project_details/`, newProject);
     return response.data;
   } catch (error) {
     console.error("Error inserting new project details:", error);
@@ -46,9 +39,7 @@ export const insertNewProjectDetails = async (newProject) => {
 export const updateProjectDetails = async (sl_no, updatedProject) => {
   try {
     const response = await axios.post(
-      `${Dashboard_BASE_URL}/update_project_details/`,
-      { sl_no, ...updatedProject },
-    );
+      `${Dashboard_BASE_URL}/update_project_details/`, sl_no, ...updatedProject);
     return response.data;
   } catch (error) {
     console.error("Error updating project details:", error);
@@ -59,9 +50,7 @@ export const updateProjectDetails = async (sl_no, updatedProject) => {
 // Delete project details
 export const deleteProjectDetails = async (sl_no) => {
   try {
-    const response = await axios.post(`${Dashboard_BASE_URL}/delete_project_details/`, {
-      sl_no,
-    });
+    const response = await axios.post(`${Dashboard_BASE_URL}/delete_project_details/`, sl_no);
     return response.data;
   } catch (error) {
     console.error("Error deleting project details:", error);
