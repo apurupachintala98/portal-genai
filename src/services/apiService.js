@@ -48,11 +48,6 @@ export const updateProjectDetails = async (sl_no, updatedProject) => {
     const response = await axios.post(
       `${Dashboard_BASE_URL}/update_project_details/`,
       { sl_no, ...updatedProject },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
     );
     return response.data;
   } catch (error) {
@@ -65,10 +60,7 @@ export const updateProjectDetails = async (sl_no, updatedProject) => {
 export const deleteProjectDetails = async (sl_no) => {
   try {
     const response = await axios.post(`${Dashboard_BASE_URL}/delete_project_details/`, {
-      data: { sl_no },
-      headers: {
-        "Content-Type": "application/json",
-      },
+      sl_no,
     });
     return response.data;
   } catch (error) {
