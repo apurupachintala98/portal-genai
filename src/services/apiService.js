@@ -23,3 +23,56 @@ export const getAllProjectDetails = async () => {
   const response = await axios.get(`${Dashboard_BASE_URL}/get_all_project_details/`);
   return response.data;
 };
+
+export const insertNewProjectDetails = async (newProject) => {
+  try {
+    const response = await axios.post(
+      `${Dashboard_BASE_URL}/insert_new_project_details/`,
+      newProject,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error inserting new project details:", error);
+    throw error;
+  }
+};
+
+// Update project details
+export const updateProjectDetails = async (sl_no, updatedProject) => {
+  try {
+    const response = await axios.put(
+      `${Dashboard_BASE_URL}/update_project_details/`,
+      { sl_no, ...updatedProject },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating project details:", error);
+    throw error;
+  }
+};
+
+// Delete project details
+export const deleteProjectDetails = async (sl_no) => {
+  try {
+    const response = await axios.delete(`${Dashboard_BASE_URL}/delete_project_details/`, {
+      data: { sl_no },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting project details:", error);
+    throw error;
+  }
+};
