@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Table,
@@ -15,11 +15,12 @@ import {
   TextField,
   Button,
 } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
-import apiService from "../services/apiService";
+import { getAllProjectDetails } from '../services/apiService';
 
 const initialProjects = [
   {
@@ -877,7 +878,7 @@ const ProjectTable = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const data = await apiService.getAllProjectDetails();
+        const data = await getAllProjectDetails();
         setProjects(data);
       } catch (err) {
         setError("Failed to fetch projects. Please try again later.");
