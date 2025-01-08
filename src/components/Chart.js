@@ -178,7 +178,7 @@ const Chart = ({ theme, themeColor }) => {
   const [chartType, setChartType] = useState("column");
 
   const allowedXAxisFields = ["PRJ_NM", "MANAGER_NM", "DEPLOYMENT_DT", "LEAD_NM", "CURRENT_PHASE"];
-  const allowedYAxisFields = ["DEPLOYMENT_DT", "MANAGER_NM", "SL_NO"];
+  const allowedYAxisFields = ["SL_NO", "MANAGER_NM", "DEPLOYMENT_DT"];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -188,8 +188,8 @@ const Chart = ({ theme, themeColor }) => {
         setProjectData(data);
 
         // Set default fields for X-axis and Y-axis
-        setXAxisField(allowedXAxisFields.find((field) => Object.keys(data[0] || {}).includes(field)));
-        setYAxisField(allowedYAxisFields.find((field) => Object.keys(data[0] || {}).includes(field)));
+        setXAxisField(allowedXAxisFields[0]); // Default to the first allowed X-axis field
+        setYAxisField(allowedYAxisFields[0]); // Default to the first allowed Y-axis field
       } catch (err) {
         console.error("Error fetching project data:", err);
         setError("Failed to load project data.");
@@ -201,15 +201,17 @@ const Chart = ({ theme, themeColor }) => {
     fetchData();
   }, []);
 
+  const formatYAxisData = (field, value) => {
+    if (field === "DEPLOYMENT_DT") {
+      return new Date(value).toLocaleDateString(); // Format dates for readability
+    }
+    return value; // Return other fields as-is
+  };
+
   const chartOptions = useMemo(() => {
     if (!xAxisField || !yAxisField || projectData.length === 0) {
       return null;
     }
-
-    const yAxisData =
-      yAxisField === "DEPLOYMENT_DT"
-        ? projectData.map((item) => new Date(item[yAxisField]).getTime())
-        : projectData.map((item) => parseFloat(item[yAxisField]) || 0);
 
     return {
       chart: {
@@ -227,21 +229,16 @@ const Chart = ({ theme, themeColor }) => {
       },
       yAxis: {
         title: { text: yAxisField, style: { color: theme === "light" ? "#333333" : "#ffffff" } },
-        labels: {
-          style: { color: theme === "light" ? "#333333" : "#ffffff" },
-          formatter:
-            yAxisField === "DEPLOYMENT_DT"
-              ? function () {
-                  return Highcharts.dateFormat("%Y-%m-%d", this.value);
-                }
-              : undefined,
-        },
-        type: yAxisField === "DEPLOYMENT_DT" ? "datetime" : "linear",
+        labels: { style: { color: theme === "light" ? "#333333" : "#ffffff" } },
       },
       series: [
         {
           name: yAxisField,
-          data: yAxisData,
+          data: projectData.map((item) =>
+            yAxisField === "DEPLOYMENT_DT"
+              ? new Date(item[yAxisField]).getTime()
+              : parseFloat(item[yAxisField]) || 0
+          ),
           color: themeColor,
         },
       ],
