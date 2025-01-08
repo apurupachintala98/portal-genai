@@ -167,9 +167,10 @@ const Chart = ({ theme, themeColor }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Helper function to determine numeric fields
-  const isNumericField = (field) =>
-    projectData.some((item) => !isNaN(parseFloat(item[field])));
+  // Default X-axis and Y-axis options
+  const [xAxisField, setXAxisField] = useState("");
+  const [yAxisField, setYAxisField] = useState("");
+  const [chartType, setChartType] = useState("column");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -177,6 +178,16 @@ const Chart = ({ theme, themeColor }) => {
       try {
         const data = await getAllProjectDetails();
         setProjectData(data);
+
+        // Set default fields for X-axis and Y-axis
+        const fields = Object.keys(data[0] || {});
+        const allowedXAxisFields = ["PRJ_NM", "MANAGER_NM", "DEPLOYMENT_DT", "CURRENT_PHASE"];
+        const numericFields = fields.filter((field) =>
+          data.some((item) => !isNaN(parseFloat(item[field])))
+        );
+
+        setXAxisField(allowedXAxisFields.find((field) => fields.includes(field)) || fields[0]);
+        setYAxisField(numericFields[0] || fields[0]);
       } catch (err) {
         console.error("Error fetching project data:", err);
         setError("Failed to load project data.");
@@ -188,16 +199,11 @@ const Chart = ({ theme, themeColor }) => {
     fetchData();
   }, []);
 
-  const fields = projectData.length > 0 ? Object.keys(projectData[0]) : [];
-  const allowedXAxisFields = ["PRJ_NM", "MANAGER_NM", "DEPLOYMENT_DT", "CURRENT_PHASE"];
-  const xAxisOptions = fields.filter((field) => allowedXAxisFields.includes(field));
-  const yAxisOptions = fields.filter(isNumericField);
-
-  const [xAxisField, setXAxisField] = useState(xAxisOptions[0] || "");
-  const [yAxisField, setYAxisField] = useState(yAxisOptions[0] || "");
-  const [chartType, setChartType] = useState("column");
-
   const chartOptions = useMemo(() => {
+    if (!xAxisField || !yAxisField || projectData.length === 0) {
+      return null;
+    }
+
     return {
       chart: {
         type: chartType,
@@ -207,18 +213,18 @@ const Chart = ({ theme, themeColor }) => {
       credits: { enabled: false },
       xAxis: {
         categories: projectData.map((item) => item[xAxisField]),
-        title: { text: xAxisField || "X-Axis" },
+        title: { text: xAxisField },
         labels: {
           style: { color: theme === "light" ? "#333333" : "#ffffff" },
         },
       },
       yAxis: {
-        title: { text: yAxisField || "Y-Axis", style: { color: theme === "light" ? "#333333" : "#ffffff" } },
+        title: { text: yAxisField, style: { color: theme === "light" ? "#333333" : "#ffffff" } },
         labels: { style: { color: theme === "light" ? "#333333" : "#ffffff" } },
       },
       series: [
         {
-          name: yAxisField || "Data",
+          name: yAxisField,
           data: projectData.map((item) => parseFloat(item[yAxisField]) || 0),
           color: themeColor,
         },
@@ -227,7 +233,7 @@ const Chart = ({ theme, themeColor }) => {
   }, [xAxisField, yAxisField, theme, themeColor, chartType, projectData]);
 
   useEffect(() => {
-    if (chartRef.current) {
+    if (chartRef.current && chartOptions) {
       const chart = chartRef.current.chart;
       chart.update(chartOptions, true, true);
     }
@@ -263,7 +269,7 @@ const Chart = ({ theme, themeColor }) => {
             size="small"
             variant="outlined"
           >
-            {xAxisOptions.map((option) => (
+            {Object.keys(projectData[0] || {}).map((option) => (
               <MenuItem key={option} value={option}>
                 X-Axis: {option}
               </MenuItem>
@@ -276,7 +282,7 @@ const Chart = ({ theme, themeColor }) => {
             size="small"
             variant="outlined"
           >
-            {yAxisOptions.map((option) => (
+            {Object.keys(projectData[0] || {}).map((option) => (
               <MenuItem key={option} value={option}>
                 Y-Axis: {option}
               </MenuItem>
@@ -297,11 +303,12 @@ const Chart = ({ theme, themeColor }) => {
           </Select>
         </Box>
 
-        <HighchartsReact highcharts={Highcharts} options={chartOptions} ref={chartRef} />
+        {chartOptions && (
+          <HighchartsReact highcharts={Highcharts} options={chartOptions} ref={chartRef} />
+        )}
       </Paper>
     </Box>
   );
 };
 
 export default Chart;
-
