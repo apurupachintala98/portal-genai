@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     AppBar,
     Box,
@@ -29,6 +29,7 @@ import projectsIcon from "../assets/images/projects.svg";
 import reportsIcon from "../assets/images/reports.svg";
 import Chart from "./Chart";
 import { Link } from "react-router-dom"; 
+import { getAllProjectDetails } from "../services/apiService";
 
 // Define Sidebar Width
 const drawerWidth = {
@@ -47,16 +48,29 @@ const Dashboard = ({
 }) => {
     const collapsed = sidebarType === "mini";
     const [themeColor, setThemeColor] = useState("#673ab7"); // Default chart and theme color
+    const [totalProjects, setTotalProjects] = useState(0);
+
+
+    useEffect(() => {
+        const fetchProjectCount = async () => {
+            try {
+                const data = await getAllProjectDetails();
+                const total = data.length; // Calculate the total number of projects
+                setTotalProjects(total);
+            } catch (error) {
+                console.error("Error fetching project details:", error);
+            }
+        };
+
+        fetchProjectCount();
+    }, []);
 
     const menuItems = [
         { text: "Home", icon: <HomeIcon />, link: "/home" },
-        // { text: "Analytics", icon: <BarChartIcon /> },
-        // { text: "Settings", icon: <SettingsIcon /> },
     ];
 
     const stats = [
-        { title: "Projects", value: "42", image: projectsIcon, bgColor: "#e7f5ff" },
-        // { title: "Reports", value: "1", image: reportsIcon, bgColor: "#f3f4ff" },
+        { title: "Projects", value: totalProjects, image: projectsIcon, bgColor: "#e7f5ff" },
     ];
 
     const user = { name: "John Doe", avatarUrl: "/avatar.png" };
