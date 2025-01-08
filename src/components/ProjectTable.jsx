@@ -92,9 +92,52 @@ const ProjectTable = () => {
     setEditedData((prev) => ({ ...prev, [field]: e.target.value }));
   };
 
+  // const handleAddProject = async () => {
+  //   try {
+  //     await insertNewProjectDetails(newProject); // Add new project to the API
+  //     setNewProject({
+  //       PRJ_NM: "",
+  //       LEAD_NM: "",
+  //       MANAGER_NM: "",
+  //       CURRENT_PHASE: "",
+  //       LLM_PLATFORM: "",
+  //       DEPLOYMENT_DT: "",
+  //     }); // Reset the form
+  //     fetchProjects(); // Refresh the project list
+  //   } catch (error) {
+  //     console.error("Failed to add project:", error);
+  //     setError("Failed to add project. Please try again.");
+  //   }
+  // };
+
   const handleAddProject = async () => {
     try {
-      await insertNewProjectDetails(newProject); // Add new project to the API
+      // Create a new project with default values for all fields
+      const sanitizedNewProject = {
+        PRJ_NM: newProject.PRJ_NM || "",
+        LEAD_NM: newProject.LEAD_NM || "",
+        MANAGER_NM: newProject.MANAGER_NM || "",
+        CURRENT_PHASE: newProject.CURRENT_PHASE || "",
+        LLM_PLATFORM: newProject.LLM_PLATFORM || "",
+        DEPLOYMENT_DT: newProject.DEPLOYMENT_DT || "",
+        TGOV_NO: "", // Add other fields as empty strings or default values
+        APM_NO: "",
+        LLM_MODEL: "",
+        APP_TYPE: "",
+        PRJ_DESC: "",
+        BASE_APLCTN_NM: "",
+        EKS_ENABLED_YN: "",
+        REACT_UI_ENABLED_YN: "",
+        AI_TASKFORCE_REVIEWED_YN: "",
+        AI_TASKFORCE_APPROVED_YN: "",
+        TARGET_USERS: "",
+        COMMENTS: "",
+      };
+  
+      // Call the API to insert the new project
+      await insertNewProjectDetails(sanitizedNewProject);
+  
+      // Reset the new project form
       setNewProject({
         PRJ_NM: "",
         LEAD_NM: "",
@@ -102,13 +145,17 @@ const ProjectTable = () => {
         CURRENT_PHASE: "",
         LLM_PLATFORM: "",
         DEPLOYMENT_DT: "",
-      }); // Reset the form
-      fetchProjects(); // Refresh the project list
+      });
+  
+      // Refresh the project list
+      fetchProjects();
     } catch (error) {
       console.error("Failed to add project:", error);
       setError("Failed to add project. Please try again.");
     }
   };
+  
+
   const handleEditClick = (sl_no) => {
     const project = projects.find((p) => p.SL_NO === sl_no);
     setEditRowId(sl_no);
