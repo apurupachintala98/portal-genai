@@ -19,7 +19,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
-import { DataGrid } from "@mui/x-data-grid";
 import apiService from "../services/apiService";
 
 const initialProjects = [
@@ -878,7 +877,7 @@ const ProjectTable = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const data = await getAllProjectDetails();
+        const data = await apiService.getAllProjectDetails();
         setProjects(data);
       } catch (err) {
         setError("Failed to fetch projects. Please try again later.");
@@ -1100,7 +1099,7 @@ const ProjectTable = () => {
       </Box>
     );
   }
-  
+
   return (
     <Box sx={{ p: 3 }}>
       <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
@@ -1508,17 +1507,6 @@ const ProjectTable = () => {
   </TableContainer>
 </Paper>
 
-
-{/* <Paper sx={{ height: 600, width: '100%' }}> 
-  <DataGrid
-    rows={projects}
-    columns={columns}
-    getRowId={(row) => row.SL_NO} // Use SL_NO as the unique id for rows
-    pagination={false} // Disable pagination to show all data
-    checkboxSelection
-    sx={{ border: 0 }}
-  />
-</Paper> */}
 
     </Box>
   );
