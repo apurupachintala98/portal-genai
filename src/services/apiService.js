@@ -37,21 +37,25 @@ export const insertNewProjectDetails = async (newProject) => {
 
 export const updateProjectDetails = async (sl_no, updatedProject) => {
   try {
-    // Rename SL_NO to sl in the payload
-    const { SL_NO, ...projectData } = updatedProject; // Exclude SL_NO from the original object
-    const payload = { sl_no: SL_NO, ...projectData }; // Rename and include it as `sl`
+    // Exclude SL_NO from updatedProject to prevent duplication
+    const { SL_NO, ...projectData } = updatedProject;
 
-    const response = await axios.post(`${Dashboard_BASE_URL}/update_project_details/`, payload, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await axios.post(
+      `${Dashboard_BASE_URL}/update_project_details/?sl_no=${sl_no}`, // Include sl_no in the query string
+      projectData, // Send the rest of the data in the body
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error updating project details:", error);
     throw error;
   }
 };
+
 
 
 // Delete project details

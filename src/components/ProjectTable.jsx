@@ -64,10 +64,9 @@ const ProjectTable = () => {
   const handleSave = async (SL_NO) => {
     try {
       const sanitizedData = { ...editedData }; // Clone the data
-      sanitizedData.sl_no = SL_NO; // Map SL_NO to sl for the payload
       delete sanitizedData.SL_NO; // Remove SL_NO from the payload
   
-      await updateProjectDetails(SL_NO, sanitizedData); // Pass sanitized data to the API
+      await updateProjectDetails(SL_NO, sanitizedData); // Pass SL_NO as a query parameter
       fetchProjects(); // Refresh the project list
       setEditRowId(null); // Exit edit mode
       setEditedData({});
@@ -75,6 +74,7 @@ const ProjectTable = () => {
       console.error("Failed to update project:", error);
     }
   };
+  
   
   
 
