@@ -37,7 +37,10 @@ export const insertNewProjectDetails = async (newProject) => {
 
 export const updateProjectDetails = async (sl_no, updatedProject) => {
   try {
-    const payload = { sl_no, ...updatedProject }; // Merge sl_no with updated data
+    // Ensure sl_no is not duplicated in the payload
+    const { sl_no: _, ...projectData } = updatedProject; // Exclude sl_no from updatedProject
+    const payload = { sl_no, ...projectData }; // Add sl_no explicitly
+
     const response = await axios.post(`${Dashboard_BASE_URL}/update_project_details/`, payload, {
       headers: {
         "Content-Type": "application/json",
@@ -49,6 +52,7 @@ export const updateProjectDetails = async (sl_no, updatedProject) => {
     throw error;
   }
 };
+
 
 // Delete project details
 export const deleteProjectDetails = async (sl_no) => {
