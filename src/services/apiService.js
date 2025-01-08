@@ -35,11 +35,14 @@ export const insertNewProjectDetails = async (newProject) => {
   }
 };
 
-// Update project details
 export const updateProjectDetails = async (sl_no, updatedProject) => {
   try {
-    const response = await axios.post(
-      `${Dashboard_BASE_URL}/update_project_details/`, sl_no, ...updatedProject);
+    const payload = { sl_no, ...updatedProject }; // Merge sl_no with updated data
+    const response = await axios.post(`${Dashboard_BASE_URL}/update_project_details/`, payload, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error updating project details:", error);

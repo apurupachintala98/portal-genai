@@ -63,7 +63,13 @@ const ProjectTable = () => {
 
   const handleSave = async (sl_no) => {
     try {
-      await updateProjectDetails(sl_no, editedData); // Call the API to update the project
+      // Ensure editedData contains all required fields
+      const sanitizedData = {
+        ...editedData,
+        DEPLOYMENT_DT: editedData.DEPLOYMENT_DT || "", // Handle optional fields
+      };
+  
+      await updateProjectDetails(sl_no, sanitizedData); // Call the API to update the project
       fetchProjects(); // Refresh the project list
       setEditRowId(null); // Exit edit mode
       setEditedData({});
@@ -71,6 +77,7 @@ const ProjectTable = () => {
       console.error("Failed to update project:", error);
     }
   };
+  
 
   const handleDelete = async (sl_no) => {
     try {
