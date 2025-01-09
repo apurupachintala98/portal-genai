@@ -33,7 +33,9 @@ import Chart from "./Chart";
 import { Link } from "react-router-dom";
 import { getAllProjectDetails } from "../services/apiService";
 import pptxgen from "pptxgenjs";
-import logoPpt from "../assets/images/logo-ppt.png";
+// import logoPpt from "../assets/images/logo-ppt.png";
+import bgImage from "../assets/images/bg-AI.jpeg";
+
 
 // Define Sidebar Width
 const drawerWidth = {
@@ -92,7 +94,7 @@ const Dashboard = ({
                 .getDate()
                 .toString()
                 .padStart(2, "0")}/${currentDate.getFullYear()}`;
-
+        
         // Define the master slide layout
         pptx.defineSlideMaster({
             title: "MASTER_SLIDE",
@@ -107,7 +109,7 @@ const Dashboard = ({
                 },
                 {
                     image: {
-                        path: logoPpt,
+                        path: "/assets/images/logo-ppt.png",
                         x: 12.3,
                         y: 6.4,
                         w: 0.65,
@@ -128,11 +130,13 @@ const Dashboard = ({
         const slide1 = pptx.addSlide({ masterName: "MASTER_SLIDE" });
         slide1.addText("EDA Gen AI – Status Report", {
             x: 0.5,
-            y: 0.7,
+            y: 0.5,
             fontSize: 28,
             color: "1a3673",
             fontFace: "Sans Medium",
         });
+        slide1.addImage({ path: bgImage, x: 0, y: 1.0, w: 13.34, h: 5.4 });
+
 
         // Slide 2: Table Slide
         const slide2 = pptx.addSlide({ masterName: "MASTER_SLIDE" });
@@ -141,6 +145,8 @@ const Dashboard = ({
             y: 0.5,
             fontSize: 18,
             bold: true,
+            color: "1a3673",
+            fontFace: "Sans Medium",
         });
 
         const tableRows = [
@@ -184,6 +190,8 @@ const Dashboard = ({
             y: 0.5,
             fontSize: 18,
             bold: true,
+            color: "1a3673",
+            fontFace: "Sans Medium",
         });
 
         const chartData = [
