@@ -26,7 +26,7 @@ const Login = ({ setIsLoggedIn }) => {
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string()
-      .min(6, "Password must be at least 6 characters")
+      .min(5, "Password must be at least 5 characters")
       .required("Password is required"),
   });
 
@@ -45,7 +45,7 @@ const Login = ({ setIsLoggedIn }) => {
     }
 
     // Simple hardcoded validation logic
-    if (values.email === "admin@example.com" && values.password === "password123") {
+    if (values.email === "admin@example.com" && values.password === "admin") {
       setIsLoggedIn(true); // Set login state
       navigate("/home"); // Navigate to the home page
     } else {
