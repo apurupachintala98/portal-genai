@@ -14,6 +14,8 @@ import {
     Typography,
     Grid,
     Avatar,
+    Button,
+    Paper,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
@@ -28,8 +30,10 @@ import DashboardCard from "./DashboardCard";
 import projectsIcon from "../assets/images/projects.svg";
 import reportsIcon from "../assets/images/reports.svg";
 import Chart from "./Chart";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 import { getAllProjectDetails } from "../services/apiService";
+import pptxgen from "pptxgenjs";
+import logoPpt from "../assets/images/logo-ppt.png";
 
 // Define Sidebar Width
 const drawerWidth = {
@@ -49,7 +53,7 @@ const Dashboard = ({
     const collapsed = sidebarType === "mini";
     const [themeColor, setThemeColor] = useState("#673ab7"); // Default chart and theme color
     const [totalProjects, setTotalProjects] = useState(0);
-
+    const [projectData, setProjectData] = useState([]);
 
     useEffect(() => {
         const fetchProjectCount = async () => {
@@ -57,6 +61,7 @@ const Dashboard = ({
                 const data = await getAllProjectDetails();
                 const total = data.length; // Calculate the total number of projects
                 setTotalProjects(total);
+                setProjectData(data);
             } catch (error) {
                 console.error("Error fetching project details:", error);
             }
@@ -73,17 +78,140 @@ const Dashboard = ({
         { title: "Projects", value: totalProjects, image: projectsIcon, bgColor: "#e7f5ff" },
     ];
 
-    const user = { name: "John Doe", avatarUrl: "/avatar.png" };
+    const generatePPT = () => {
+        const pptx = new pptxgen();
 
-    const handleLogout = () => {
-        console.log("Logging out...");
+        // Set the presentation layout
+        pptx.layout = "LAYOUT_WIDE";
+
+        // Get the current date in MM/DD/YYYY format
+        const currentDate = new Date();
+        const formattedDate = `${(currentDate.getMonth() + 1)
+            .toString()
+            .padStart(2, "0")}/${currentDate
+                .getDate()
+                .toString()
+                .padStart(2, "0")}/${currentDate.getFullYear()}`;
+
+        // Define the master slide layout
+        pptx.defineSlideMaster({
+            title: "MASTER_SLIDE",
+            background: { color: "FFFFFF" },
+            objects: [
+                { rect: { x: 0, y: 7, w: "100%", h: 0.25, fill: { color: "1a3673" } } }, // Bottom bar
+                {
+                    text: {
+                        text: "Elevance Health - Confidential",
+                        options: { x: 0.5, y: 6.8, w: 5.5, h: 0.25, color: "FFFFFF", fontSize: 12 },
+                    },
+                },
+                {
+                    image: {
+                        path: logoPpt,
+                        x: 12.3,
+                        y: 6.4,
+                        w: 0.65,
+                        h: 0.55,
+                    },
+                },
+                {
+                    text: {
+                        text: `Date: ${formattedDate}`,
+                        options: { x: 11.3, y: 0.1, w: 5.5, h: 0.65, color: "1a3673", fontSize: 12, bold: true },
+                    },
+                },
+            ],
+            slideNumber: { x: 0.3, y: "88%", color: "1a3673", fontSize: 12 },
+        });
+
+        // Slide 1: Title Slide
+        const slide1 = pptx.addSlide({ masterName: "MASTER_SLIDE" });
+        slide1.addText("EDA Gen AI – Status Report", {
+            x: 0.5,
+            y: 0.7,
+            fontSize: 28,
+            color: "1a3673",
+            fontFace: "Sans Medium",
+        });
+
+        // Slide 2: Table Slide
+        const slide2 = pptx.addSlide({ masterName: "MASTER_SLIDE" });
+        slide2.addText("Project Status", {
+            x: 0.5,
+            y: 0.5,
+            fontSize: 18,
+            bold: true,
+        });
+
+        const tableRows = [
+            [
+                { text: "#", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
+                {
+                    text: "Key Projects/ Milestone",
+                    options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" },
+                },
+                { text: "Assigned", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
+                { text: "Manager", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
+                { text: "Status", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
+                { text: "Domain", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
+                { text: "Date", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
+            ],
+            ...projectData.map((project) => [
+                project.SL_NO,
+                project.PRJ_NM,
+                project.LEAD_NM,
+                project.MANAGER_NM,
+                project.CURRENT_PHASE,
+                project.LLM_PLATFORM,
+                project.DEPLOYMENT_DT,
+            ]),
+        ];
+
+        slide2.addTable(tableRows, {
+            x: 0.5,
+            y: 1,
+            w: 12,
+            colW: [0.5, 6, 1.2, 1.2, 1.2, 1.2, 1.2],
+            fontSize: 12,
+            border: { pt: 1, color: "D9D9D9" },
+            valign: "middle",
+        });
+
+        // Slide 3: Chart Slide
+        const slide3 = pptx.addSlide({ masterName: "MASTER_SLIDE" });
+        slide3.addText("Project Status Chart", {
+            x: 0.5,
+            y: 0.5,
+            fontSize: 18,
+            bold: true,
+        });
+
+        const chartData = [
+            {
+                name: "Status",
+                labels: ["Build", "In Progress", "On Hold"],
+                values: [
+                    projectData.filter((p) => p.CURRENT_PHASE === "Build").length,
+                    projectData.filter((p) => p.CURRENT_PHASE === "In Progress").length,
+                    projectData.filter((p) => p.CURRENT_PHASE === "On Hold").length,
+                ],
+            },
+        ];
+
+        slide3.addChart(pptx.ChartType.line, chartData, {
+            x: 0.5,
+            y: 1,
+            w: 9,
+            h: 4,
+        });
+
+        // Generate the PPT file
+        pptx.writeFile("Project_Status_Report.pptx");
     };
 
     return (
         <Box sx={{ display: "flex", height: "100vh" }}>
             <CssBaseline />
-
-            {/* Sidebar Column */}
             <Box
                 component="nav"
                 sx={{
@@ -111,8 +239,8 @@ const Dashboard = ({
                     <List>
                         {menuItems.map((item, index) => (
                             <ListItem button key={index} component={Link}
-                            to={item.link}
-                            sx={{ textDecoration: "none", color: "inherit" }}>
+                                to={item.link}
+                                sx={{ textDecoration: "none", color: "inherit" }}>
                                 <ListItemIcon sx={{ minWidth: collapsed ? "unset" : "48px" }}>
                                     {item.icon}
                                 </ListItemIcon>
@@ -123,7 +251,6 @@ const Dashboard = ({
                 </Drawer>
             </Box>
 
-            {/* Main Column */}
             <Box
                 component="div"
                 sx={{
@@ -133,12 +260,12 @@ const Dashboard = ({
                     overflowX: "hidden",
                 }}
             >
-                {/* Header */}
-
-                <AppBar position="fixed" sx={{zIndex: 1201,
-        backgroundColor: theme === "light" ? "#f5f5f5" : "#333333", 
-        color: theme === "light" ? "#000" : "#fff", 
-        transition: "background-color 0.3s ease" }}>
+                <AppBar position="fixed" sx={{
+                    zIndex: 1201,
+                    backgroundColor: theme === "light" ? "#f5f5f5" : "#333333",
+                    color: theme === "light" ? "#000" : "#fff",
+                    transition: "background-color 0.3s ease"
+                }}>
                     <Toolbar>
                         {/* Sidebar Toggle Button */}
                         <IconButton
@@ -153,35 +280,16 @@ const Dashboard = ({
                         </IconButton>
 
                         {/* Title */}
-                        <Typography variant="h6" sx={{ flexGrow: 1, color: "#000"  }}>
+                        <Typography variant="h6" sx={{ flexGrow: 1, color: "#000" }}>
                             Dashboard
                         </Typography>
 
                         {/* Theme Toggle Icon */}
-                        <Box sx={{ display: "flex", alignItems: "center", mr: 1, color: "#000"  }}>
+                        <Box sx={{ display: "flex", alignItems: "center", mr: 1, color: "#000" }}>
                             <IconButton color="inherit" onClick={toggleTheme}>
                                 {theme === "light" ? <DarkModeIcon /> : <LightModeIcon />}
                             </IconButton>
                         </Box>
-
-                        {/* User Avatar */}
-                        {/* <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <Avatar
-                                alt={user.name}
-                                src={user.avatarUrl}
-                                sx={{
-                                    width: 40,
-                                    height: 40,
-                                    cursor: "pointer",
-                                    border: "2px solid #fff",
-                                    "&:hover": {
-                                        boxShadow: 3,
-                                    },
-                                }}
-                            >
-                                <UserMenu user={user} onLogout={handleLogout} />
-                            </Avatar>
-                        </Box> */}
                     </Toolbar>
                 </AppBar>
 
@@ -191,7 +299,7 @@ const Dashboard = ({
                     sx={{
                         flexGrow: 1,
                         p: 3,
-                        mt: 8, // Adds spacing below the header
+                        mt: 8,
                         backgroundColor: "background.default",
                         transition: "margin 0.3s ease",
                     }}
@@ -207,14 +315,50 @@ const Dashboard = ({
                                 />
                             </Grid>
                         ))}
+
+                        <Grid item >
+                            <Paper
+                                elevation={3}
+                                onClick={generatePPT}
+                                sx={{
+                                    borderRadius: 3,
+                                    p: 2,
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    backgroundColor: "#e7f5ff",
+                                    textAlign: "center",
+                                    cursor: "pointer",
+                                    width: 200,
+                                    height: 150,
+                                }}
+                            >
+                                <Box mb={1}>
+                                    <img
+                                        src={reportsIcon}
+                                        alt="Report Icon"
+                                        style={{
+                                            width: 50,
+                                            height: 50,
+                                            objectFit: "contain",
+                                        }}
+                                    />
+                                </Box>
+                                <Typography variant="subtitle1" color="text.secondary" fontWeight="bold">
+                                    Reports
+                                </Typography>
+                                <Typography variant="h6" color="primary" fontWeight="bold" sx={{fontSize: "16px"}}>
+                                    Click here
+                                </Typography>
+                            </Paper>
+                        </Grid>
                     </Grid>
                     <ProjectTable />
-
                     <Chart theme={theme} themeColor={primaryColor} />
                 </Box>
             </Box>
 
-            {/* Settings Drawer */}
             <Settings
                 open={settingsOpen}
                 onClose={handleSettingsToggle}
