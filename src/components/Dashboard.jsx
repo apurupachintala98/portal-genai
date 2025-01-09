@@ -102,7 +102,7 @@ const Dashboard = ({
                 {
                     text: {
                         text: "Elevance Health - Confidential",
-                        options: { x: 0.5, y: 6.8, w: 5.5, h: 0.25, color: "FFFFFF", fontSize: 12 },
+                        options: { x: 5.7, y: 7, w: 5.5, h: 0.25, color: "FFFFFF", fontSize: 12 },
                     },
                 },
                 {
@@ -148,7 +148,7 @@ const Dashboard = ({
                 { text: "#", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
                 {
                     text: "Key Projects/ Milestone",
-                    options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" },
+                    options: { fontSize: 14, bold: true, align: "left", fill: "1a3673", color: "FFFFFF" },
                 },
                 { text: "Assigned", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
                 { text: "Manager", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
@@ -157,13 +157,13 @@ const Dashboard = ({
                 { text: "Date", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
             ],
             ...projectData.map((project) => [
-                project.SL_NO,
-                project.PRJ_NM,
-                project.LEAD_NM,
-                project.MANAGER_NM,
-                project.CURRENT_PHASE,
-                project.LLM_PLATFORM,
-                project.DEPLOYMENT_DT,
+                { text: project.SL_NO, options: { align: "center" } },
+                { text: project.PRJ_NM, options: { align: "left" } },
+                { text: project.LEAD_NM, options: { align: "center" } },
+                { text: project.MANAGER_NM, options: { align: "center" } },
+                { text: project.CURRENT_PHASE, options: { align: "center" } },
+                { text: project.LLM_PLATFORM, options: { align: "center" } },
+                { text: project.DEPLOYMENT_DT, options: { align: "center" } },
             ]),
         ];
 
