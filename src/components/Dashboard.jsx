@@ -291,7 +291,7 @@ const Dashboard = ({
             ],
         ];
     
-        const rowsPerSlide = 10; // Adjust this number to control rows per slide
+        const rowsPerSlide = 12; // Adjust this number to control rows per slide
         const totalSlides = Math.ceil(projectData.length / rowsPerSlide);
     
         for (let i = 0; i < totalSlides; i++) {
