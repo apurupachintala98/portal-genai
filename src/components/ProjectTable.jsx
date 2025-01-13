@@ -14,12 +14,15 @@ import {
   IconButton,
   TextField,
   Button,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import { CircularProgress } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import SaveIcon from "@mui/icons-material/Save";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AddIcon from "@mui/icons-material/Add";
+// import EditIcon from "@mui/icons-material/Edit";
+// import SaveIcon from "@mui/icons-material/Save";
+// import DeleteIcon from "@mui/icons-material/Delete";
+// import AddIcon from "@mui/icons-material/Add";
+import { FilterList, Save as SaveIcon, Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon } from "@mui/icons-material";
 import { getAllProjectDetails, insertNewProjectDetails, updateProjectDetails, deleteProjectDetails } from '../services/apiService';
 
 const ProjectTable = () => {
@@ -30,6 +33,9 @@ const ProjectTable = () => {
   const [isNewRow, setIsNewRow] = useState(false);
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
+  const [filterAnchor, setFilterAnchor] = useState(null);
+  const [selectedColumn, setSelectedColumn] = useState(null);
+  const [filters, setFilters] = useState({});
   const [newProject, setNewProject] = useState({
     PRJ_NM: "",
     LEAD_NM: "",
@@ -41,6 +47,30 @@ const ProjectTable = () => {
   useEffect(() => {
     fetchProjects();
   }, []);
+
+  const handleFilterClick = (event, column) => {
+    setSelectedColumn(column);
+    setFilterAnchor(event.currentTarget);
+  };
+
+  const handleFilterClose = () => {
+    setFilterAnchor(null);
+    setSelectedColumn(null);
+  };
+
+  const handleFilterChange = (value) => {
+    setFilters((prev) => ({
+      ...prev,
+      [selectedColumn]: value,
+    }));
+    handleFilterClose();
+  };
+
+  const filteredProjects = projects.filter((project) => {
+    return Object.entries(filters).every(([key, value]) =>
+      project[key].toString().toLowerCase().includes(value.toLowerCase())
+    );
+  });
 
   const fetchProjects = async () => {
     setLoading(true);
@@ -170,7 +200,7 @@ const ProjectTable = () => {
         > Add
         </Button>
       </Box>
-      <Paper elevation={3} sx={{ borderRadius: 3 }}>
+      {/* <Paper elevation={3} sx={{ borderRadius: 3 }}>
         <TableContainer>
           <Table>
             <TableHead>
@@ -366,7 +396,96 @@ const ProjectTable = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      </Paper>
+      </Paper> */}
+       <Paper elevation={3} sx={{ borderRadius: 3 }}>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              {[
+                { label: "Key Projects/ Milestone", key: "PRJ_NM" },
+                { label: "Assigned", key: "LEAD_NM" },
+                { label: "Manager", key: "MANAGER_NM" },
+                { label: "Status", key: "CURRENT_PHASE" },
+                { label: "Domain", key: "LLM_PLATFORM" },
+                { label: "Date", key: "DEPLOYMENT_DT" },
+                { label: "Actions", key: null },
+              ].map((column) => (
+                <TableCell key={column.key} sx={{ fontWeight: "bold", fontSize: "16px" }}>
+                  {column.label}
+                  {column.key && (
+                    <IconButton
+                      size="small"
+                      onClick={(e) => handleFilterClick(e, column.key)}
+                    >
+                      <FilterList fontSize="small" />
+                    </IconButton>
+                  )}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredProjects.map((project) => (
+              <TableRow key={project.SL_NO} hover>
+                <TableCell sx={{ fontSize: "14px" }}>
+                  <Typography>{project.PRJ_NM}</Typography>
+                </TableCell>
+                <TableCell sx={{ fontSize: "14px" }}>
+                  <Typography>{project.LEAD_NM}</Typography>
+                </TableCell>
+                <TableCell sx={{ fontSize: "14px" }}>
+                  <Typography>{project.MANAGER_NM}</Typography>
+                </TableCell>
+                <TableCell sx={{ fontSize: "14px" }}>
+                  <Chip
+                    label={project.CURRENT_PHASE}
+                    color={
+                      project.CURRENT_PHASE === "Build"
+                        ? "success"
+                        : project.CURRENT_PHASE === "In Progress"
+                        ? "warning"
+                        : "error"
+                    }
+                    variant="outlined"
+                  />
+                </TableCell>
+                <TableCell sx={{ fontSize: "14px" }}>
+                  <Typography>{project.LLM_PLATFORM}</Typography>
+                </TableCell>
+                <TableCell sx={{ fontSize: "14px" }}>
+                  <Typography>{project.DEPLOYMENT_DT}</Typography>
+                </TableCell>
+                <TableCell sx={{ fontSize: "14px" }}>
+                  <IconButton color="primary">
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton color="error">
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <Menu
+        anchorEl={filterAnchor}
+        open={Boolean(filterAnchor)}
+        onClose={handleFilterClose}
+      >
+        <MenuItem>
+          <TextField
+            placeholder={`Filter ${selectedColumn}`}
+            value={filters[selectedColumn] || ""}
+            onChange={(e) => handleFilterChange(e.target.value)}
+            fullWidth
+            size="small"
+          />
+        </MenuItem>
+      </Menu>
+    </Paper>
     </Box>
   );
 };
