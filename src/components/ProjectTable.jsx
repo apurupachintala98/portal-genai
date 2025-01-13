@@ -10,9 +10,11 @@ import {
   Typography,
   Paper,
   Avatar,
+  Checkbox,
   Chip,
   IconButton,
   TextField,
+  FormControlLabel,
   Button,
   Menu,
   MenuItem,
@@ -35,6 +37,7 @@ const ProjectTable = () => {
   const [error, setError] = useState(null); // Error state
   const [filterAnchor, setFilterAnchor] = useState(null);
   const [selectedColumn, setSelectedColumn] = useState(null);
+  const [selectedOptions, setSelectedOptions] = useState({});
   const [filters, setFilters] = useState({});
   const [newProject, setNewProject] = useState({
     PRJ_NM: "",
@@ -58,6 +61,35 @@ const ProjectTable = () => {
     setSelectedColumn(null);
   };
 
+  const handleCheckboxChange = (option) => {
+    setSelectedOptions((prev) => {
+      const columnOptions = prev[selectedColumn] || [];
+      if (columnOptions.includes(option)) {
+        return {
+          ...prev,
+          [selectedColumn]: columnOptions.filter((item) => item !== option),
+        };
+      }
+      return {
+        ...prev,
+        [selectedColumn]: [...columnOptions, option],
+      };
+    });
+  };
+
+  const handleApplyFilters = () => {
+    setFilters((prev) => ({
+      ...prev,
+      [selectedColumn]: selectedOptions[selectedColumn],
+    }));
+    handleFilterClose();
+  };
+
+  const getColumnOptions = (columnKey) => {
+    const options = projects.map((project) => project[columnKey]);
+    return [...new Set(options)]; // Get unique options
+  };
+
   const handleFilterChange = (value) => {
     setFilters((prev) => ({
       ...prev,
@@ -67,9 +99,9 @@ const ProjectTable = () => {
   };
 
   const filteredProjects = projects.filter((project) => {
-    return Object.entries(filters).every(([key, value]) =>
-      project[key].toString().toLowerCase().includes(value.toLowerCase())
-    );
+    return Object.entries(filters).every(([key, values]) => {
+      return values.length === 0 || values.includes(project[key]);
+    });
   });
 
   const fetchProjects = async () => {
@@ -397,7 +429,7 @@ const ProjectTable = () => {
           </Table>
         </TableContainer>
       </Paper> */}
-       <Paper elevation={3} sx={{ borderRadius: 3 }}>
+       {/* <Paper elevation={3} sx={{ borderRadius: 3 }}>
       <TableContainer>
         <Table>
           <TableHead>
@@ -484,6 +516,113 @@ const ProjectTable = () => {
             size="small"
           />
         </MenuItem>
+      </Menu>
+    </Paper> */}
+
+<Paper elevation={3} sx={{ borderRadius: 3 }}>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              {[
+                { label: "Key Projects/ Milestone", key: "PRJ_NM" },
+                { label: "Assigned", key: "LEAD_NM" },
+                { label: "Manager", key: "MANAGER_NM" },
+                { label: "Status", key: "CURRENT_PHASE" },
+                { label: "Domain", key: "LLM_PLATFORM" },
+                { label: "Date", key: "DEPLOYMENT_DT" },
+                { label: "Actions", key: null },
+              ].map((column) => (
+                <TableCell key={column.key} sx={{ fontWeight: "bold", fontSize: "16px" }}>
+                  {column.label}
+                  {column.key && (
+                    <IconButton
+                      size="small"
+                      onClick={(e) => handleFilterClick(e, column.key)}
+                    >
+                      <FilterList fontSize="small" />
+                    </IconButton>
+                  )}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredProjects.map((project) => (
+              <TableRow key={project.SL_NO} hover>
+                <TableCell sx={{ fontSize: "14px" }}>
+                  <Typography>{project.PRJ_NM}</Typography>
+                </TableCell>
+                <TableCell sx={{ fontSize: "14px" }}>
+                  <Typography>{project.LEAD_NM}</Typography>
+                </TableCell>
+                <TableCell sx={{ fontSize: "14px" }}>
+                  <Typography>{project.MANAGER_NM}</Typography>
+                </TableCell>
+                <TableCell sx={{ fontSize: "14px" }}>
+                  <Chip
+                    label={project.CURRENT_PHASE}
+                    color={
+                      project.CURRENT_PHASE === "Build"
+                        ? "success"
+                        : project.CURRENT_PHASE === "In Progress"
+                        ? "warning"
+                        : "error"
+                    }
+                    variant="outlined"
+                  />
+                </TableCell>
+                <TableCell sx={{ fontSize: "14px" }}>
+                  <Typography>{project.LLM_PLATFORM}</Typography>
+                </TableCell>
+                <TableCell sx={{ fontSize: "14px" }}>
+                  <Typography>{project.DEPLOYMENT_DT}</Typography>
+                </TableCell>
+                <TableCell sx={{ fontSize: "14px" }}>
+                  <IconButton color="primary">
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton color="error">
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <Menu
+        anchorEl={filterAnchor}
+        open={Boolean(filterAnchor)}
+        onClose={handleFilterClose}
+      >
+        <div style={{ padding: "10px", maxHeight: "300px", overflowY: "auto" }}>
+          {selectedColumn &&
+            getColumnOptions(selectedColumn).map((option) => (
+              <FormControlLabel
+                key={option}
+                control={
+                  <Checkbox
+                    checked={
+                      (selectedOptions[selectedColumn] || []).includes(option)
+                    }
+                    onChange={() => handleCheckboxChange(option)}
+                  />
+                }
+                label={option}
+              />
+            ))}
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            fullWidth
+            onClick={handleApplyFilters}
+          >
+            Apply
+          </Button>
+        </div>
       </Menu>
     </Paper>
     </Box>
