@@ -232,22 +232,37 @@ const ProjectTable = () => {
         > Add
         </Button>
       </Box>
-      {/* <Paper elevation={3} sx={{ borderRadius: 3 }}>
+
+      <Paper elevation={3} sx={{ borderRadius: 3 }}>
         <TableContainer>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Key Projects/ Milestone</TableCell>
-                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Assigned</TableCell>
-                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Manager</TableCell>
-                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Status</TableCell>
-                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Domain</TableCell>
-                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Date</TableCell>
-                <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Actions</TableCell>
+                {[
+                  { label: "Key Projects/ Milestone", key: "PRJ_NM" },
+                  { label: "Assigned", key: "LEAD_NM" },
+                  { label: "Manager", key: "MANAGER_NM" },
+                  { label: "Status", key: "CURRENT_PHASE" },
+                  { label: "Domain", key: "LLM_PLATFORM" },
+                  { label: "Date", key: "DEPLOYMENT_DT" },
+                  { label: "Actions", key: null },
+                ].map((column) => (
+                  <TableCell key={column.key} sx={{ fontWeight: "bold", fontSize: "16px" }}>
+                    {column.label}
+                    {column.key && (
+                      <IconButton
+                        size="small"
+                        onClick={(e) => handleFilterClick(e, column.key)}
+                      >
+                        <FilterList fontSize="small" />
+                      </IconButton>
+                    )}
+                  </TableCell>
+                ))}
               </TableRow>
             </TableHead>
             <TableBody>
-              {projects.map((project) => (
+              {filteredProjects.map((project) => (
                 <TableRow key={project.SL_NO} hover>
                   <TableCell sx={{ fontSize: "14px" }}>
                     {editRowId === project.SL_NO ? (
@@ -363,6 +378,7 @@ const ProjectTable = () => {
                   </TableCell>
                 </TableRow>
               ))}
+
               {isNewRow && (
                 <TableRow hover>
                   <TableCell sx={{ fontSize: "14px" }}>
@@ -418,7 +434,7 @@ const ProjectTable = () => {
                       color="success"
                       size="small"
                       startIcon={<SaveIcon />}
-                      onClick={() => handleAddProject()}
+                      onClick={handleAddProject}
                     >
                       Save
                     </Button>
@@ -426,298 +442,44 @@ const ProjectTable = () => {
                 </TableRow>
               )}
             </TableBody>
+
+
           </Table>
         </TableContainer>
-      </Paper> */}
 
-<Paper elevation={3} sx={{ borderRadius: 3 }}>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              {[
-                { label: "Key Projects/ Milestone", key: "PRJ_NM" },
-                { label: "Assigned", key: "LEAD_NM" },
-                { label: "Manager", key: "MANAGER_NM" },
-                { label: "Status", key: "CURRENT_PHASE" },
-                { label: "Domain", key: "LLM_PLATFORM" },
-                { label: "Date", key: "DEPLOYMENT_DT" },
-                { label: "Actions", key: null },
-              ].map((column) => (
-                <TableCell key={column.key} sx={{ fontWeight: "bold", fontSize: "16px" }}>
-                  {column.label}
-                  {column.key && (
-                    <IconButton
-                      size="small"
-                      onClick={(e) => handleFilterClick(e, column.key)}
-                    >
-                      <FilterList fontSize="small" />
-                    </IconButton>
-                  )}
-                </TableCell>
+        <Menu
+          anchorEl={filterAnchor}
+          open={Boolean(filterAnchor)}
+          onClose={handleFilterClose}
+        >
+          <div style={{ padding: "10px", maxHeight: "300px", overflowY: "auto" }}>
+            {selectedColumn &&
+              getColumnOptions(selectedColumn).map((option) => (
+                <FormControlLabel
+                  key={option}
+                  control={
+                    <Checkbox
+                      checked={
+                        (selectedOptions[selectedColumn] || []).includes(option)
+                      }
+                      onChange={() => handleCheckboxChange(option)}
+                    />
+                  }
+                  label={option}
+                />
               ))}
-            </TableRow>
-          </TableHead>
-          {/* <TableBody>
-            {filteredProjects.map((project) => (
-              <TableRow key={project.SL_NO} hover>
-                <TableCell sx={{ fontSize: "14px" }}>
-                  <Typography>{project.PRJ_NM}</Typography>
-                </TableCell>
-                <TableCell sx={{ fontSize: "14px" }}>
-                  <Typography>{project.LEAD_NM}</Typography>
-                </TableCell>
-                <TableCell sx={{ fontSize: "14px" }}>
-                  <Typography>{project.MANAGER_NM}</Typography>
-                </TableCell>
-                <TableCell sx={{ fontSize: "14px" }}>
-                  <Chip
-                    label={project.CURRENT_PHASE}
-                    color={
-                      project.CURRENT_PHASE === "Build"
-                        ? "success"
-                        : project.CURRENT_PHASE === "In Progress"
-                        ? "warning"
-                        : "error"
-                    }
-                    variant="outlined"
-                  />
-                </TableCell>
-                <TableCell sx={{ fontSize: "14px" }}>
-                  <Typography>{project.LLM_PLATFORM}</Typography>
-                </TableCell>
-                <TableCell sx={{ fontSize: "14px" }}>
-                  <Typography>{project.DEPLOYMENT_DT}</Typography>
-                </TableCell>
-                <TableCell sx={{ fontSize: "14px" }}>
-                  <IconButton color="primary">
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton color="error">
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody> */}
-          <TableBody>
-  {(isNewRow ? [newProject, ...filteredProjects] : filteredProjects).map((project) =>
-    project.SL_NO ? (
-      <TableRow key={project.SL_NO} hover>
-        <TableCell sx={{ fontSize: "14px" }}>
-          {editRowId === project.SL_NO ? (
-            <TextField
-              value={editedData.PRJ_NM || project.PRJ_NM}
-              onChange={(e) => handleChange(e, "PRJ_NM")}
-              fullWidth
-            />
-          ) : (
-            <Typography>{project.PRJ_NM}</Typography>
-          )}
-        </TableCell>
-
-        <TableCell sx={{ fontSize: "14px" }}>
-          {editRowId === project.SL_NO ? (
-            <TextField
-              value={editedData.LEAD_NM || project.LEAD_NM}
-              onChange={(e) => handleChange(e, "LEAD_NM")}
-              fullWidth
-            />
-          ) : (
-            <Typography>{project.LEAD_NM}</Typography>
-          )}
-        </TableCell>
-
-        <TableCell sx={{ fontSize: "14px" }}>
-          {editRowId === project.SL_NO ? (
-            <TextField
-              value={editedData.MANAGER_NM || project.MANAGER_NM}
-              onChange={(e) => handleChange(e, "MANAGER_NM")}
-              fullWidth
-            />
-          ) : (
-            <Typography>{project.MANAGER_NM}</Typography>
-          )}
-        </TableCell>
-
-        <TableCell sx={{ fontSize: "14px" }}>
-          {editRowId === project.SL_NO ? (
-            <TextField
-              value={editedData.CURRENT_PHASE || project.CURRENT_PHASE}
-              onChange={(e) => handleChange(e, "CURRENT_PHASE")}
-              fullWidth
-            />
-          ) : (
-            <Chip
-              label={project.CURRENT_PHASE}
-              color={
-                project.CURRENT_PHASE === "Build"
-                  ? "success"
-                  : project.CURRENT_PHASE === "In Progress"
-                  ? "warning"
-                  : "error"
-              }
-              variant="outlined"
-            />
-          )}
-        </TableCell>
-
-        <TableCell sx={{ fontSize: "14px" }}>
-          {editRowId === project.SL_NO ? (
-            <TextField
-              value={editedData.LLM_PLATFORM || project.LLM_PLATFORM}
-              onChange={(e) => handleChange(e, "LLM_PLATFORM")}
-              fullWidth
-            />
-          ) : (
-            <Typography>{project.LLM_PLATFORM}</Typography>
-          )}
-        </TableCell>
-
-        <TableCell sx={{ fontSize: "14px" }}>
-          {editRowId === project.SL_NO ? (
-            <TextField
-              type="date"
-              value={editedData.DEPLOYMENT_DT || project.DEPLOYMENT_DT}
-              onChange={(e) => handleChange(e, "DEPLOYMENT_DT")}
-              fullWidth
-            />
-          ) : (
-            <Typography>{project.DEPLOYMENT_DT}</Typography>
-          )}
-        </TableCell>
-
-        <TableCell sx={{ fontSize: "14px" }}>
-          {editRowId === project.SL_NO ? (
             <Button
               variant="contained"
-              color="success"
+              color="primary"
               size="small"
-              startIcon={<SaveIcon />}
-              onClick={() => handleSave(project.SL_NO)}
+              fullWidth
+              onClick={handleApplyFilters}
             >
-              Save
+              Apply
             </Button>
-          ) : (
-            <>
-              <IconButton
-                color="primary"
-                onClick={() => handleEditClick(project.SL_NO)}
-              >
-                <EditIcon />
-              </IconButton>
-              <IconButton
-                color="error"
-                size="small"
-                onClick={() => handleDelete(project.SL_NO)}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </>
-          )}
-        </TableCell>
-      </TableRow>
-    ) : (
-      <TableRow hover>
-        <TableCell sx={{ fontSize: "14px" }}>
-          <TextField
-            value={newProject.PRJ_NM || ""}
-            onChange={(e) => handleChange(e, "PRJ_NM")}
-            fullWidth
-            placeholder="Enter Project Name"
-          />
-        </TableCell>
-        <TableCell sx={{ fontSize: "14px" }}>
-          <TextField
-            value={newProject.LEAD_NM || ""}
-            onChange={(e) => handleChange(e, "LEAD_NM")}
-            fullWidth
-            placeholder="Enter Lead Name"
-          />
-        </TableCell>
-        <TableCell sx={{ fontSize: "14px" }}>
-          <TextField
-            value={newProject.MANAGER_NM || ""}
-            onChange={(e) => handleChange(e, "MANAGER_NM")}
-            fullWidth
-            placeholder="Enter Manager Name"
-          />
-        </TableCell>
-        <TableCell sx={{ fontSize: "14px" }}>
-          <TextField
-            value={newProject.CURRENT_PHASE || "Build"}
-            onChange={(e) => handleChange(e, "CURRENT_PHASE")}
-            fullWidth
-          />
-        </TableCell>
-        <TableCell sx={{ fontSize: "14px" }}>
-          <TextField
-            value={newProject.LLM_PLATFORM || ""}
-            onChange={(e) => handleChange(e, "LLM_PLATFORM")}
-            fullWidth
-            placeholder="Enter Domain"
-          />
-        </TableCell>
-        <TableCell sx={{ fontSize: "14px" }}>
-          <TextField
-            type="date"
-            value={newProject.DEPLOYMENT_DT || ""}
-            onChange={(e) => handleChange(e, "DEPLOYMENT_DT")}
-            fullWidth
-          />
-        </TableCell>
-        <TableCell sx={{ fontSize: "14px" }}>
-          <Button
-            variant="contained"
-            color="success"
-            size="small"
-            startIcon={<SaveIcon />}
-            onClick={() => handleAddProject()}
-          >
-            Save
-          </Button>
-        </TableCell>
-      </TableRow>
-    )
-  )}
-</TableBody>
-
-        </Table>
-      </TableContainer>
-
-      <Menu
-        anchorEl={filterAnchor}
-        open={Boolean(filterAnchor)}
-        onClose={handleFilterClose}
-      >
-        <div style={{ padding: "10px", maxHeight: "300px", overflowY: "auto" }}>
-          {selectedColumn &&
-            getColumnOptions(selectedColumn).map((option) => (
-              <FormControlLabel
-                key={option}
-                control={
-                  <Checkbox
-                    checked={
-                      (selectedOptions[selectedColumn] || []).includes(option)
-                    }
-                    onChange={() => handleCheckboxChange(option)}
-                  />
-                }
-                label={option}
-              />
-            ))}
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            fullWidth
-            onClick={handleApplyFilters}
-          >
-            Apply
-          </Button>
-        </div>
-      </Menu>
-    </Paper>
+          </div>
+        </Menu>
+      </Paper>
     </Box>
   );
 };
