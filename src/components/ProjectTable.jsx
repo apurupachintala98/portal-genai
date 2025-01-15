@@ -20,10 +20,6 @@ import {
   MenuItem,
 } from "@mui/material";
 import { CircularProgress } from "@mui/material";
-// import EditIcon from "@mui/icons-material/Edit";
-// import SaveIcon from "@mui/icons-material/Save";
-// import DeleteIcon from "@mui/icons-material/Delete";
-// import AddIcon from "@mui/icons-material/Add";
 import { FilterList, Save as SaveIcon, Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon } from "@mui/icons-material";
 import { getAllProjectDetails, insertNewProjectDetails, updateProjectDetails, deleteProjectDetails } from '../services/apiService';
 
@@ -39,6 +35,7 @@ const ProjectTable = () => {
   const [selectedColumn, setSelectedColumn] = useState(null);
   const [selectedOptions, setSelectedOptions] = useState({});
   const [filters, setFilters] = useState({});
+  const [showAllOptions, setShowAllOptions] = useState({});
   const [newProject, setNewProject] = useState({
     PRJ_NM: "",
     LEAD_NM: "",
@@ -447,7 +444,7 @@ const ProjectTable = () => {
           </Table>
         </TableContainer>
 
-        <Menu
+        {/* <Menu
           anchorEl={filterAnchor}
           open={Boolean(filterAnchor)}
           onClose={handleFilterClose}
@@ -478,7 +475,64 @@ const ProjectTable = () => {
               Apply
             </Button>
           </div>
+        </Menu> */}
+        <Menu
+          anchorEl={filterAnchor}
+          open={Boolean(filterAnchor)}
+          onClose={handleFilterClose}
+        >
+          <div style={{ padding: "10px", maxHeight: "300px", overflowY: "auto" }}>
+            {selectedColumn && (
+              <>
+                {getColumnOptions(selectedColumn)
+                  .slice(0, showAllOptions[selectedColumn] ? undefined : 5)
+                  .map((option) => (
+                    <div key={option} style={{ display: "block" }}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={
+                              (selectedOptions[selectedColumn] || []).includes(option)
+                            }
+                            onChange={() => handleCheckboxChange(option)}
+                          />
+                        }
+                        label={option}
+                      />
+                    </div>
+                  ))}
+
+                {getColumnOptions(selectedColumn).length > 5 && (
+                  <div style={{ textAlign: "center", marginTop: "10px" }}>
+                    <Button
+                      variant="text"
+                      size="small"
+                      onClick={() =>
+                        setShowAllOptions((prev) => ({
+                          ...prev,
+                          [selectedColumn]: !prev[selectedColumn],
+                        }))
+                      }
+                    >
+                      {showAllOptions[selectedColumn] ? "Show Less" : "More"}
+                    </Button>
+                  </div>
+                )}
+              </>
+            )}
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              fullWidth
+              onClick={handleApplyFilters}
+              style={{ marginTop: "10px" }}
+            >
+              Apply
+            </Button>
+          </div>
         </Menu>
+
       </Paper>
     </Box>
   );
