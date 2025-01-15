@@ -17,7 +17,7 @@ const Chart = ({ theme, themeColor }) => {
   const [chartType, setChartType] = useState("column");
 
   const allowedXAxisFields = ["PRJ_NM", "MANAGER_NM", "DEPLOYMENT_DT", "LEAD_NM", "CURRENT_PHASE"];
-  const allowedYAxisFields = ["SL_NO", "MANAGER_NM", "DEPLOYMENT_DT"];
+  const allowedYAxisFields = ["MANAGER_NM", "DEPLOYMENT_DT","LEAD_NM", "CURRENT_PHASE" ];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,57 +47,22 @@ const Chart = ({ theme, themeColor }) => {
     return value; // Return other fields as-is
   };
 
-  // const chartOptions = useMemo(() => {
-  //   if (!xAxisField || !yAxisField || projectData.length === 0) {
-  //     return null;
-  //   }
-
-  //   return {
-  //     chart: {
-  //       type: chartType,
-  //       backgroundColor: theme === "light" ? "#ffffff" : "#333333",
-  //     },
-  //     title: { text: "Pictorial Representation of Projects" },
-  //     credits: { enabled: false },
-  //     xAxis: {
-  //       categories: projectData.map((item) => item[xAxisField]),
-  //       title: { text: xAxisField },
-  //       labels: {
-  //         style: { color: theme === "light" ? "#333333" : "#ffffff" },
-  //       },
-  //     },
-  //     yAxis: {
-  //       title: { text: yAxisField, style: { color: theme === "light" ? "#333333" : "#ffffff" } },
-  //       labels: { style: { color: theme === "light" ? "#333333" : "#ffffff" } },
-  //     },
-  //     series: [
-  //       {
-  //         name: yAxisField,
-  //         data: projectData.map((item) =>
-  //           yAxisField === "DEPLOYMENT_DT"
-  //             ? new Date(item[yAxisField]).getTime()
-  //             : parseFloat(item[yAxisField]) || 0
-  //         ),
-  //         color: themeColor,
-  //       },
-  //     ],
-  //   };
-  // }, [xAxisField, yAxisField, theme, themeColor, chartType, projectData]);
-
   const chartOptions = useMemo(() => {
     if (!xAxisField || !yAxisField || projectData.length === 0) {
       return null;
     }
-  
+
+    const limitedData = projectData.slice(0, 20);
+
     // Process data for the pie chart
     const pieData =
       chartType === "pie"
-        ? projectData.map((item) => ({
-            name: item[xAxisField],
-            y: parseFloat(item[yAxisField]) || 0, // Use Y-axis field for the value
-          }))
+        ? limitedData.map((item) => ({
+          name: item[xAxisField],
+          y: parseFloat(item[yAxisField]) || 0, // Use Y-axis field for the value
+        }))
         : [];
-  
+
     return {
       chart: {
         type: chartType,
@@ -122,7 +87,7 @@ const Chart = ({ theme, themeColor }) => {
         },
       },
       xAxis: chartType !== "pie" && {
-        categories: projectData.map((item) => item[xAxisField]),
+        categories: limitedData.map((item) => item[xAxisField]),
         title: { text: xAxisField },
         labels: {
           style: { color: theme === "light" ? "#333333" : "#ffffff" },
@@ -135,23 +100,23 @@ const Chart = ({ theme, themeColor }) => {
       series: [
         chartType === "pie"
           ? {
-              name: yAxisField,
-              colorByPoint: true,
-              data: pieData,
-            }
+            name: yAxisField,
+            colorByPoint: true,
+            data: pieData,
+          }
           : {
-              name: yAxisField,
-              data: projectData.map((item) =>
-                yAxisField === "DEPLOYMENT_DT"
-                  ? new Date(item[yAxisField]).getTime()
-                  : parseFloat(item[yAxisField]) || 0
-              ),
-              color: themeColor,
-            },
+            name: yAxisField,
+            data: limitedData.map((item) =>
+              yAxisField === "DEPLOYMENT_DT"
+                ? new Date(item[yAxisField]).getTime()
+                : parseFloat(item[yAxisField]) || 0
+            ),
+            color: themeColor,
+          },
       ],
     };
   }, [xAxisField, yAxisField, theme, themeColor, chartType, projectData]);
-  
+
   useEffect(() => {
     if (chartRef.current && chartOptions) {
       const chart = chartRef.current.chart;
