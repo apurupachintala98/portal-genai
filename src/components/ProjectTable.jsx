@@ -308,7 +308,7 @@ const ProjectTable = () => {
                       <Chip
                         label={project.CURRENT_PHASE}
                         color={
-                          project.CURRENT_PHASE === "Build"
+                          project.CURRENT_PHASE === "Production"
                             ? "success"
                             : project.CURRENT_PHASE === "In Progress"
                               ? "warning"
@@ -335,12 +335,12 @@ const ProjectTable = () => {
                     {editRowId === project.SL_NO ? (
                       <TextField
                         type="date"
-                        value={editedData.DEPLOYMENT_DT || project.DEPLOYMENT_DT}
+                        value={(editedData.DEPLOYMENT_DT || project.DEPLOYMENT_DT)?.split(" ")[0]}
                         onChange={(e) => handleChange(e, "DEPLOYMENT_DT")}
                         fullWidth
                       />
                     ) : (
-                      <Typography>{project.DEPLOYMENT_DT}</Typography>
+                      <Typography>{project.DEPLOYMENT_DT.split(" ")[0]}</Typography>
                     )}
                   </TableCell>
 
