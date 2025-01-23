@@ -532,7 +532,7 @@ const Chart = ({ theme, themeColor }) => {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Paper elevation={3} sx={{ borderRadius: 3, p: 3 }}>
+      {/* <Paper elevation={3} sx={{ borderRadius: 3, p: 3 }}> */}
         <Box display="flex" gap={2} mb={2}>
           {/* Filter Dropdown */}
           <Select
@@ -566,7 +566,7 @@ const Chart = ({ theme, themeColor }) => {
         {chartOptions && (
           <HighchartsReact highcharts={Highcharts} options={chartOptions} ref={chartRef} />
         )}
-      </Paper>
+      {/* </Paper> */}
     </Box>
   );
 };
