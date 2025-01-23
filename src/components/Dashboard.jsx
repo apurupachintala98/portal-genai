@@ -513,7 +513,7 @@ const Dashboard = ({
                     {/* <Chart theme={theme} themeColor={primaryColor} /> */}
                     <Grid container spacing={3} sx={{ mt: 3 }}>
         {/* Chart Section (60%) */}
-        <Grid item xs={12} md={7}>
+        <Grid item xs={12} md={8}>
             <Paper
                 elevation={3}
                 sx={{
@@ -528,7 +528,7 @@ const Dashboard = ({
         </Grid>
 
         {/* Chat Assistant Section (40%) */}
-        <Grid item xs={12} md={5}>
+        <Grid item xs={12} md={4}>
             <Paper
                 elevation={3}
                 sx={{
