@@ -509,7 +509,68 @@ const Dashboard = ({
                         </Grid>
                     </Grid>
                     <ProjectTable />
-                    <Chart theme={theme} themeColor={primaryColor} />
+                    {/* <Chart theme={theme} themeColor={primaryColor} /> */}
+                    <Grid container spacing={3} sx={{ mt: 3 }}>
+        {/* Chart Section (60%) */}
+        <Grid item xs={12} md={7}>
+            <Paper
+                elevation={3}
+                sx={{
+                    borderRadius: 3,
+                    p: 2,
+                    backgroundColor: "background.paper",
+                    height: "100%",
+                }}
+            >
+                <Chart theme={theme} themeColor={primaryColor} />
+            </Paper>
+        </Grid>
+
+        {/* Chat Assistant Section (40%) */}
+        <Grid item xs={12} md={5}>
+            <Paper
+                elevation={3}
+                sx={{
+                    borderRadius: 3,
+                    p: 2,
+                    backgroundColor: "background.paper",
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                }}
+            >
+                <Box sx={{ flexGrow: 1, overflowY: "auto" }}>
+                    {/* Replace this with your chat assistant component */}
+                    <Typography variant="h6" fontWeight="bold">
+                        Chat Assistant
+                    </Typography>
+                    <Box mt={2}>
+                        <Typography variant="body1">
+                            Welcome! How can I assist you today?
+                        </Typography>
+                    </Box>
+                </Box>
+                <Box sx={{ mt: 2 }}>
+                    <TextField
+                        fullWidth
+                        placeholder="Type your message..."
+                        variant="outlined"
+                        multiline
+                        rows={2}
+                        sx={{ mb: 1 }}
+                    />
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                    >
+                        Send
+                    </Button>
+                </Box>
+            </Paper>
+        </Grid>
+    </Grid>
                 </Box>
             </Box>
 
