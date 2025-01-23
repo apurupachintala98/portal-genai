@@ -43,6 +43,7 @@ const ProjectTable = () => {
     CURRENT_PHASE: "",
     LLM_PLATFORM: "",
     DEPLOYMENT_DT: "",
+    CATEGORY: "",
   });
   useEffect(() => {
     fetchProjects();
@@ -87,13 +88,13 @@ const ProjectTable = () => {
     return [...new Set(options)]; // Get unique options
   };
 
-  const handleFilterChange = (value) => {
-    setFilters((prev) => ({
-      ...prev,
-      [selectedColumn]: value,
-    }));
-    handleFilterClose();
-  };
+  // const handleFilterChange = (value) => {
+  //   setFilters((prev) => ({
+  //     ...prev,
+  //     [selectedColumn]: value,
+  //   }));
+  //   handleFilterClose();
+  // };
 
   const filteredProjects = projects.filter((project) => {
     return Object.entries(filters).every(([key, values]) => {
@@ -140,6 +141,7 @@ const ProjectTable = () => {
       AI_TASKFORCE_APPROVED_YN: "",
       TARGET_USERS: "",
       COMMENTS: "",
+      CATEGORY: "",
     });
   };
 
@@ -242,6 +244,7 @@ const ProjectTable = () => {
                   { label: "Status", key: "CURRENT_PHASE" },
                   { label: "Domain", key: "LLM_PLATFORM" },
                   { label: "Date", key: "DEPLOYMENT_DT" },
+                  { label: "Category", key: "CATEGORY" },
                   { label: "Actions", key: null },
                 ].map((column) => (
                   <TableCell key={column.key} sx={{ fontWeight: "bold", fontSize: "16px" }}>
@@ -346,6 +349,19 @@ const ProjectTable = () => {
 
                   <TableCell sx={{ fontSize: "14px" }}>
                     {editRowId === project.SL_NO ? (
+                      <TextField
+                        type="date"
+                        value={editedData.CATEGORY || project.CATEGORY}
+                        onChange={(e) => handleChange(e, "CATEGORY")}
+                        fullWidth
+                      />
+                    ) : (
+                      <Typography>{project.CATEGORY}</Typography>
+                    )}
+                  </TableCell>
+
+                  <TableCell sx={{ fontSize: "14px" }}>
+                    {editRowId === project.SL_NO ? (
                       <Button
                         variant="contained"
                         color="success"
@@ -423,6 +439,14 @@ const ProjectTable = () => {
                       value={newProject.DEPLOYMENT_DT || ""}
                       onChange={(e) => handleChange(e, "DEPLOYMENT_DT")}
                       fullWidth
+                    />
+                  </TableCell>
+                  <TableCell sx={{ fontSize: "14px" }}>
+                    <TextField
+                      value={newProject.CATEGORY || ""}
+                      onChange={(e) => handleChange(e, "CATEGORY")}
+                      fullWidth
+                      placeholder="Enter Category"
                     />
                   </TableCell>
                   <TableCell sx={{ fontSize: "14px" }}>
