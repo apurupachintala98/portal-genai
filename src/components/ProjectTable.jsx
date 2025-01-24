@@ -261,7 +261,7 @@ const ProjectTable = () => {
                 ))}
               </TableRow>
             </TableHead>
-            <TableBody>
+            {/* <TableBody>
               {filteredProjects.map((project) => (
                 <TableRow key={project.SL_NO} hover>
                   <TableCell sx={{ fontSize: "14px" }}>
@@ -461,7 +461,123 @@ const ProjectTable = () => {
                   </TableCell>
                 </TableRow>
               )}
-            </TableBody>
+            </TableBody> */}
+<TableBody>
+  {filteredProjects.map((project) => (
+    <TableRow key={project.SL_NO} hover>
+      <TableCell sx={{ fontSize: "14px" }}>
+        {editRowId === project.SL_NO ? (
+          <TextField
+            value={editedData.PRJ_NM ?? project.PRJ_NM}
+            onChange={(e) => handleChange(e, "PRJ_NM")}
+            fullWidth
+          />
+        ) : (
+          <Typography>{project.PRJ_NM}</Typography>
+        )}
+      </TableCell>
+      <TableCell sx={{ fontSize: "14px" }}>
+        {editRowId === project.SL_NO ? (
+          <TextField
+            value={editedData.LEAD_NM ?? project.LEAD_NM}
+            onChange={(e) => handleChange(e, "LEAD_NM")}
+            fullWidth
+          />
+        ) : (
+          <Typography>{project.LEAD_NM}</Typography>
+        )}
+      </TableCell>
+      <TableCell sx={{ fontSize: "14px" }}>
+        {editRowId === project.SL_NO ? (
+          <TextField
+            value={editedData.MANAGER_NM ?? project.MANAGER_NM}
+            onChange={(e) => handleChange(e, "MANAGER_NM")}
+            fullWidth
+          />
+        ) : (
+          <Typography>{project.MANAGER_NM}</Typography>
+        )}
+      </TableCell>
+      <TableCell sx={{ fontSize: "14px" }}>
+        {editRowId === project.SL_NO ? (
+          <TextField
+            value={editedData.CURRENT_PHASE ?? project.CURRENT_PHASE}
+            onChange={(e) => handleChange(e, "CURRENT_PHASE")}
+            fullWidth
+          />
+        ) : (
+          <Chip
+            label={project.CURRENT_PHASE}
+            color={
+              project.CURRENT_PHASE === "Production"
+                ? "success"
+                : project.CURRENT_PHASE === "In Progress"
+                ? "warning"
+                : "error"
+            }
+            variant="outlined"
+          />
+        )}
+      </TableCell>
+      <TableCell sx={{ fontSize: "14px" }}>
+        {editRowId === project.SL_NO ? (
+          <TextField
+            value={editedData.LLM_PLATFORM ?? project.LLM_PLATFORM}
+            onChange={(e) => handleChange(e, "LLM_PLATFORM")}
+            fullWidth
+          />
+        ) : (
+          <Typography>{project.LLM_PLATFORM}</Typography>
+        )}
+      </TableCell>
+      <TableCell sx={{ fontSize: "14px" }}>
+        {editRowId === project.SL_NO ? (
+          <TextField
+            type="date"
+            value={(editedData.DEPLOYMENT_DT ?? project.DEPLOYMENT_DT)?.split(" ")[0]}
+            onChange={(e) => handleChange(e, "DEPLOYMENT_DT")}
+            fullWidth
+          />
+        ) : (
+          <Typography>{project.DEPLOYMENT_DT.split(" ")[0]}</Typography>
+        )}
+      </TableCell>
+      <TableCell sx={{ fontSize: "14px" }}>
+        {editRowId === project.SL_NO ? (
+          <TextField
+            value={editedData.CATEGORY ?? project.CATEGORY}
+            onChange={(e) => handleChange(e, "CATEGORY")}
+            fullWidth
+          />
+        ) : (
+          <Typography>{project.CATEGORY}</Typography>
+        )}
+      </TableCell>
+      <TableCell sx={{ fontSize: "14px" }}>
+        {editRowId === project.SL_NO ? (
+          <Button
+            variant="contained"
+            color="success"
+            size="small"
+            startIcon={<SaveIcon />}
+            onClick={() => handleSave(project.SL_NO)}
+          >
+            Save
+          </Button>
+        ) : (
+          <>
+            <IconButton color="primary" onClick={() => handleEditClick(project.SL_NO)}>
+              <EditIcon />
+            </IconButton>
+            <IconButton color="error" size="small" onClick={() => handleDelete(project.SL_NO)}>
+              <DeleteIcon />
+            </IconButton>
+          </>
+        )}
+      </TableCell>
+    </TableRow>
+  ))}
+</TableBody>
 
 
           </Table>
