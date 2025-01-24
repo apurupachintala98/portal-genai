@@ -233,20 +233,23 @@ const Chart = () => {
       {
         name: 'Projects',
         data: filteredData.map(project => {
-          const today = new Date();
-          const endDate = new Date(project.DEPLOYMENT_DT);
-          const startDate = new Date(endDate);
-          startDate.setDate(endDate.getDate() - 30); // Assuming a 30-day timeline for each project
-
-          let progress = Math.min(100, Math.max(0, ((today - startDate) / (endDate - startDate)) * 100));
-          if (isNaN(progress)) progress = 0; // Handle cases where dates might be invalid
-
+          const today = new Date().getTime();
+          const deploymentDate = new Date(project.DEPLOYMENT_DT).getTime();
+      
+          // Assume a default duration of 30 days before the deployment date as the start date
+          const startDate = deploymentDate - 30 * 24 * 60 * 60 * 1000;
+      
+          // Calculate progress based on current date
+          const progress = today > startDate
+            ? Math.min((today - startDate) / (deploymentDate - startDate), 1)
+            : 0;
+      
           return {
             name: project.PRJ_NM,
-            start: startDate.getTime(),
-            end: endDate.getTime(),
+            start: startDate,
+            end: deploymentDate,
             completed: {
-              amount: progress / 100
+              amount: progress, // Progress as a fraction
             },
             color: '#7cb5ec' // Default color if not provided
           };
