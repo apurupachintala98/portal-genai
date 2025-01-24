@@ -190,8 +190,8 @@ const Chart = () => {
         setFilteredData(data);
 
         // Extract unique managers and categories
-        const uniqueManagers = [...new Set(data.map(project => project.manager))];
-        const uniqueCategories = [...new Set(data.map(project => project.category))];
+        const uniqueManagers = [...new Set(data.map(project => project.MANAGER_NM))];
+        const uniqueCategories = [...new Set(data.map(project => project.CATEGORY))];
 
         setManagers(uniqueManagers);
         setCategories(uniqueCategories);
@@ -210,10 +210,10 @@ const Chart = () => {
     // Filter data based on selected manager and category
     let filtered = projectData;
     if (selectedManager !== "All") {
-      filtered = filtered.filter(project => project.manager === selectedManager);
+      filtered = filtered.filter(project => project.MANAGER_NM === selectedManager);
     }
     if (selectedCategory !== "All") {
-      filtered = filtered.filter(project => project.category === selectedCategory);
+      filtered = filtered.filter(project => project.CATEGORY === selectedCategory);
     }
     setFilteredData(filtered);
   }, [selectedManager, selectedCategory, projectData]);
@@ -226,21 +226,31 @@ const Chart = () => {
       text: 'Project Progress Gantt Chart'
     },
     yAxis: {
-      categories: filteredData.map(project => project.name),
+      categories: filteredData.map(project => project.PRJ_NM),
       title: null
     },
     series: [
       {
         name: 'Projects',
-        data: filteredData.map(project => ({
-          name: project.name,
-          start: new Date(project.startDate).getTime(),
-          end: new Date(project.endDate).getTime(),
-          completed: {
-            amount: project.progress / 100
-          },
-          color: project.color || '#7cb5ec' // Default color if not provided
-        }))
+        data: filteredData.map(project => {
+          const today = new Date();
+          const endDate = new Date(project.DEPLOYMENT_DT);
+          const startDate = new Date(endDate);
+          startDate.setDate(endDate.getDate() - 30); // Assuming a 30-day timeline for each project
+
+          let progress = Math.min(100, Math.max(0, ((today - startDate) / (endDate - startDate)) * 100));
+          if (isNaN(progress)) progress = 0; // Handle cases where dates might be invalid
+
+          return {
+            name: project.PRJ_NM,
+            start: startDate.getTime(),
+            end: endDate.getTime(),
+            completed: {
+              amount: progress / 100
+            },
+            color: '#7cb5ec' // Default color if not provided
+          };
+        })
       }
     ]
   };
