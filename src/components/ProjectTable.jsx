@@ -116,34 +116,33 @@ const ProjectTable = () => {
   };
 
   const handleAddClick = () => {
-    const nextSL_NO = projects.length > 0
-      ? Math.max(...projects.map((p) => p.SL_NO)) + 1
-      : 1;
-
     setIsNewRow(true);
     setNewProject({
-      SL_NO: nextSL_NO, // Assign the calculated SL_NO
-      PRJ_NM: "",
-      LEAD_NM: "",
-      MANAGER_NM: "",
-      CURRENT_PHASE: "Build", // Default status
-      LLM_PLATFORM: "",
-      DEPLOYMENT_DT: "",
-      TGOV_NO: "",
-      APM_NO: "",
-      LLM_MODEL: "",
-      APP_TYPE: "",
-      PRJ_DESC: "",
-      BASE_APLCTN_NM: "",
-      EKS_ENABLED_YN: "",
-      REACT_UI_ENABLED_YN: "",
-      AI_TASKFORCE_REVIEWED_YN: "",
-      AI_TASKFORCE_APPROVED_YN: "",
-      TARGET_USERS: "",
-      COMMENTS: "",
-      CATEGORY: "",
+      SL_NO: projects.length > 0
+        ? Math.max(...projects.map((p) => p.SL_NO)) + 1
+        : 1, // Assign the next SL_NO
+        PRJ_NM: "",
+        LEAD_NM: "",
+        MANAGER_NM: "",
+        CURRENT_PHASE: "Build", // Default status
+        LLM_PLATFORM: "",
+        DEPLOYMENT_DT: "",
+        TGOV_NO: "",
+        APM_NO: "",
+        LLM_MODEL: "",
+        APP_TYPE: "",
+        PRJ_DESC: "",
+        BASE_APLCTN_NM: "",
+        EKS_ENABLED_YN: "",
+        REACT_UI_ENABLED_YN: "",
+        AI_TASKFORCE_REVIEWED_YN: "",
+        AI_TASKFORCE_APPROVED_YN: "",
+        TARGET_USERS: "",
+        COMMENTS: "",
+        CATEGORY: "",
     });
   };
+  
 
   const handleSave = async (SL_NO) => {
     try {
@@ -171,28 +170,43 @@ const ProjectTable = () => {
   const handleChange = (e, field) => {
     const value = e.target.value;
     if (isNewRow) {
-      // Update the new project data
       setNewProject((prev) => ({ ...prev, [field]: value }));
     } else {
-      // Update the edited row data
       setEditedData((prev) => ({ ...prev, [field]: value }));
     }
   };
+  
+
+  // const handleAddProject = async () => {
+  //   try {
+  //     const sanitizedNewProject = { ...newProject };
+  //     await insertNewProjectDetails(sanitizedNewProject);
+  //     setNewProject({});
+  //     setIsNewRow(false);
+
+  //     // Refresh the project list
+  //     fetchProjects();
+  //   } catch (error) {
+  //     console.error("Failed to add project:", error);
+  //     setError("Failed to add project. Please try again.");
+  //   }
+  // };
 
   const handleAddProject = async () => {
     try {
-      const sanitizedNewProject = { ...newProject };
-      await insertNewProjectDetails(sanitizedNewProject);
+      // Save the new project to the database
+      await insertNewProjectDetails(newProject);
+  
+      // Refresh the project list and reset the state
+      fetchProjects();
       setNewProject({});
       setIsNewRow(false);
-
-      // Refresh the project list
-      fetchProjects();
     } catch (error) {
       console.error("Failed to add project:", error);
       setError("Failed to add project. Please try again.");
     }
   };
+  
 
 
   const handleEditClick = (sl_no) => {
@@ -577,6 +591,79 @@ const ProjectTable = () => {
       </TableCell>
     </TableRow>
   ))}
+
+  {/* New row */}
+  {isNewRow && (
+    <TableRow hover>
+      <TableCell>
+        <TextField
+          value={newProject.PRJ_NM}
+          onChange={(e) => handleChange(e, "PRJ_NM")}
+          fullWidth
+          placeholder="Enter Project Name"
+        />
+      </TableCell>
+      <TableCell>
+        <TextField
+          value={newProject.LEAD_NM}
+          onChange={(e) => handleChange(e, "LEAD_NM")}
+          fullWidth
+          placeholder="Enter Lead Name"
+        />
+      </TableCell>
+      <TableCell>
+        <TextField
+          value={newProject.MANAGER_NM}
+          onChange={(e) => handleChange(e, "MANAGER_NM")}
+          fullWidth
+          placeholder="Enter Manager Name"
+        />
+      </TableCell>
+      <TableCell>
+        <TextField
+          value={newProject.CURRENT_PHASE}
+          onChange={(e) => handleChange(e, "CURRENT_PHASE")}
+          fullWidth
+          placeholder="Enter Current Phase"
+        />
+      </TableCell>
+      <TableCell>
+        <TextField
+          value={newProject.LLM_PLATFORM}
+          onChange={(e) => handleChange(e, "LLM_PLATFORM")}
+          fullWidth
+          placeholder="Enter Domain"
+        />
+      </TableCell>
+      <TableCell>
+        <TextField
+          type="date"
+          value={newProject.DEPLOYMENT_DT}
+          onChange={(e) => handleChange(e, "DEPLOYMENT_DT")}
+          fullWidth
+        />
+      </TableCell>
+      <TableCell>
+        <TextField
+          value={newProject.CATEGORY}
+          onChange={(e) => handleChange(e, "CATEGORY")}
+          fullWidth
+          placeholder="Enter Category"
+        />
+      </TableCell>
+      <TableCell>
+        <Button
+          variant="contained"
+          color="success"
+          size="small"
+          startIcon={<SaveIcon />}
+          onClick={handleAddProject}
+        >
+          Save
+        </Button>
+      </TableCell>
+    </TableRow>
+  )}
 </TableBody>
 
 
