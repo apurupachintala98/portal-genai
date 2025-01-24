@@ -350,7 +350,6 @@ const ProjectTable = () => {
                   <TableCell sx={{ fontSize: "14px" }}>
                     {editRowId === project.SL_NO ? (
                       <TextField
-                        type="date"
                         value={editedData.CATEGORY || project.CATEGORY}
                         onChange={(e) => handleChange(e, "CATEGORY")}
                         fullWidth
