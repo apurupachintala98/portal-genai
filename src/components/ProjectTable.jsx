@@ -140,6 +140,7 @@ const ProjectTable = () => {
         TARGET_USERS: "",
         COMMENTS: "",
         CATEGORY: "",
+        BU: "",
     });
   };
   
