@@ -218,15 +218,58 @@ const Chart = () => {
     setFilteredData(filtered);
   }, [selectedManager, selectedCategory, projectData]);
 
+  // const options = {
+  //   chart: {
+  //     type: 'gantt'
+  //   },
+  //   title: {
+  //     text: 'Project Progress Gantt Chart'
+  //   },
+  //   yAxis: {
+  //     categories: filteredData.map(project => project.PRJ_NM),
+  //     title: null
+  //   },
+  //   series: [
+  //     {
+  //       name: 'Projects',
+  //       data: filteredData.map(project => {
+  //         const today = new Date().getTime();
+  //         const deploymentDate = new Date(project.DEPLOYMENT_DT).getTime();
+      
+  //         // Assume a default duration of 30 days before the deployment date as the start date
+  //         const startDate = deploymentDate - 30 * 24 * 60 * 60 * 1000;
+      
+  //         // Calculate progress based on current date
+  //         const progress = today > startDate
+  //           ? Math.min((today - startDate) / (deploymentDate - startDate), 1)
+  //           : 0;
+      
+  //         return {
+  //           name: project.PRJ_NM,
+  //           start: startDate,
+  //           end: deploymentDate,
+  //           completed: {
+  //             amount: progress, // Progress as a fraction
+  //           },
+  //           color: '#7cb5ec' // Default color if not provided
+  //         };
+  //       })
+  //     }
+  //   ]
+  // };
+
   const options = {
     chart: {
       type: 'gantt'
     },
     title: {
-      text: 'Project Progress Gantt Chart'
+      text: 'Gantt Chart with Progress Indicators'
+    },
+    xAxis: {
+      currentDateIndicator: true // Highlight the current date
     },
     yAxis: {
-      categories: filteredData.map(project => project.PRJ_NM),
+      categories: filteredData.map(project => project.PRJ_NM), // Ensure unique project names
       title: null
     },
     series: [
@@ -235,21 +278,19 @@ const Chart = () => {
         data: filteredData.map(project => {
           const today = new Date().getTime();
           const deploymentDate = new Date(project.DEPLOYMENT_DT).getTime();
-      
-          // Assume a default duration of 30 days before the deployment date as the start date
-          const startDate = deploymentDate - 30 * 24 * 60 * 60 * 1000;
-      
-          // Calculate progress based on current date
+          const startDate = deploymentDate - 30 * 24 * 60 * 60 * 1000; // Assume 30-day duration before deployment
+  
+          // Progress calculation
           const progress = today > startDate
             ? Math.min((today - startDate) / (deploymentDate - startDate), 1)
             : 0;
-      
+  
           return {
             name: project.PRJ_NM,
             start: startDate,
             end: deploymentDate,
             completed: {
-              amount: progress, // Progress as a fraction
+              amount: progress // Use progress as a fraction (e.g., 0.25 for 25%)
             },
             color: '#7cb5ec' // Default color if not provided
           };
@@ -257,7 +298,7 @@ const Chart = () => {
       }
     ]
   };
-
+  
   return (
     <div>
       <h1>Gantt Chart</h1>
