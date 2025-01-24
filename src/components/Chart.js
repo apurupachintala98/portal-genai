@@ -410,6 +410,169 @@
 
 // export default Chart;
 
+// import React, { useEffect, useRef, useMemo, useState } from "react";
+// import Highcharts from "highcharts";
+// import HighchartsReact from "highcharts-react-official";
+// import { Box, Paper, Typography, Select, MenuItem, CircularProgress } from "@mui/material";
+// import { getAllProjectDetails } from "../services/apiService";
+
+// const Chart = ({ theme, themeColor }) => {
+//   const chartRef = useRef(null);
+
+//   const [projectData, setProjectData] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const [filterField, setFilterField] = useState("MANAGER_NM");
+//   const [chartType, setChartType] = useState("bar");
+
+//   const allowedFields = ["PRJ_NM", "MANAGER_NM", "DEPLOYMENT_DT", "LEAD_NM", "CURRENT_PHASE"];
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       setLoading(true);
+//       try {
+//         const data = await getAllProjectDetails();
+//         setProjectData(data);
+//       } catch (err) {
+//         console.error("Error fetching project data:", err);
+//         setError("Failed to load project data.");
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchData();
+//   }, []);
+
+//   const chartOptions = useMemo(() => {
+//     if (!filterField || projectData.length === 0) {
+//       return null;
+//     }
+
+//     // Limit data to 20 entries
+//     const limitedData = projectData.slice(0, 20);
+
+//     // Group projects based on the selected filter field
+//     const groupedData = limitedData.reduce((acc, item) => {
+//       const xValue = item[filterField];
+//       if (!acc[xValue]) {
+//         acc[xValue] = [];
+//       }
+//       acc[xValue].push(item["PRJ_NM"]); // Collect project names
+//       return acc;
+//     }, {});
+
+//     // Prepare categories and series data
+//     const categories = Object.keys(groupedData); // X-axis values (e.g., manager names, deployment dates)
+//     const seriesData = categories.map((category) => ({
+//       name: category,
+//       y: groupedData[category].length,
+//       projects: groupedData[category].join(", "), // Concatenate project names
+//     }));
+
+//     return {
+//       chart: {
+//         type: chartType,
+//         backgroundColor: theme === "light" ? "#ffffff" : "#333333",
+//       },
+//       title: { text: "Pictorial Representation of Projects" },
+//       credits: { enabled: false },
+//       tooltip: {
+//         formatter: function () {
+//           return `<b>${this.point.name}</b><br>Projects: ${this.point.projects}`;
+//         },
+//       },
+//       xAxis: {
+//         categories,
+//         title: { text: filterField },
+//         labels: {
+//           style: { color: theme === "light" ? "#333333" : "#ffffff" },
+//         },
+//       },
+//       yAxis: {
+//         title: { text: "Projects", style: { color: theme === "light" ? "#333333" : "#ffffff" } },
+//         labels: { style: { color: theme === "light" ? "#333333" : "#ffffff" } },
+//       },
+//       series: [
+//         {
+//           name: "Projects",
+//           data: seriesData.map((item) => ({
+//             y: item.y, // Number of projects (bar height)
+//             name: item.name, // X-axis category
+//             projects: item.projects, // Tooltip details
+//           })),
+//           color: themeColor,
+//         },
+//       ],
+//     };
+//   }, [filterField, chartType, projectData, theme, themeColor]);
+
+//   useEffect(() => {
+//     if (chartRef.current && chartOptions) {
+//       const chart = chartRef.current.chart;
+//       chart.update(chartOptions, true, true);
+//     }
+//   }, [chartOptions]);
+
+//   if (loading) {
+//     return (
+//       <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+//         <CircularProgress />
+//       </Box>
+//     );
+//   }
+
+//   if (error) {
+//     return (
+//       <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+//         <Typography color="error">{error}</Typography>
+//       </Box>
+//     );
+//   }
+
+//   return (
+//     <Box sx={{ p: 3 }}>
+//       {/* <Paper elevation={3} sx={{ borderRadius: 3, p: 3 }}> */}
+//         <Box display="flex" gap={2} mb={2}>
+//           {/* Filter Dropdown */}
+//           <Select
+//             value={filterField}
+//             onChange={(e) => setFilterField(e.target.value)}
+//             size="small"
+//             variant="outlined"
+//           >
+//             {allowedFields.map((field) => (
+//               <MenuItem key={field} value={field}>
+//                 {field}
+//               </MenuItem>
+//             ))}
+//           </Select>
+
+//           {/* Chart Type Dropdown */}
+//           <Select
+//             value={chartType}
+//             onChange={(e) => setChartType(e.target.value)}
+//             size="small"
+//             variant="outlined"
+//           >
+//             <MenuItem value="bar">Bar Chart</MenuItem>
+//             <MenuItem value="column">Column Chart</MenuItem>
+//             <MenuItem value="line">Line Chart</MenuItem>
+//             <MenuItem value="area">Area Chart</MenuItem>
+//             <MenuItem value="pie">Pie Chart</MenuItem>
+//           </Select>
+//         </Box>
+
+//         {chartOptions && (
+//           <HighchartsReact highcharts={Highcharts} options={chartOptions} ref={chartRef} />
+//         )}
+//       {/* </Paper> */}
+//     </Box>
+//   );
+// };
+
+// export default Chart;
+
 import React, { useEffect, useRef, useMemo, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
@@ -422,10 +585,11 @@ const Chart = ({ theme, themeColor }) => {
   const [projectData, setProjectData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filterField, setFilterField] = useState("MANAGER_NM");
-  const [chartType, setChartType] = useState("bar");
+  const [categoryField, setCategoryField] = useState("CURRENT_PHASE");
+  const [managerField, setManagerField] = useState("ALL");
 
-  const allowedFields = ["PRJ_NM", "MANAGER_NM", "DEPLOYMENT_DT", "LEAD_NM", "CURRENT_PHASE"];
+  const allowedCategoryFields = ["CURRENT_PHASE", "DEPLOYMENT_DT"];
+  const allowedManagerFields = ["ALL", "MANAGER_NM", "LEAD_NM"];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -445,67 +609,60 @@ const Chart = ({ theme, themeColor }) => {
   }, []);
 
   const chartOptions = useMemo(() => {
-    if (!filterField || projectData.length === 0) {
+    if (projectData.length === 0) {
       return null;
     }
 
-    // Limit data to 20 entries
-    const limitedData = projectData.slice(0, 20);
+    // Filter data by selected manager if applicable
+    const filteredData =
+      managerField === "ALL"
+        ? projectData
+        : projectData.filter((item) => item[managerField] === managerField);
 
-    // Group projects based on the selected filter field
-    const groupedData = limitedData.reduce((acc, item) => {
-      const xValue = item[filterField];
-      if (!acc[xValue]) {
-        acc[xValue] = [];
-      }
-      acc[xValue].push(item["PRJ_NM"]); // Collect project names
-      return acc;
-    }, {});
-
-    // Prepare categories and series data
-    const categories = Object.keys(groupedData); // X-axis values (e.g., manager names, deployment dates)
-    const seriesData = categories.map((category) => ({
-      name: category,
-      y: groupedData[category].length,
-      projects: groupedData[category].join(", "), // Concatenate project names
+    // Prepare bubble chart data
+    const seriesData = filteredData.map((item) => ({
+      x: new Date(item.DEPLOYMENT_DT).getTime(), // Deployment date as X-axis value
+      y: allowedCategoryFields.includes(categoryField) ? item[categoryField] : item.CURRENT_PHASE, // Category field
+      z: 1, // Bubble size (static for now, can be adjusted based on importance or other criteria)
+      name: item.PRJ_NM, // Project name for tooltip
     }));
 
     return {
       chart: {
-        type: chartType,
+        type: "bubble",
+        plotBorderWidth: 1,
+        zoomType: "xy",
         backgroundColor: theme === "light" ? "#ffffff" : "#333333",
       },
-      title: { text: "Pictorial Representation of Projects" },
+      title: { text: "Progress of Projects" },
       credits: { enabled: false },
       tooltip: {
+        useHTML: true,
         formatter: function () {
-          return `<b>${this.point.name}</b><br>Projects: ${this.point.projects}`;
+          return `<b>${this.point.name}</b><br>Category: ${this.point.y}<br>Deployment Date: ${new Date(
+            this.point.x
+          ).toLocaleDateString()}`;
         },
       },
       xAxis: {
-        categories,
-        title: { text: filterField },
-        labels: {
-          style: { color: theme === "light" ? "#333333" : "#ffffff" },
-        },
+        type: "datetime",
+        title: { text: "Deployment Date" },
+        labels: { style: { color: theme === "light" ? "#333333" : "#ffffff" } },
       },
       yAxis: {
-        title: { text: "Projects", style: { color: theme === "light" ? "#333333" : "#ffffff" } },
+        title: { text: categoryField, style: { color: theme === "light" ? "#333333" : "#ffffff" } },
         labels: { style: { color: theme === "light" ? "#333333" : "#ffffff" } },
+        categories: allowedCategoryFields,
       },
       series: [
         {
           name: "Projects",
-          data: seriesData.map((item) => ({
-            y: item.y, // Number of projects (bar height)
-            name: item.name, // X-axis category
-            projects: item.projects, // Tooltip details
-          })),
+          data: seriesData,
           color: themeColor,
         },
       ],
     };
-  }, [filterField, chartType, projectData, theme, themeColor]);
+  }, [categoryField, managerField, projectData, theme, themeColor]);
 
   useEffect(() => {
     if (chartRef.current && chartOptions) {
@@ -532,41 +689,41 @@ const Chart = ({ theme, themeColor }) => {
 
   return (
     <Box sx={{ p: 3 }}>
-      {/* <Paper elevation={3} sx={{ borderRadius: 3, p: 3 }}> */}
+      <Paper elevation={3} sx={{ borderRadius: 3, p: 3 }}>
         <Box display="flex" gap={2} mb={2}>
-          {/* Filter Dropdown */}
+          {/* Category Dropdown */}
           <Select
-            value={filterField}
-            onChange={(e) => setFilterField(e.target.value)}
+            value={categoryField}
+            onChange={(e) => setCategoryField(e.target.value)}
             size="small"
             variant="outlined"
           >
-            {allowedFields.map((field) => (
+            {allowedCategoryFields.map((field) => (
               <MenuItem key={field} value={field}>
                 {field}
               </MenuItem>
             ))}
           </Select>
 
-          {/* Chart Type Dropdown */}
+          {/* Manager Dropdown */}
           <Select
-            value={chartType}
-            onChange={(e) => setChartType(e.target.value)}
+            value={managerField}
+            onChange={(e) => setManagerField(e.target.value)}
             size="small"
             variant="outlined"
           >
-            <MenuItem value="bar">Bar Chart</MenuItem>
-            <MenuItem value="column">Column Chart</MenuItem>
-            <MenuItem value="line">Line Chart</MenuItem>
-            <MenuItem value="area">Area Chart</MenuItem>
-            <MenuItem value="pie">Pie Chart</MenuItem>
+            {allowedManagerFields.map((field) => (
+              <MenuItem key={field} value={field}>
+                {field === "ALL" ? "All Managers" : field}
+              </MenuItem>
+            ))}
           </Select>
         </Box>
 
         {chartOptions && (
           <HighchartsReact highcharts={Highcharts} options={chartOptions} ref={chartRef} />
         )}
-      {/* </Paper> */}
+      </Paper>
     </Box>
   );
 };
