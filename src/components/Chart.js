@@ -161,6 +161,186 @@
 
 // export default Chart;
 
+// import React, { useState, useEffect } from 'react';
+// import Highcharts from 'highcharts';
+// import HighchartsGantt from 'highcharts/modules/gantt';
+// import HighchartsReact from 'highcharts-react-official';
+// import { getAllProjectDetails } from "../services/apiService";
+
+// if (typeof HighchartsGantt === 'function') {
+//   HighchartsGantt(Highcharts);
+// }
+
+// const Chart = () => {
+//   const [projectData, setProjectData] = useState([]);
+//   const [filteredData, setFilteredData] = useState([]);
+//   const [managers, setManagers] = useState([]);
+//   const [categories, setCategories] = useState([]);
+//   const [selectedManager, setSelectedManager] = useState("All");
+//   const [selectedCategory, setSelectedCategory] = useState("All");
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState(null);
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       setLoading(true);
+//       try {
+//         const data = await getAllProjectDetails();
+//         setProjectData(data);
+//         setFilteredData(data);
+
+//         // Extract unique managers and categories
+//         const uniqueManagers = [...new Set(data.map(project => project.MANAGER_NM))];
+//         const uniqueCategories = [...new Set(data.map(project => project.CATEGORY))];
+
+//         setManagers(uniqueManagers);
+//         setCategories(uniqueCategories);
+//       } catch (err) {
+//         setError("Failed to load project data.");
+//         console.error(err);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchData();
+//   }, []);
+
+//   useEffect(() => {
+//     // Filter data based on selected manager and category
+//     let filtered = projectData;
+//     if (selectedManager !== "All") {
+//       filtered = filtered.filter(project => project.MANAGER_NM === selectedManager);
+//     }
+//     if (selectedCategory !== "All") {
+//       filtered = filtered.filter(project => project.CATEGORY === selectedCategory);
+//     }
+//     setFilteredData(filtered);
+//   }, [selectedManager, selectedCategory, projectData]);
+
+//   // const options = {
+//   //   chart: {
+//   //     type: 'gantt'
+//   //   },
+//   //   title: {
+//   //     text: 'Project Progress Gantt Chart'
+//   //   },
+//   //   yAxis: {
+//   //     categories: filteredData.map(project => project.PRJ_NM),
+//   //     title: null
+//   //   },
+//   //   series: [
+//   //     {
+//   //       name: 'Projects',
+//   //       data: filteredData.map(project => {
+//   //         const today = new Date().getTime();
+//   //         const deploymentDate = new Date(project.DEPLOYMENT_DT).getTime();
+      
+//   //         // Assume a default duration of 30 days before the deployment date as the start date
+//   //         const startDate = deploymentDate - 30 * 24 * 60 * 60 * 1000;
+      
+//   //         // Calculate progress based on current date
+//   //         const progress = today > startDate
+//   //           ? Math.min((today - startDate) / (deploymentDate - startDate), 1)
+//   //           : 0;
+      
+//   //         return {
+//   //           name: project.PRJ_NM,
+//   //           start: startDate,
+//   //           end: deploymentDate,
+//   //           completed: {
+//   //             amount: progress, // Progress as a fraction
+//   //           },
+//   //           color: '#7cb5ec' // Default color if not provided
+//   //         };
+//   //       })
+//   //     }
+//   //   ]
+//   // };
+
+//   const options = {
+//     chart: {
+//       type: 'gantt'
+//     },
+//     title: {
+//       text: 'Gantt Chart with Progress Indicators'
+//     },
+//     xAxis: {
+//       currentDateIndicator: true // Highlight the current date
+//     },
+//     yAxis: {
+//       categories: filteredData.map(project => project.PRJ_NM), // Ensure unique project names
+//       title: null
+//     },
+//     series: [
+//       {
+//         name: 'Projects',
+//         data: filteredData.map(project => {
+//           const today = new Date().getTime();
+//           const deploymentDate = new Date(project.DEPLOYMENT_DT).getTime();
+//           const startDate = deploymentDate - 30 * 24 * 60 * 60 * 1000; // Assume 30-day duration before deployment
+  
+//           // Progress calculation
+//           const progress = today > startDate
+//             ? Math.min((today - startDate) / (deploymentDate - startDate), 1)
+//             : 0;
+  
+//           return {
+//             name: project.PRJ_NM,
+//             start: startDate,
+//             end: deploymentDate,
+//             completed: {
+//               amount: progress // Use progress as a fraction (e.g., 0.25 for 25%)
+//             },
+//             color: '#7cb5ec' // Default color if not provided
+//           };
+//         })
+//       }
+//     ]
+//   };
+  
+//   return (
+//     <div>
+//       <h1>Gantt Chart</h1>
+//       {loading && <p>Loading...</p>}
+//       {error && <p style={{ color: 'red' }}>{error}</p>}
+
+//       <div style={{ marginBottom: '20px' }}>
+//         <label>Manager: </label>
+//         <select
+//           value={selectedManager}
+//           onChange={(e) => setSelectedManager(e.target.value)}
+//         >
+//           <option value="All">All</option>
+//           {managers.map(manager => (
+//             <option key={manager} value={manager}>{manager}</option>
+//           ))}
+//         </select>
+
+//         <label style={{ marginLeft: '20px' }}>Category: </label>
+//         <select
+//           value={selectedCategory}
+//           onChange={(e) => setSelectedCategory(e.target.value)}
+//         >
+//           <option value="All">All</option>
+//           {categories.map(category => (
+//             <option key={category} value={category}>{category}</option>
+//           ))}
+//         </select>
+//       </div>
+
+//       <HighchartsReact
+//         highcharts={Highcharts}
+//         constructorType={'ganttChart'}
+//         options={options}
+//       />
+//     </div>
+//   );
+// };
+
+// export default Chart;
+
+
 import React, { useState, useEffect } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsGantt from 'highcharts/modules/gantt';
@@ -189,7 +369,6 @@ const Chart = () => {
         setProjectData(data);
         setFilteredData(data);
 
-        // Extract unique managers and categories
         const uniqueManagers = [...new Set(data.map(project => project.MANAGER_NM))];
         const uniqueCategories = [...new Set(data.map(project => project.CATEGORY))];
 
@@ -207,7 +386,6 @@ const Chart = () => {
   }, []);
 
   useEffect(() => {
-    // Filter data based on selected manager and category
     let filtered = projectData;
     if (selectedManager !== "All") {
       filtered = filtered.filter(project => project.MANAGER_NM === selectedManager);
@@ -218,87 +396,68 @@ const Chart = () => {
     setFilteredData(filtered);
   }, [selectedManager, selectedCategory, projectData]);
 
-  // const options = {
-  //   chart: {
-  //     type: 'gantt'
-  //   },
-  //   title: {
-  //     text: 'Project Progress Gantt Chart'
-  //   },
-  //   yAxis: {
-  //     categories: filteredData.map(project => project.PRJ_NM),
-  //     title: null
-  //   },
-  //   series: [
-  //     {
-  //       name: 'Projects',
-  //       data: filteredData.map(project => {
-  //         const today = new Date().getTime();
-  //         const deploymentDate = new Date(project.DEPLOYMENT_DT).getTime();
-      
-  //         // Assume a default duration of 30 days before the deployment date as the start date
-  //         const startDate = deploymentDate - 30 * 24 * 60 * 60 * 1000;
-      
-  //         // Calculate progress based on current date
-  //         const progress = today > startDate
-  //           ? Math.min((today - startDate) / (deploymentDate - startDate), 1)
-  //           : 0;
-      
-  //         return {
-  //           name: project.PRJ_NM,
-  //           start: startDate,
-  //           end: deploymentDate,
-  //           completed: {
-  //             amount: progress, // Progress as a fraction
-  //           },
-  //           color: '#7cb5ec' // Default color if not provided
-  //         };
-  //       })
-  //     }
-  //   ]
-  // };
-
   const options = {
-    chart: {
-      type: 'gantt'
-    },
     title: {
-      text: 'Gantt Chart with Progress Indicators'
+      text: 'Project Gantt Chart'
     },
     xAxis: {
-      currentDateIndicator: true // Highlight the current date
+      tickPixelInterval: 70,
+      currentDateIndicator: true
     },
     yAxis: {
-      categories: filteredData.map(project => project.PRJ_NM), // Ensure unique project names
-      title: null
+      type: 'category',
+      grid: {
+        enabled: true,
+        borderColor: 'rgba(0,0,0,0.3)',
+        borderWidth: 1,
+        columns: [
+          {
+            title: { text: 'Project' },
+            labels: { format: '{point.name}' }
+          },
+          {
+            title: { text: 'Manager' },
+            labels: { format: '{point.manager}' }
+          },
+          {
+            title: { text: 'Est. days' },
+            labels: { format: '{(divide (subtract point.x2 point.x) 86400000):.2f}' }
+          },
+          {
+            title: { text: 'Start date' },
+            labels: { format: '{point.start:%e. %b}' }
+          },
+          {
+            title: { text: 'End date' },
+            offset: 30,
+            labels: { format: '{point.end:%e. %b}' }
+          }
+        ]
+      }
+    },
+    tooltip: {
+      xDateFormat: '%e %b %Y, %H:%M'
     },
     series: [
       {
         name: 'Projects',
         data: filteredData.map(project => {
-          const today = new Date().getTime();
           const deploymentDate = new Date(project.DEPLOYMENT_DT).getTime();
-          const startDate = deploymentDate - 30 * 24 * 60 * 60 * 1000; // Assume 30-day duration before deployment
-  
-          // Progress calculation
-          const progress = today > startDate
-            ? Math.min((today - startDate) / (deploymentDate - startDate), 1)
-            : 0;
-  
+          const startDate = deploymentDate - 30 * 24 * 60 * 60 * 1000;
+
           return {
             name: project.PRJ_NM,
             start: startDate,
             end: deploymentDate,
-            completed: {
-              amount: progress // Use progress as a fraction (e.g., 0.25 for 25%)
-            },
-            color: '#7cb5ec' // Default color if not provided
+            manager: project.MANAGER_NM,
+            milestone: project.IS_MILESTONE,
+            y: filteredData.indexOf(project)
           };
         })
       }
     ]
   };
-  
+
   return (
     <div>
       <h1>Gantt Chart</h1>
@@ -307,10 +466,7 @@ const Chart = () => {
 
       <div style={{ marginBottom: '20px' }}>
         <label>Manager: </label>
-        <select
-          value={selectedManager}
-          onChange={(e) => setSelectedManager(e.target.value)}
-        >
+        <select value={selectedManager} onChange={(e) => setSelectedManager(e.target.value)}>
           <option value="All">All</option>
           {managers.map(manager => (
             <option key={manager} value={manager}>{manager}</option>
@@ -318,10 +474,7 @@ const Chart = () => {
         </select>
 
         <label style={{ marginLeft: '20px' }}>Category: </label>
-        <select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-        >
+        <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
           <option value="All">All</option>
           {categories.map(category => (
             <option key={category} value={category}>{category}</option>
@@ -329,11 +482,7 @@ const Chart = () => {
         </select>
       </div>
 
-      <HighchartsReact
-        highcharts={Highcharts}
-        constructorType={'ganttChart'}
-        options={options}
-      />
+      <HighchartsReact highcharts={Highcharts} constructorType={'ganttChart'} options={options} />
     </div>
   );
 };
