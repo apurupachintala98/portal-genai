@@ -528,7 +528,7 @@ const Dashboard = ({
         </Grid>
 
         {/* Chat Assistant Section (40%) */}
-        <Grid item xs={12} md={4}>
+        {/* <Grid item xs={12} md={4}>
             <Paper
                 elevation={3}
                 sx={{
@@ -542,7 +542,6 @@ const Dashboard = ({
                 }}
             >
                 <Box sx={{ flexGrow: 1, overflowY: "auto" }}>
-                    {/* Replace this with your chat assistant component */}
                     <Typography variant="h6" fontWeight="bold">
                         Chat Assistant
                     </Typography>
@@ -570,7 +569,7 @@ const Dashboard = ({
                     </Button>
                 </Box>
             </Paper>
-        </Grid>
+        </Grid> */}
     </Grid>
                 </Box>
             </Box>
