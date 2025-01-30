@@ -94,7 +94,6 @@ function App() {
           <Route
             path="/dashboard"
             element={
-              isLoggedIn ? (
                 <Dashboard
                   toggleTheme={toggleTheme}
                   theme={themeMode}
@@ -102,9 +101,6 @@ function App() {
                   setSidebarType={setSidebarType}
                   primaryColor={primaryColor}
                 />
-              ) : (
-                <Navigate to="/" />
-              )
             }
           />
            <Route
