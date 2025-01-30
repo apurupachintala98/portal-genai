@@ -23,9 +23,9 @@ import { getPlatforms, getModelsByPlatform, getLLMResponse } from "../services/a
 import LLM_Image from '../assets/images/LLM.png';
 
 const Banner = styled(Box)({
-    height: '600px',
+    height: '800px',
     backgroundImage: `url(${LLM_Image})`,
-    backgroundSize: 'contain',
+    backgroundSize: 'auto',
     backgroundPosition: 'center',
 });
 
