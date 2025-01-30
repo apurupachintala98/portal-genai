@@ -110,7 +110,7 @@ function App() {
            <Route
             path="/llm-gateway"
             element={
-              isLoggedIn ? <LlmGateway /> : <Navigate to="/" />
+             <LlmGateway />
             }
           />
           <Route path="*" element={<h1>404 - Page Not Found</h1>} />
