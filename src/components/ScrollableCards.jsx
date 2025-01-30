@@ -25,7 +25,7 @@ const cards = [
   },
   {
     title: "ARB Agent",
-    description: "Coming Soon",
+    description: "The ARB Assist tool is an intelligent process automation platform that leverages router capabilities to direct inquiries and schedule meetings with the Architecture Review Board (ARB).",
     link: { text: "Click Here", url: "https://arbassist.edagenaidev.awsdns.internal.das/" },
   },
   {
@@ -35,7 +35,7 @@ const cards = [
   },
   {
     title: "LLM Gateway",
-    description: "Coming Soon",
+    description: "Effortlessly harness the power of AI with a unified LLM Gateway designed to work across multiple platforms. Streamline integration, reduce complexity, and unlock the full potential of large language models for diverse applications. Empower innovation with a seamless, scalable, and platform-agnostic solution",
     link: { text: "Click Here", url: "/llm-gateway" },
   },
   {
