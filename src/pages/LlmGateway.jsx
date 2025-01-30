@@ -23,10 +23,12 @@ import { getPlatforms, getModelsByPlatform, getLLMResponse } from "../services/a
 import LLM_Image from '../assets/images/LLM.png';
 
 const Banner = styled(Box)({
-    height: '800px',
     backgroundImage: `url(${LLM_Image})`,
-    backgroundSize: 'auto',
-    backgroundPosition: 'center',
+    backgroundPosition: "center",
+    backgroundSize: "contain", // Ensures the full image is visible
+    backgroundRepeat: "no-repeat",
+    // width: "100vw",
+    height: "600px",
 });
 
 const LlmGateway = () => {

@@ -88,7 +88,7 @@ function App() {
           <Route
             path="/home"
             element={
-              isLoggedIn ? <Home /> : <Navigate to="/" />
+              <Home />
             }
           />
           <Route
