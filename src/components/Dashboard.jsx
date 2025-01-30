@@ -95,7 +95,7 @@ const Dashboard = ({
     //             .getDate()
     //             .toString()
     //             .padStart(2, "0")}/${currentDate.getFullYear()}`;
-        
+
     //     // Define the master slide layout
     //     pptx.defineSlideMaster({
     //         title: "MASTER_SLIDE",
@@ -221,10 +221,10 @@ const Dashboard = ({
 
     const generatePPT = () => {
         const pptx = new pptxgen();
-    
+
         // Set the presentation layout
         pptx.layout = "LAYOUT_WIDE";
-    
+
         // Get the current date in MM/DD/YYYY format
         const currentDate = new Date();
         const formattedDate = `${(currentDate.getMonth() + 1)
@@ -233,7 +233,7 @@ const Dashboard = ({
                 .getDate()
                 .toString()
                 .padStart(2, "0")}/${currentDate.getFullYear()}`;
-        
+
         // Define the master slide layout
         pptx.defineSlideMaster({
             title: "MASTER_SLIDE",
@@ -264,7 +264,7 @@ const Dashboard = ({
             ],
             slideNumber: { x: 0.3, y: "88%", color: "1a3673", fontSize: 12 },
         });
-    
+
         // Slide 1: Title Slide
         const slide1 = pptx.addSlide({ masterName: "MASTER_SLIDE" });
         slide1.addText("EDA Gen AI – Status Report", {
@@ -275,7 +275,7 @@ const Dashboard = ({
             fontFace: "Sans Medium",
         });
         slide1.addImage({ path: bgImage, x: 0, y: 1.0, w: 13.34, h: 5.4 });
-    
+
         // Slide 2: Table Slides with Pagination
         const tableHeader = [
             [
@@ -291,10 +291,10 @@ const Dashboard = ({
                 { text: "Date", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
             ],
         ];
-    
+
         const rowsPerSlide = 10; // Adjust this number to control rows per slide
         const totalSlides = Math.ceil(projectData.length / rowsPerSlide);
-    
+
         for (let i = 0; i < totalSlides; i++) {
             const slide2 = pptx.addSlide({ masterName: "MASTER_SLIDE" });
             slide2.addText("Project Status", {
@@ -305,10 +305,10 @@ const Dashboard = ({
                 color: "1a3673",
                 fontFace: "Sans Medium",
             });
-    
+
             const startRow = i * rowsPerSlide;
             const endRow = startRow + rowsPerSlide;
-    
+
             const tableRows = projectData.slice(startRow, endRow).map((project) => [
                 { text: project.SL_NO, options: { align: "center" } },
                 { text: project.PRJ_NM, options: { align: "left" } },
@@ -318,7 +318,7 @@ const Dashboard = ({
                 { text: project.LLM_PLATFORM, options: { align: "center" } },
                 { text: project.DEPLOYMENT_DT, options: { align: "center" } },
             ]);
-    
+
             slide2.addTable([...tableHeader, ...tableRows], {
                 x: 0.5,
                 y: 1,
@@ -329,7 +329,7 @@ const Dashboard = ({
                 valign: "middle",
             });
         }
-    
+
         // Slide 3: Chart Slide
         const slide3 = pptx.addSlide({ masterName: "MASTER_SLIDE" });
         slide3.addText("Project Status Chart", {
@@ -340,7 +340,7 @@ const Dashboard = ({
             color: "1a3673",
             fontFace: "Sans Medium",
         });
-    
+
         const chartData = [
             {
                 name: "Status",
@@ -352,18 +352,18 @@ const Dashboard = ({
                 ],
             },
         ];
-    
+
         slide3.addChart(pptx.ChartType.line, chartData, {
             x: 0.5,
             y: 1,
             w: 9,
             h: 4,
         });
-    
+
         // Generate the PPT file
         pptx.writeFile("Project_Status_Report.pptx");
     };
-    
+
     return (
         <Box sx={{ display: "flex", height: "100vh" }}>
             <CssBaseline />
@@ -503,18 +503,18 @@ const Dashboard = ({
                                 <Typography variant="subtitle1" color="text.secondary" fontWeight="bold">
                                     Reports
                                 </Typography>
-                                <Typography variant="h6" color="primary" fontWeight="bold" sx={{fontSize: "16px"}}>
+                                <Typography variant="h6" color="primary" fontWeight="bold" sx={{ fontSize: "16px" }}>
                                     Click here
                                 </Typography>
                             </Paper>
                         </Grid>
                     </Grid>
                     <ProjectTable />
-                    {/* <Chart theme={theme} themeColor={primaryColor} /> */}
-                    <Grid container spacing={3} sx={{ mt: 3 }}>
-        {/* Chart Section (60%) */}
-        <Grid item xs={12} md={8}>
-            <Paper
+                    <Chart theme={theme} themeColor={primaryColor} />
+
+                    {/* <Grid container spacing={3} sx={{ mt: 3 }}> */}
+                    {/* <Grid item xs={12} md={8}> */}
+                    {/* <Paper
                 elevation={3}
                 sx={{
                     borderRadius: 3,
@@ -524,11 +524,11 @@ const Dashboard = ({
                 }}
             >
                 <Chart theme={theme} themeColor={primaryColor} />
-            </Paper>
-        </Grid>
+            </Paper> */}
+                    {/* </Grid> */}
 
-        {/* Chat Assistant Section (40%) */}
-        {/* <Grid item xs={12} md={4}>
+                    {/* Chat Assistant Section (40%) */}
+                    {/* <Grid item xs={12} md={4}>
             <Paper
                 elevation={3}
                 sx={{
@@ -570,7 +570,7 @@ const Dashboard = ({
                 </Box>
             </Paper>
         </Grid> */}
-    </Grid>
+                    {/* </Grid> */}
                 </Box>
             </Box>
 
