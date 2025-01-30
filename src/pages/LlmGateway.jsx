@@ -25,7 +25,7 @@ import LLM_Image from '../assets/images/LLM.png';
 const Banner = styled(Box)({
     height: '600px',
     backgroundImage: `url(${LLM_Image})`,
-    backgroundSize: 'cover',
+    backgroundSize: 'contain',
     backgroundPosition: 'center',
 });
 
@@ -63,10 +63,16 @@ const LlmGateway = () => {
     const handlePlatformChange = async (event) => {
         const platform = event.target.value;
         setSelectedPlatform(platform);
+        setSelectedModel("");
+        setContext("");
+        setCustomContext("");
+        setPrompt("");
+        setResponsePrompt("");
+        setApiResponse("");
         try {
             const modelsData = await getModelsByPlatform(platform);
             setModels(modelsData);
-            setSelectedModel("");
+            // setSelectedModel("");
         } catch (error) {
             console.error("Error fetching models:", error);
         }
@@ -81,7 +87,6 @@ const LlmGateway = () => {
             method: selectedPlatform, // Take method value from the selected platform
             model: selectedModel,
             context: customContext || context,
-            //context: "You are powerful AI assistant in providing accurate answers always. Be Concise in providing answers based on context.",
             prompt: prompt,
         };
         setLoading(true);
