@@ -118,41 +118,34 @@ const LlmGateway = () => {
 
     return (
         <Box sx={{ marginBottom: "50px" }}>
-            {/* Header */}
-            {/* <AppBar position="static" sx={{ backgroundColor: "#fff", alignItems: "center" }}>
-                <Toolbar>
-                    <Typography variant="h6" sx={{ color: "#6c5ce7", fontWeight: "bold" }}>
+
+            <AppBar position="static" sx={{ backgroundColor: "#fff", alignItems: "center" }}>
+                <Toolbar sx={{ width: "100%", justifyContent: "space-between" }}>
+                    {/* App Bar Title */}
+                    <Typography variant="h6" sx={{ color: "#1a3673", fontWeight: "bold" }}>
                         Data Intelligence Platform - LLM Gateway
                     </Typography>
-                </Toolbar>
-            </AppBar> */}
-<AppBar position="static" sx={{ backgroundColor: "#fff", alignItems: "center" }}>
-  <Toolbar sx={{ width: "100%", justifyContent: "space-between" }}>
-    {/* App Bar Title */}
-    <Typography variant="h6" sx={{ color: "#1a3673", fontWeight: "bold" }}>
-      Data Intelligence Platform - LLM Gateway
-    </Typography>
 
-    {/* Home Icon with Text */}
-    <Box
-      component={Link}
-      to="/home" // Replace with your home route
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        textDecoration: "none",
-        color: "inherit",
-      }}
-    >
-      <IconButton color="inherit" sx={{ color: "#1a3673" }}>
-        <HomeIcon />
-      </IconButton>
-      <Typography sx={{ fontWeight: "bold", color: "#1a3673" }}>
-        Home
-      </Typography>
-    </Box>
-  </Toolbar>
-</AppBar>
+                    {/* Home Icon with Text */}
+                    <Box
+                        component={Link}
+                        to="/home" // Replace with your home route
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            textDecoration: "none",
+                            color: "inherit",
+                        }}
+                    >
+                        <IconButton color="inherit" sx={{ color: "#1a3673" }}>
+                            <HomeIcon />
+                        </IconButton>
+                        <Typography sx={{ fontWeight: "bold", color: "#1a3673" }}>
+                            Home
+                        </Typography>
+                    </Box>
+                </Toolbar>
+            </AppBar>
             {/* Banner */}
             <Banner />
 
@@ -192,7 +185,7 @@ const LlmGateway = () => {
                 <Paper elevation={3} sx={{ padding: 4, mt: 4, mx: "auto", maxWidth: 600 }}>
                     {/* Select Model */}
                     <Typography variant="h6" mb={2} sx={{ fontWeight: "bold", color: "#1a3673" }}>
-                        Ask using Snowflake Cortex
+                        Ask using {selectedPlatform}
                     </Typography>
 
                     {/* Model Selection */}

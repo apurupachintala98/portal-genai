@@ -420,10 +420,6 @@ const Chart = () => {
             labels: { format: '{point.manager}' }
           },
           {
-            title: { text: 'Est. days' },
-            labels: { format: '{(divide (subtract point.x2 point.x) 86400000):.2f}' }
-          },
-          {
             title: { text: 'Start date' },
             labels: { format: '{point.start:%e. %b}' }
           },

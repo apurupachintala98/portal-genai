@@ -14,25 +14,30 @@ import { Link } from "react-router-dom";
 import ScrollableCards from "./ScrollableCards";
 import bgVideo from "../assets/images/bgDashboard.mp4";
 import bgImage from "../assets/images/bg-AI.jpeg";
+import logo from '../assets/images/logo.png';
+
 
 const menuData = [
   {
-    title: "Applications",
+    title: "Platform Services",
     items: [
       { name: "LLM Gateway", url: "/llm-gateway" },
-      { name: "HEDIS Chat Assistant", url: "http://10.126.192.122:3020/" },
-      { name: "Safety Net", url: "http://10.126.192.122:3010/" },
-      { name: "ARB Agent", url: "https://arbassist.edagenaidev.awsdns.internal.das/" },
+      { name: "RAG Chat Assist (Hedis)", url: "http://10.126.192.122:3020/" },
+      { name: "Text2SQL (SafetyNet)", url: "http://10.126.192.122:3010/" },
+      { name: "Workflow Manager (ARB Scheduler)", url: "https://arbassist.edagenaidev.awsdns.internal.das/" },
+      { name: "Semantic Router (ARB Assist)", url: "https://arbassist.edagenaidev.awsdns.internal.das/" },
       { name: "Data Genie", url: "http://10.126.192.122:3040/" },
-      { name: "EDA Ontology", url: "/" },
-      { name: "Intern Selector", url: "http://10.126.192.122:3050/" },
+      { name: "Text2Cypher (EDA Ontology)", url: "/" },
+      { name: "Conversational Chat (Intern Assist)", url: "http://10.126.192.122:3050/" },
       { name: "FHIR", url: "http://10.126.192.122:3090/" },
     ],
   },
   {
-    title: "EDA Applications",
-    items: [{ name: "Smart Help", url: "/" },
-    { name: "Clara", url: "/" },
+    title: "Applications",
+    items: [{ name: "CII SmartHelp", url: "/" },
+    { name: "Clara.ai", url: "/" },
+    { name: "EDM IntelliQ", url: "/" },
+    { name: "Prov360", url: "/" },
     { name: "RMA.ai", url: "/" },
     { name: "IQT", url: "/" }
     ],
@@ -53,14 +58,15 @@ function Home() {
   return (
     <>
       {/* Navigation Bar */}
-      <AppBar position="static" color="transparent" elevation={0} sx={{ backgroundColor: "#1a3673", color: "#fff" }}>
+      {/* <AppBar position="static" color="transparent" elevation={0} sx={{ backgroundColor: "#1a3673", color: "#fff" }}>
         <Toolbar>
           <Typography
             variant="h6"
             sx={{
               flexGrow: 1,
-              fontWeight: "bold",
+              fontWeight: "300",
               color: "#fff",
+              fontSize: "1.75rem",
               fontFamily:
                 "AkkuratMono,SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace",
             }}
@@ -68,7 +74,6 @@ function Home() {
             Elevance Data Intelligence Platform
           </Typography>
 
-          {/* Dropdown Menu */}
 
           <Box
             onMouseEnter={handleMouseEnter}
@@ -86,7 +91,7 @@ function Home() {
               sx={{
                 mt: 2,
                 "& .MuiPaper-root": {
-                  width: "600px",
+                  width: "700px",
                   p: 3,
                   borderRadius: 2,
                   boxShadow: 3,
@@ -101,7 +106,7 @@ function Home() {
                   <Grid item xs={12} sm={6} key={index}>
                     <Typography
                       variant="subtitle1"
-                      sx={{ fontWeight: "bold", mb: 1 }}
+                      sx={{ fontWeight: "bold", mb: 1, fontSize: "20px" }}
                     >
                       {section.title}
                     </Typography>
@@ -141,7 +146,93 @@ function Home() {
             Dashboard
           </Button>
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
+
+<AppBar position="static" color="transparent" elevation={0} sx={{ backgroundColor: "#1a3673", color: "#fff" }}>
+      <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        {/* Logo on the Left */}
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <img src={logo} alt="Logo" style={{ height: 40, marginRight: 16 }} />
+        </Box>
+        
+        {/* Title at the Center */}
+        <Typography
+          variant="h6"
+          sx={{
+            flexGrow: 1,
+            textAlign: "center",
+            fontWeight: "300",
+            color: "#fff",
+            fontSize: "1.75rem",
+            fontFamily: "AkkuratMono, SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace",
+          }}
+        >
+          Elevance Data Intelligence Platform
+        </Typography>
+
+        {/* Menu Items on the Right */}
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          {/* Dropdown Menu */}
+          <Box onMouseEnter={handleMouseEnter} onMouseLeave={handleClose} sx={{ position: "relative", cursor: "pointer" }}>
+            <Button endIcon={<ArrowDropDownIcon />} color="primary" sx={{ color: "#fff" }}>
+              Applications
+            </Button>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+              MenuListProps={{ onMouseLeave: handleClose }}
+              sx={{
+                mt: 2,
+                "& .MuiPaper-root": {
+                  width: "700px",
+                  p: 3,
+                  borderRadius: 2,
+                  boxShadow: 3,
+                  overflow: "hidden",
+                  backgroundColor: "#1a3673",
+                  color: "#fff",
+                },
+              }}
+            >
+              <Grid container spacing={2}>
+                {menuData.map((section, index) => (
+                  <Grid item xs={12} sm={6} key={index}>
+                    <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 1, fontSize: "20px" }}>
+                      {section.title}
+                    </Typography>
+                    {section.items.map((item, i) => (
+                      <MenuItem
+                        key={i}
+                        sx={{
+                          py: 0.5,
+                          px: 0,
+                          fontWeight: "normal",
+                          transition: "all 0.3s",
+                          ":hover": {
+                            backgroundColor: "rgba(255, 255, 255, 0.1)",
+                            fontWeight: "bold",
+                          },
+                        }}
+                        component={Link}
+                        to={item.url}
+                      >
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </Grid>
+                ))}
+              </Grid>
+            </Menu>
+          </Box>
+
+          {/* Dashboard Button */}
+          <Button variant="contained" color="primary" component={Link} to="/dashboard" sx={{ backgroundColor: "#fff", color: "#1a3673", ml: 2 }}>
+            Dashboard
+          </Button>
+        </Box>
+      </Toolbar>
+    </AppBar>
 
       <Box
         sx={{
