@@ -289,6 +289,8 @@ const Dashboard = ({
                 { text: "Status", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
                 { text: "Domain", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
                 { text: "Date", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
+                { text: "Category", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
+
             ],
         ];
 
@@ -317,6 +319,8 @@ const Dashboard = ({
                 { text: project.CURRENT_PHASE, options: { align: "center" } },
                 { text: project.LLM_PLATFORM, options: { align: "center" } },
                 { text: project.DEPLOYMENT_DT, options: { align: "center" } },
+                { text: project.CATEGORY, options: { align: "center" } },
+
             ]);
 
             slide2.addTable([...tableHeader, ...tableRows], {
