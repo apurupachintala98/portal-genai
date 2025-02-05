@@ -327,7 +327,7 @@ const Dashboard = ({
                 x: 0.5,
                 y: 1,
                 w: 12,
-                colW: [0.5, 6, 1, 1, 1, 1, 1],
+                colW: [0.3, 6, 1, 1, 1, 1, 1],
                 fontSize: 12,
                 border: { pt: 1, color: "D9D9D9" },
                 valign: "middle",
