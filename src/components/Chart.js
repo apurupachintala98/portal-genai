@@ -591,7 +591,8 @@ const Chart = () => {
         name: 'Projects',
         data: filteredData.map(project => {
           const deploymentDate = new Date(project.DEPLOYMENT_DT).getTime();
-          const startDate = deploymentDate - 30 * 24 * 60 * 60 * 1000;
+          // const startDate = deploymentDate - 30 * 24 * 60 * 60 * 1000;
+          const startDate = new Date('2024-09-01').getTime();
 
           return {
             name: project.PRJ_NM,
