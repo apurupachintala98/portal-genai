@@ -58,11 +58,6 @@ const Dashboard = ({
     const [themeColor, setThemeColor] = useState("#673ab7"); // Default chart and theme color
     const [totalProjects, setTotalProjects] = useState(0);
     const [projectData, setProjectData] = useState([]);
-    const [isChartRendered, setIsChartRendered] = useState(false);
-
-    useEffect(() => {
-        setIsChartRendered(true);
-      }, []);
 
     useEffect(() => {
         const fetchProjectCount = async () => {
@@ -227,10 +222,20 @@ const Dashboard = ({
 
     const generatePPT = async () => {
         const pptx = new pptxgen();
+        let chartImage = null;
 
-         // Capture the Chart
-    const chartElement = document.getElementById('chartToCapture');
-    const chartImage = await html2canvas(chartElement).then(canvas => canvas.toDataURL('image/jpeg', 1.0));
+        try {
+            const chartElement = document.getElementById('chartToCapture');
+            if (!chartElement) {
+                console.error("Chart element not found!");
+                return; // Exit the function if the element is not found
+            }
+            chartImage = await html2canvas(chartElement).then(canvas => canvas.toDataURL('image/jpeg', 1.0));
+            // Continue with ppt generation
+        } catch (error) {
+            console.error("Failed to capture chart or generate PPT:", error);
+        }
+
 
 
         // Set the presentation layout
@@ -345,24 +350,27 @@ const Dashboard = ({
             });
         }
 
+        if (chartImage) {
+            const slide3 = pptx.addSlide({ masterName: "MASTER_SLIDE" });
+            slide3.addText("Project Status Chart", {
+                x: 0.5,
+                y: 0.5,
+                fontSize: 18,
+                bold: true,
+                color: "1a3673",
+                fontFace: "Sans Medium",
+            });
+    
+            slide3.addImage({
+                data: chartImage,
+                x: 0.5,
+                y: 1,
+                w: 9,
+                h: 4,
+            });
+    
+        }
         // Slide 3: Chart Slide
-        const slide3 = pptx.addSlide({ masterName: "MASTER_SLIDE" });
-        slide3.addText("Project Status Chart", {
-            x: 0.5,
-            y: 0.5,
-            fontSize: 18,
-            bold: true,
-            color: "1a3673",
-            fontFace: "Sans Medium",
-        });
-
-        slide3.addImage({
-            data: chartImage,
-            x: 0.5,
-            y: 1,
-            w: 9,
-            h: 4,
-        });
         // Generate the PPT file
         pptx.writeFile("Project_Status_Report.pptx");
     };
@@ -513,7 +521,7 @@ const Dashboard = ({
                         </Grid>
                     </Grid>
                     <ProjectTable />
-                    <Chart id="chartToCapture" disabled={!isChartRendered} theme={theme} themeColor={primaryColor} />
+                    <Chart id="chartToCapture" theme={theme} themeColor={primaryColor} />
 
                     {/* <Grid container spacing={3} sx={{ mt: 3 }}> */}
                     {/* <Grid item xs={12} md={8}> */}
