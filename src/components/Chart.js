@@ -535,13 +535,14 @@ const Chart = () => {
         setLoading(true);
         try {
             const data = await getAllProjectDetails();
-            setProjectData(data);
-            setFilteredData(data);
-
-            // Ensure unique managers, including those with slashes, are handled correctly
-            const uniqueManagers = [...new Set(data.map(project => project.MANAGER_NM))];
+            // Mapping through the data to get manager names
+            const managerNames = data.map(project => project.MANAGER_NM);
+            // Creating a Set from the managerNames to automatically remove any duplicates
+            const uniqueManagers = Array.from(new Set(managerNames));
+            // Setting the uniqueManagers into state
             setManagers(uniqueManagers);
-            
+
+            // Similarly handling categories
             const uniqueCategories = [...new Set(data.map(project => project.CATEGORY))];
             setCategories(uniqueCategories);
         } catch (err) {
@@ -610,7 +611,7 @@ const Chart = () => {
           },
           {
             title: { text: 'Manager' },
-            labels: { format: '{point.manager}' }
+            labels: { format: '{point.MANAGER_NM}' }
           },
           {
             title: { text: 'Start date' },
