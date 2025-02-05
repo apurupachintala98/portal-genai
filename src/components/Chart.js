@@ -506,67 +506,67 @@ const Chart = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     setLoading(true);
-  //     try {
-  //       const data = await getAllProjectDetails();
-  //       setProjectData(data);
-  //       setFilteredData(data);
+//   useEffect(() => {
+//     const fetchData = async () => {
+//         setLoading(true);
+//         try {
+//             const data = await getAllProjectDetails();
+//             setProjectData(data);
+//             setFilteredData(data);
+//             // Mapping through the data to get manager names
+//             const managerNames = data.map(project => project.MANAGER_NM);
+//             // Creating a Set from the managerNames to automatically remove any duplicates
+//             const uniqueManagers = Array.from(new Set(managerNames));
+//             // Setting the uniqueManagers into state
+//             setManagers(uniqueManagers);
 
-  //       const uniqueManagers = [...new Set(data.map(project => project.MANAGER_NM))];
-  //       const uniqueCategories = [...new Set(data.map(project => project.CATEGORY))];
+//             // Similarly handling categories
+//             const uniqueCategories = [...new Set(data.map(project => project.CATEGORY))];
+//             setCategories(uniqueCategories);
+//         } catch (err) {
+//             setError("Failed to load project data.");
+//             console.error(err);
+//         } finally {
+//             setLoading(false);
+//         }
+//     };
 
-  //       setManagers(uniqueManagers);
-  //       setCategories(uniqueCategories);
-  //     } catch (err) {
-  //       setError("Failed to load project data.");
-  //       console.error(err);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+//     fetchData();
+// }, []);
 
-  //   fetchData();
-  // }, []);
+const fetchData = async () => {
+  setLoading(true);
+  try {
+      const data = await getAllProjectDetails();
+      const uniqueManagers = [...new Set(data.map(project => project.MANAGER_NM))];
+      console.log("Unique Managers:", uniqueManagers); // Check the fetched and processed manager names
+      setManagers(uniqueManagers);
 
-  useEffect(() => {
-    const fetchData = async () => {
-        setLoading(true);
-        try {
-            const data = await getAllProjectDetails();
-            // Mapping through the data to get manager names
-            const managerNames = data.map(project => project.MANAGER_NM);
-            // Creating a Set from the managerNames to automatically remove any duplicates
-            const uniqueManagers = Array.from(new Set(managerNames));
-            // Setting the uniqueManagers into state
-            setManagers(uniqueManagers);
+      const uniqueCategories = [...new Set(data.map(project => project.CATEGORY))];
+      setCategories(uniqueCategories);
 
-            // Similarly handling categories
-            const uniqueCategories = [...new Set(data.map(project => project.CATEGORY))];
-            setCategories(uniqueCategories);
-        } catch (err) {
-            setError("Failed to load project data.");
-            console.error(err);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    fetchData();
-}, []);
+      setProjectData(data);
+      setFilteredData(data);
+  } catch (err) {
+      setError("Failed to load project data.");
+      console.error(err);
+  } finally {
+      setLoading(false);
+  }
+};
 
 
-  useEffect(() => {
-    let filtered = projectData;
-    if (selectedManager !== "All") {
+useEffect(() => {
+  let filtered = projectData;
+  if (selectedManager !== "All") {
       filtered = filtered.filter(project => project.MANAGER_NM === selectedManager);
-    }
-    if (selectedCategory !== "All") {
+  }
+  if (selectedCategory !== "All") {
       filtered = filtered.filter(project => project.CATEGORY === selectedCategory);
-    }
-    setFilteredData(filtered);
-  }, [selectedManager, selectedCategory, projectData]);
+  }
+  setFilteredData(filtered);
+}, [selectedManager, selectedCategory, projectData]);
+
 
   const options = {
     chart: {
@@ -611,16 +611,16 @@ const Chart = () => {
           },
           {
             title: { text: 'Manager' },
-            labels: { format: '{point.MANAGER_NM}' }
+            labels: { format: '{point.manager}' }
           },
           {
             title: { text: 'Start date' },
-            labels: { format: '{point.start:%e. %b}' }
+            labels: { format: '{point.start:%d %b %Y}' }
           },
           {
             title: { text: 'End date' },
             offset: 30,
-            labels: { format: '{point.end:%e. %b}' }
+            labels: { format: '{point.end:%d %b %Y}' }
           }
         ]
       }
@@ -641,7 +641,6 @@ const Chart = () => {
             start: startDate,
             end: deploymentDate,
             manager: project.MANAGER_NM,
-            milestone: project.IS_MILESTONE,
             y: filteredData.indexOf(project)
           };
         })
