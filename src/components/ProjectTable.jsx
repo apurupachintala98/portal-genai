@@ -256,7 +256,7 @@ const ProjectTable = () => {
             <TableBody>
               {filteredProjects.map((project) => (
                 <TableRow key={project.SL_NO} hover>
-                  <TableCell sx={{ fontSize: "14px", padding: "6px" }}>
+                  <TableCell sx={{ fontSize: "14px", padding: "6px" , paddingLeft: "18px"}}>
                     {editRowId === project.SL_NO ? (
                       <TextField
                         value={editedData.PRJ_NM ?? project.PRJ_NM}
@@ -267,7 +267,7 @@ const ProjectTable = () => {
                       <Typography>{project.PRJ_NM}</Typography>
                     )}
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px", padding: "6px" }}>
+                  <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
                     {editRowId === project.SL_NO ? (
                       <TextField
                         value={editedData.LEAD_NM ?? project.LEAD_NM}
@@ -278,7 +278,7 @@ const ProjectTable = () => {
                       <Typography>{project.LEAD_NM}</Typography>
                     )}
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px", padding: "6px" }}>
+                  <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
                     {editRowId === project.SL_NO ? (
                       <TextField
                         value={editedData.MANAGER_NM ?? project.MANAGER_NM}
@@ -289,7 +289,7 @@ const ProjectTable = () => {
                       <Typography>{project.MANAGER_NM}</Typography>
                     )}
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px", padding: "6px" }}>
+                  <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
                     {editRowId === project.SL_NO ? (
                       <TextField
                         value={editedData.CURRENT_PHASE ?? project.CURRENT_PHASE}
@@ -310,7 +310,7 @@ const ProjectTable = () => {
                       />
                     )}
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px", padding: "6px" }}>
+                  <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
                     {editRowId === project.SL_NO ? (
                       <TextField
                         value={editedData.LLM_PLATFORM ?? project.LLM_PLATFORM}
@@ -321,7 +321,7 @@ const ProjectTable = () => {
                       <Typography>{project.LLM_PLATFORM}</Typography>
                     )}
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px" , padding: "6px"}}>
+                  <TableCell sx={{ fontSize: "14px" , padding: "6px",  paddingLeft: "18px", textAlign: "center"}}>
                     {editRowId === project.SL_NO ? (
                       <TextField
                         type="date"
@@ -333,7 +333,7 @@ const ProjectTable = () => {
                       <Typography>{project.DEPLOYMENT_DT.split(" ")[0]}</Typography>
                     )}
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px", padding: "6px" }}>
+                  <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
                     {editRowId === project.SL_NO ? (
                       <TextField
                         value={editedData.CATEGORY ?? project.CATEGORY}
@@ -344,7 +344,7 @@ const ProjectTable = () => {
                       <Typography>{project.CATEGORY}</Typography>
                     )}
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px", padding: "6px" }}>
+                  <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
                     {editRowId === project.SL_NO ? (
                       <Button
                         variant="contained"
