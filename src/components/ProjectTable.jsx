@@ -238,8 +238,8 @@ const ProjectTable = () => {
                   { label: "Date", key: "DEPLOYMENT_DT" },
                   { label: "Category", key: "CATEGORY" },
                   { label: "Actions", key: null },
-                ].map((column) => (
-                  <TableCell key={column.key} sx={{ fontWeight: "bold", fontSize: "16px" }}>
+                ].map((column, index) => (
+                  <TableCell key={column.key ? column.key : `column-${index}`} sx={{ fontWeight: "bold", fontSize: "16px", textAlign: index !== 0 ? "center" : "left" }}>
                     {column.label}
                     {column.key && (
                       <IconButton
