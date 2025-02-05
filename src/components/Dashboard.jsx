@@ -34,6 +34,7 @@ import Chart from "./Chart";
 import { Link } from "react-router-dom";
 import { getAllProjectDetails } from "../services/apiService";
 import pptxgen from "pptxgenjs";
+import html2canvas from 'html2canvas';
 // import logoPpt from "../assets/images/logo-ppt.png";
 import bgImage from "../assets/images/bg-AI.jpeg";
 
@@ -219,8 +220,13 @@ const Dashboard = ({
     // };
 
 
-    const generatePPT = () => {
+    const generatePPT = async () => {
         const pptx = new pptxgen();
+
+         // Capture the Chart
+    const chartElement = document.getElementById('chartToCapture');
+    const chartImage = await html2canvas(chartElement).then(canvas => canvas.toDataURL('image/jpeg', 1.0));
+
 
         // Set the presentation layout
         pptx.layout = "LAYOUT_WIDE";
@@ -345,25 +351,13 @@ const Dashboard = ({
             fontFace: "Sans Medium",
         });
 
-        const chartData = [
-            {
-                name: "Status",
-                labels: ["Build", "In Progress", "On Hold"],
-                values: [
-                    projectData.filter((p) => p.CURRENT_PHASE === "Build").length,
-                    projectData.filter((p) => p.CURRENT_PHASE === "In Progress").length,
-                    projectData.filter((p) => p.CURRENT_PHASE === "On Hold").length,
-                ],
-            },
-        ];
-
-        slide3.addChart(pptx.ChartType.line, chartData, {
+        slide3.addImage({
+            data: chartImage,
             x: 0.5,
             y: 1,
             w: 9,
             h: 4,
         });
-
         // Generate the PPT file
         pptx.writeFile("Project_Status_Report.pptx");
     };
@@ -514,7 +508,7 @@ const Dashboard = ({
                         </Grid>
                     </Grid>
                     <ProjectTable />
-                    <Chart theme={theme} themeColor={primaryColor} />
+                    <Chart id="chartToCapture" theme={theme} themeColor={primaryColor} />
 
                     {/* <Grid container spacing={3} sx={{ mt: 3 }}> */}
                     {/* <Grid item xs={12} md={8}> */}
