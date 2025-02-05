@@ -534,6 +534,8 @@ const Chart = () => {
 //     fetchData();
 // }, []);
 
+  useEffect(() => {
+
 const fetchData = async () => {
   setLoading(true);
   try {
@@ -554,6 +556,8 @@ const fetchData = async () => {
       setLoading(false);
   }
 };
+    fetchData();
+}, []);
 
 
 useEffect(() => {
