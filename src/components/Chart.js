@@ -548,12 +548,27 @@ const Chart = () => {
     title: {
       text: 'Project Gantt Chart'
     },
+    // xAxis: {
+    //   tickPixelInterval: 70,
+    //   currentDateIndicator: true,
+    //   dateTimeLabelFormats: {
+    //     week: '%e. %b',
+    //     month: '%b \'%y'
+    //   }
+    // },
     xAxis: {
       tickPixelInterval: 70,
       currentDateIndicator: true,
       dateTimeLabelFormats: {
-        week: '%e. %b',
-        month: '%b \'%y'
+        month: '%b \'%Y',
+        week: 'Week %W'
+      },
+      labels: {
+        format: '{value:%b \'%Y}',
+        style: {
+          color: '#333333'
+        },
+        y: 20  // You can adjust this value to better position your month-year labels
       }
     },
     yAxis: {
