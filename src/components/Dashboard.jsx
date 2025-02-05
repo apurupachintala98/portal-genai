@@ -58,6 +58,11 @@ const Dashboard = ({
     const [themeColor, setThemeColor] = useState("#673ab7"); // Default chart and theme color
     const [totalProjects, setTotalProjects] = useState(0);
     const [projectData, setProjectData] = useState([]);
+    const [isChartRendered, setIsChartRendered] = useState(false);
+
+    useEffect(() => {
+        setIsChartRendered(true);
+      }, []);
 
     useEffect(() => {
         const fetchProjectCount = async () => {
@@ -508,7 +513,7 @@ const Dashboard = ({
                         </Grid>
                     </Grid>
                     <ProjectTable />
-                    <Chart id="chartToCapture" theme={theme} themeColor={primaryColor} />
+                    <Chart id="chartToCapture" disabled={!isChartRendered} theme={theme} themeColor={primaryColor} />
 
                     {/* <Grid container spacing={3} sx={{ mt: 3 }}> */}
                     {/* <Grid item xs={12} md={8}> */}
