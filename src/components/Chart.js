@@ -506,29 +506,55 @@ const Chart = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const data = await getAllProjectDetails();
+  //       setProjectData(data);
+  //       setFilteredData(data);
+
+  //       const uniqueManagers = [...new Set(data.map(project => project.MANAGER_NM))];
+  //       const uniqueCategories = [...new Set(data.map(project => project.CATEGORY))];
+
+  //       setManagers(uniqueManagers);
+  //       setCategories(uniqueCategories);
+  //     } catch (err) {
+  //       setError("Failed to load project data.");
+  //       console.error(err);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
+
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
-      try {
-        const data = await getAllProjectDetails();
-        setProjectData(data);
-        setFilteredData(data);
+        setLoading(true);
+        try {
+            const data = await getAllProjectDetails();
+            setProjectData(data);
+            setFilteredData(data);
 
-        const uniqueManagers = [...new Set(data.map(project => project.MANAGER_NM))];
-        const uniqueCategories = [...new Set(data.map(project => project.CATEGORY))];
-
-        setManagers(uniqueManagers);
-        setCategories(uniqueCategories);
-      } catch (err) {
-        setError("Failed to load project data.");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
+            // Ensure unique managers, including those with slashes, are handled correctly
+            const uniqueManagers = [...new Set(data.map(project => project.MANAGER_NM))];
+            setManagers(uniqueManagers);
+            
+            const uniqueCategories = [...new Set(data.map(project => project.CATEGORY))];
+            setCategories(uniqueCategories);
+        } catch (err) {
+            setError("Failed to load project data.");
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
     };
 
     fetchData();
-  }, []);
+}, []);
+
 
   useEffect(() => {
     let filtered = projectData;
@@ -631,11 +657,11 @@ const Chart = () => {
       <div style={{ marginBottom: '20px' }}>
         <label>Manager: </label>
         <select value={selectedManager} onChange={(e) => setSelectedManager(e.target.value)}>
-          <option value="All">All</option>
-          {managers.map(manager => (
+        <option value="All">All</option>
+        {managers.map(manager => (
             <option key={manager} value={manager}>{manager}</option>
-          ))}
-        </select>
+        ))}
+    </select>
 
         <label style={{ marginLeft: '20px' }}>Category: </label>
         <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
