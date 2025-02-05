@@ -88,14 +88,6 @@ const ProjectTable = () => {
     return [...new Set(options)]; // Get unique options
   };
 
-  // const handleFilterChange = (value) => {
-  //   setFilters((prev) => ({
-  //     ...prev,
-  //     [selectedColumn]: value,
-  //   }));
-  //   handleFilterClose();
-  // };
-
   const filteredProjects = projects.filter((project) => {
     return Object.entries(filters).every(([key, values]) => {
       return values.length === 0 || values.includes(project[key]);
@@ -121,29 +113,29 @@ const ProjectTable = () => {
       SL_NO: projects.length > 0
         ? Math.max(...projects.map((p) => p.SL_NO)) + 1
         : 1, // Assign the next SL_NO
-        PRJ_NM: "",
-        LEAD_NM: "",
-        MANAGER_NM: "",
-        CURRENT_PHASE: "Build", // Default status
-        LLM_PLATFORM: "",
-        DEPLOYMENT_DT: "",
-        TGOV_NO: "",
-        APM_NO: "",
-        LLM_MODEL: "",
-        APP_TYPE: "",
-        PRJ_DESC: "",
-        BASE_APLCTN_NM: "",
-        EKS_ENABLED_YN: "",
-        REACT_UI_ENABLED_YN: "",
-        AI_TASKFORCE_REVIEWED_YN: "",
-        AI_TASKFORCE_APPROVED_YN: "",
-        TARGET_USERS: "",
-        COMMENTS: "",
-        CATEGORY: "",
-        BU: "",
+      PRJ_NM: "",
+      LEAD_NM: "",
+      MANAGER_NM: "",
+      CURRENT_PHASE: "Build", // Default status
+      LLM_PLATFORM: "",
+      DEPLOYMENT_DT: "",
+      TGOV_NO: "",
+      APM_NO: "",
+      LLM_MODEL: "",
+      APP_TYPE: "",
+      PRJ_DESC: "",
+      BASE_APLCTN_NM: "",
+      EKS_ENABLED_YN: "",
+      REACT_UI_ENABLED_YN: "",
+      AI_TASKFORCE_REVIEWED_YN: "",
+      AI_TASKFORCE_APPROVED_YN: "",
+      TARGET_USERS: "",
+      COMMENTS: "",
+      CATEGORY: "",
+      BU: "",
     });
   };
-  
+
 
   const handleSave = async (SL_NO) => {
     try {
@@ -176,28 +168,12 @@ const ProjectTable = () => {
       setEditedData((prev) => ({ ...prev, [field]: value }));
     }
   };
-  
-
-  // const handleAddProject = async () => {
-  //   try {
-  //     const sanitizedNewProject = { ...newProject };
-  //     await insertNewProjectDetails(sanitizedNewProject);
-  //     setNewProject({});
-  //     setIsNewRow(false);
-
-  //     // Refresh the project list
-  //     fetchProjects();
-  //   } catch (error) {
-  //     console.error("Failed to add project:", error);
-  //     setError("Failed to add project. Please try again.");
-  //   }
-  // };
 
   const handleAddProject = async () => {
     try {
       // Save the new project to the database
       await insertNewProjectDetails(newProject);
-  
+
       // Refresh the project list and reset the state
       fetchProjects();
       setNewProject({});
@@ -207,7 +183,7 @@ const ProjectTable = () => {
       setError("Failed to add project. Please try again.");
     }
   };
-  
+
 
 
   const handleEditClick = (sl_no) => {
@@ -276,13 +252,13 @@ const ProjectTable = () => {
                 ))}
               </TableRow>
             </TableHead>
-            {/* <TableBody>
+            <TableBody>
               {filteredProjects.map((project) => (
                 <TableRow key={project.SL_NO} hover>
-                  <TableCell sx={{ fontSize: "14px" }}>
+                  <TableCell sx={{ fontSize: "14px", padding: "6px" }}>
                     {editRowId === project.SL_NO ? (
                       <TextField
-                        value={editedData.PRJ_NM || project.PRJ_NM}
+                        value={editedData.PRJ_NM ?? project.PRJ_NM}
                         onChange={(e) => handleChange(e, "PRJ_NM")}
                         fullWidth
                       />
@@ -290,11 +266,10 @@ const ProjectTable = () => {
                       <Typography>{project.PRJ_NM}</Typography>
                     )}
                   </TableCell>
-
-                  <TableCell sx={{ fontSize: "14px" }}>
+                  <TableCell sx={{ fontSize: "14px", padding: "6px" }}>
                     {editRowId === project.SL_NO ? (
                       <TextField
-                        value={editedData.LEAD_NM || project.LEAD_NM}
+                        value={editedData.LEAD_NM ?? project.LEAD_NM}
                         onChange={(e) => handleChange(e, "LEAD_NM")}
                         fullWidth
                       />
@@ -302,11 +277,10 @@ const ProjectTable = () => {
                       <Typography>{project.LEAD_NM}</Typography>
                     )}
                   </TableCell>
-
-                  <TableCell sx={{ fontSize: "14px" }}>
+                  <TableCell sx={{ fontSize: "14px", padding: "6px" }}>
                     {editRowId === project.SL_NO ? (
                       <TextField
-                        value={editedData.MANAGER_NM || project.MANAGER_NM}
+                        value={editedData.MANAGER_NM ?? project.MANAGER_NM}
                         onChange={(e) => handleChange(e, "MANAGER_NM")}
                         fullWidth
                       />
@@ -314,11 +288,10 @@ const ProjectTable = () => {
                       <Typography>{project.MANAGER_NM}</Typography>
                     )}
                   </TableCell>
-
-                  <TableCell sx={{ fontSize: "14px" }}>
+                  <TableCell sx={{ fontSize: "14px", padding: "6px" }}>
                     {editRowId === project.SL_NO ? (
                       <TextField
-                        value={editedData.CURRENT_PHASE || project.CURRENT_PHASE}
+                        value={editedData.CURRENT_PHASE ?? project.CURRENT_PHASE}
                         onChange={(e) => handleChange(e, "CURRENT_PHASE")}
                         fullWidth
                       />
@@ -336,11 +309,10 @@ const ProjectTable = () => {
                       />
                     )}
                   </TableCell>
-
-                  <TableCell sx={{ fontSize: "14px" }}>
+                  <TableCell sx={{ fontSize: "14px", padding: "6px" }}>
                     {editRowId === project.SL_NO ? (
                       <TextField
-                        value={editedData.LLM_PLATFORM || project.LLM_PLATFORM}
+                        value={editedData.LLM_PLATFORM ?? project.LLM_PLATFORM}
                         onChange={(e) => handleChange(e, "LLM_PLATFORM")}
                         fullWidth
                       />
@@ -348,12 +320,11 @@ const ProjectTable = () => {
                       <Typography>{project.LLM_PLATFORM}</Typography>
                     )}
                   </TableCell>
-
-                  <TableCell sx={{ fontSize: "14px" }}>
+                  <TableCell sx={{ fontSize: "14px" , padding: "6px"}}>
                     {editRowId === project.SL_NO ? (
                       <TextField
                         type="date"
-                        value={(editedData.DEPLOYMENT_DT || project.DEPLOYMENT_DT)?.split(" ")[0]}
+                        value={(editedData.DEPLOYMENT_DT ?? project.DEPLOYMENT_DT)?.split(" ")[0]}
                         onChange={(e) => handleChange(e, "DEPLOYMENT_DT")}
                         fullWidth
                       />
@@ -361,11 +332,10 @@ const ProjectTable = () => {
                       <Typography>{project.DEPLOYMENT_DT.split(" ")[0]}</Typography>
                     )}
                   </TableCell>
-
-                  <TableCell sx={{ fontSize: "14px" }}>
+                  <TableCell sx={{ fontSize: "14px", padding: "6px" }}>
                     {editRowId === project.SL_NO ? (
                       <TextField
-                        value={editedData.CATEGORY || project.CATEGORY}
+                        value={editedData.CATEGORY ?? project.CATEGORY}
                         onChange={(e) => handleChange(e, "CATEGORY")}
                         fullWidth
                       />
@@ -373,8 +343,7 @@ const ProjectTable = () => {
                       <Typography>{project.CATEGORY}</Typography>
                     )}
                   </TableCell>
-
-                  <TableCell sx={{ fontSize: "14px" }}>
+                  <TableCell sx={{ fontSize: "14px", padding: "6px" }}>
                     {editRowId === project.SL_NO ? (
                       <Button
                         variant="contained"
@@ -387,17 +356,10 @@ const ProjectTable = () => {
                       </Button>
                     ) : (
                       <>
-                        <IconButton
-                          color="primary"
-                          onClick={() => handleEditClick(project.SL_NO)}
-                        >
+                        <IconButton color="primary" onClick={() => handleEditClick(project.SL_NO)}>
                           <EditIcon />
                         </IconButton>
-                        <IconButton
-                          color="error"
-                          size="small"
-                          onClick={() => handleDelete(project.SL_NO)}
-                        >
+                        <IconButton color="error" size="small" onClick={() => handleDelete(project.SL_NO)}>
                           <DeleteIcon />
                         </IconButton>
                       </>
@@ -406,303 +368,92 @@ const ProjectTable = () => {
                 </TableRow>
               ))}
 
+              {/* New row */}
               {isNewRow && (
                 <TableRow hover>
-                  <TableCell sx={{ fontSize: "14px" }}>
+                  <TableCell >
                     <TextField
-                      value={newProject.PRJ_NM || ""}
+                      value={newProject.PRJ_NM}
                       onChange={(e) => handleChange(e, "PRJ_NM")}
                       fullWidth
                       placeholder="Enter Project Name"
+                      sx={{padding: "6.5px 14px"}}
                     />
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px" }}>
+                  <TableCell>
                     <TextField
-                      value={newProject.LEAD_NM || ""}
+                      value={newProject.LEAD_NM}
                       onChange={(e) => handleChange(e, "LEAD_NM")}
                       fullWidth
                       placeholder="Enter Lead Name"
+                      sx={{padding: "6.5px 14px"}}
                     />
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px" }}>
+                  <TableCell>
                     <TextField
-                      value={newProject.MANAGER_NM || ""}
+                      value={newProject.MANAGER_NM}
                       onChange={(e) => handleChange(e, "MANAGER_NM")}
                       fullWidth
                       placeholder="Enter Manager Name"
+                      sx={{padding: "6.5px 14px"}}
                     />
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px" }}>
+                  <TableCell>
                     <TextField
-                      value={newProject.CURRENT_PHASE || "Build"}
+                      value={newProject.CURRENT_PHASE}
                       onChange={(e) => handleChange(e, "CURRENT_PHASE")}
                       fullWidth
+                      placeholder="Enter Current Phase"
+                      sx={{padding: "6.5px 14px"}}
                     />
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px" }}>
+                  <TableCell>
                     <TextField
-                      value={newProject.LLM_PLATFORM || ""}
+                      value={newProject.LLM_PLATFORM}
                       onChange={(e) => handleChange(e, "LLM_PLATFORM")}
                       fullWidth
                       placeholder="Enter Domain"
+                      sx={{padding: "6.5px 14px"}}
                     />
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px" }}>
+                  <TableCell>
                     <TextField
                       type="date"
-                      value={newProject.DEPLOYMENT_DT || ""}
+                      value={newProject.DEPLOYMENT_DT}
                       onChange={(e) => handleChange(e, "DEPLOYMENT_DT")}
                       fullWidth
+                      sx={{padding: "6.5px 14px"}}
                     />
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px" }}>
+                  <TableCell>
                     <TextField
-                      value={newProject.CATEGORY || ""}
+                      value={newProject.CATEGORY}
                       onChange={(e) => handleChange(e, "CATEGORY")}
                       fullWidth
                       placeholder="Enter Category"
+                      sx={{padding: "6.5px 14px"}}
                     />
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px" }}>
+                  <TableCell>
                     <Button
                       variant="contained"
                       color="success"
                       size="small"
                       startIcon={<SaveIcon />}
                       onClick={handleAddProject}
+                      sx={{padding: "6.5px 14px"}}
                     >
                       Save
                     </Button>
                   </TableCell>
                 </TableRow>
               )}
-            </TableBody> */}
-<TableBody>
-  {filteredProjects.map((project) => (
-    <TableRow key={project.SL_NO} hover>
-      <TableCell sx={{ fontSize: "14px" }}>
-        {editRowId === project.SL_NO ? (
-          <TextField
-            value={editedData.PRJ_NM ?? project.PRJ_NM}
-            onChange={(e) => handleChange(e, "PRJ_NM")}
-            fullWidth
-          />
-        ) : (
-          <Typography>{project.PRJ_NM}</Typography>
-        )}
-      </TableCell>
-      <TableCell sx={{ fontSize: "14px" }}>
-        {editRowId === project.SL_NO ? (
-          <TextField
-            value={editedData.LEAD_NM ?? project.LEAD_NM}
-            onChange={(e) => handleChange(e, "LEAD_NM")}
-            fullWidth
-          />
-        ) : (
-          <Typography>{project.LEAD_NM}</Typography>
-        )}
-      </TableCell>
-      <TableCell sx={{ fontSize: "14px" }}>
-        {editRowId === project.SL_NO ? (
-          <TextField
-            value={editedData.MANAGER_NM ?? project.MANAGER_NM}
-            onChange={(e) => handleChange(e, "MANAGER_NM")}
-            fullWidth
-          />
-        ) : (
-          <Typography>{project.MANAGER_NM}</Typography>
-        )}
-      </TableCell>
-      <TableCell sx={{ fontSize: "14px" }}>
-        {editRowId === project.SL_NO ? (
-          <TextField
-            value={editedData.CURRENT_PHASE ?? project.CURRENT_PHASE}
-            onChange={(e) => handleChange(e, "CURRENT_PHASE")}
-            fullWidth
-          />
-        ) : (
-          <Chip
-            label={project.CURRENT_PHASE}
-            color={
-              project.CURRENT_PHASE === "Production"
-                ? "success"
-                : project.CURRENT_PHASE === "In Progress"
-                ? "warning"
-                : "error"
-            }
-            variant="outlined"
-          />
-        )}
-      </TableCell>
-      <TableCell sx={{ fontSize: "14px" }}>
-        {editRowId === project.SL_NO ? (
-          <TextField
-            value={editedData.LLM_PLATFORM ?? project.LLM_PLATFORM}
-            onChange={(e) => handleChange(e, "LLM_PLATFORM")}
-            fullWidth
-          />
-        ) : (
-          <Typography>{project.LLM_PLATFORM}</Typography>
-        )}
-      </TableCell>
-      <TableCell sx={{ fontSize: "14px" }}>
-        {editRowId === project.SL_NO ? (
-          <TextField
-            type="date"
-            value={(editedData.DEPLOYMENT_DT ?? project.DEPLOYMENT_DT)?.split(" ")[0]}
-            onChange={(e) => handleChange(e, "DEPLOYMENT_DT")}
-            fullWidth
-          />
-        ) : (
-          <Typography>{project.DEPLOYMENT_DT.split(" ")[0]}</Typography>
-        )}
-      </TableCell>
-      <TableCell sx={{ fontSize: "14px" }}>
-        {editRowId === project.SL_NO ? (
-          <TextField
-            value={editedData.CATEGORY ?? project.CATEGORY}
-            onChange={(e) => handleChange(e, "CATEGORY")}
-            fullWidth
-          />
-        ) : (
-          <Typography>{project.CATEGORY}</Typography>
-        )}
-      </TableCell>
-      <TableCell sx={{ fontSize: "14px" }}>
-        {editRowId === project.SL_NO ? (
-          <Button
-            variant="contained"
-            color="success"
-            size="small"
-            startIcon={<SaveIcon />}
-            onClick={() => handleSave(project.SL_NO)}
-          >
-            Save
-          </Button>
-        ) : (
-          <>
-            <IconButton color="primary" onClick={() => handleEditClick(project.SL_NO)}>
-              <EditIcon />
-            </IconButton>
-            <IconButton color="error" size="small" onClick={() => handleDelete(project.SL_NO)}>
-              <DeleteIcon />
-            </IconButton>
-          </>
-        )}
-      </TableCell>
-    </TableRow>
-  ))}
-
-  {/* New row */}
-  {isNewRow && (
-    <TableRow hover>
-      <TableCell>
-        <TextField
-          value={newProject.PRJ_NM}
-          onChange={(e) => handleChange(e, "PRJ_NM")}
-          fullWidth
-          placeholder="Enter Project Name"
-        />
-      </TableCell>
-      <TableCell>
-        <TextField
-          value={newProject.LEAD_NM}
-          onChange={(e) => handleChange(e, "LEAD_NM")}
-          fullWidth
-          placeholder="Enter Lead Name"
-        />
-      </TableCell>
-      <TableCell>
-        <TextField
-          value={newProject.MANAGER_NM}
-          onChange={(e) => handleChange(e, "MANAGER_NM")}
-          fullWidth
-          placeholder="Enter Manager Name"
-        />
-      </TableCell>
-      <TableCell>
-        <TextField
-          value={newProject.CURRENT_PHASE}
-          onChange={(e) => handleChange(e, "CURRENT_PHASE")}
-          fullWidth
-          placeholder="Enter Current Phase"
-        />
-      </TableCell>
-      <TableCell>
-        <TextField
-          value={newProject.LLM_PLATFORM}
-          onChange={(e) => handleChange(e, "LLM_PLATFORM")}
-          fullWidth
-          placeholder="Enter Domain"
-        />
-      </TableCell>
-      <TableCell>
-        <TextField
-          type="date"
-          value={newProject.DEPLOYMENT_DT}
-          onChange={(e) => handleChange(e, "DEPLOYMENT_DT")}
-          fullWidth
-        />
-      </TableCell>
-      <TableCell>
-        <TextField
-          value={newProject.CATEGORY}
-          onChange={(e) => handleChange(e, "CATEGORY")}
-          fullWidth
-          placeholder="Enter Category"
-        />
-      </TableCell>
-      <TableCell>
-        <Button
-          variant="contained"
-          color="success"
-          size="small"
-          startIcon={<SaveIcon />}
-          onClick={handleAddProject}
-        >
-          Save
-        </Button>
-      </TableCell>
-    </TableRow>
-  )}
-</TableBody>
+            </TableBody>
 
 
           </Table>
         </TableContainer>
 
-        {/* <Menu
-          anchorEl={filterAnchor}
-          open={Boolean(filterAnchor)}
-          onClose={handleFilterClose}
-        >
-          <div style={{ padding: "10px", maxHeight: "300px", overflowY: "auto" }}>
-            {selectedColumn &&
-              getColumnOptions(selectedColumn).map((option) => (
-                <FormControlLabel
-                  key={option}
-                  control={
-                    <Checkbox
-                      checked={
-                        (selectedOptions[selectedColumn] || []).includes(option)
-                      }
-                      onChange={() => handleCheckboxChange(option)}
-                    />
-                  }
-                  label={option}
-                />
-              ))}
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              fullWidth
-              onClick={handleApplyFilters}
-            >
-              Apply
-            </Button>
-          </div>
-        </Menu> */}
         <Menu
           anchorEl={filterAnchor}
           open={Boolean(filterAnchor)}
