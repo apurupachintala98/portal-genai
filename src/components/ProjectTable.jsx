@@ -20,6 +20,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { CircularProgress } from "@mui/material";
+import "../App.css";
 import { FilterList, Save as SaveIcon, Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon } from "@mui/icons-material";
 import { getAllProjectDetails, insertNewProjectDetails, updateProjectDetails, deleteProjectDetails } from '../services/apiService';
 
