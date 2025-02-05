@@ -576,17 +576,6 @@ useEffect(() => {
     chart: {
       height: filteredData.length * 70  // Adjusting height based on number of rows
     },
-    title: {
-      text: 'Project Gantt Chart'
-    },
-    // xAxis: {
-    //   tickPixelInterval: 70,
-    //   currentDateIndicator: true,
-    //   dateTimeLabelFormats: {
-    //     week: '%e. %b',
-    //     month: '%b \'%y'
-    //   }
-    // },
     xAxis: {
       tickPixelInterval: 70,
       currentDateIndicator: true,
@@ -637,7 +626,6 @@ useEffect(() => {
         name: 'Projects',
         data: filteredData.map(project => {
           const deploymentDate = new Date(project.DEPLOYMENT_DT).getTime();
-          // const startDate = deploymentDate - 30 * 24 * 60 * 60 * 1000;
           const startDate = new Date('2024-09-01').getTime();
 
           return {
@@ -654,26 +642,34 @@ useEffect(() => {
 
   return (
     <div>
-      <h1>Gantt Chart</h1>
+      <h1>Project Status</h1>
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
-
-      <div style={{ marginBottom: '20px' }}>
-        <label>Manager: </label>
-        <select value={selectedManager} onChange={(e) => setSelectedManager(e.target.value)}>
+      <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center' }}>
+    <label style={{ marginRight: '10px' }}>Manager:</label>
+    <select
+        value={selectedManager}
+        onChange={(e) => setSelectedManager(e.target.value)}
+        style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+    >
         <option value="All">All</option>
         {managers.map(manager => (
             <option key={manager} value={manager}>{manager}</option>
         ))}
     </select>
 
-        <label style={{ marginLeft: '20px' }}>Category: </label>
-        <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-          <option value="All">All</option>
-          {categories.map(category => (
+
+    <label style={{ marginRight: '10px' }}>Category:</label>
+    <select
+        value={selectedCategory}
+        onChange={(e) => setSelectedCategory(e.target.value)}
+        style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc', marginLeft: '20px' }}
+    >
+        <option value="All">All</option>
+        {categories.map(category => (
             <option key={category} value={category}>{category}</option>
-          ))}
-        </select>
+        ))}
+    </select>
       </div>
 
       <HighchartsReact highcharts={Highcharts} constructorType={'ganttChart'} options={options} />
