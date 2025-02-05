@@ -659,11 +659,11 @@ useEffect(() => {
     </select>
 
 
-    <label style={{ marginRight: '10px' }}>Category:</label>
+    <label style={{ marginRight: '10px', marginLeft: '10px' }}>Category:</label>
     <select
         value={selectedCategory}
         onChange={(e) => setSelectedCategory(e.target.value)}
-        style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc', marginLeft: '20px' }}
+        style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc'}}
     >
         <option value="All">All</option>
         {categories.map(category => (
