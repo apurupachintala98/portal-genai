@@ -17,6 +17,7 @@ const Chart = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [deploymentDate, setDeploymentDate] = useState(null); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,6 +33,9 @@ const Chart = () => {
 
         setProjectData(data);
         setFilteredData(data);
+        // Assume you want to set the deployment date of the first project or a specific project
+        const firstProjectDeploymentDate = new Date(data[0].DEPLOYMENT_DT);
+        setDeploymentDate(firstProjectDeploymentDate);
       } catch (err) {
         setError("Failed to load project data.");
         console.error(err);
@@ -54,7 +58,6 @@ const Chart = () => {
     setFilteredData(filtered);
   }, [selectedManager, selectedCategory, projectData]);
 
-  const [deploymentDate, setDeploymentDate] = useState(new Date(project.DEPLOYMENT_DT));
 
   // Effect to update chart when deployment date changes
   useEffect(() => {
@@ -67,7 +70,7 @@ const Chart = () => {
     }));
   }, [deploymentDate]);
 
-  const options = {
+  const [chartOptions, setChartOptions] = useState({    
     chart: {
       height: filteredData.length * 70  // Adjusting height based on number of rows
     },
@@ -140,7 +143,7 @@ const Chart = () => {
         })
       }
     ]
-  };
+  });
 
   return (
     <div>
