@@ -54,6 +54,18 @@ const Chart = () => {
     setFilteredData(filtered);
   }, [selectedManager, selectedCategory, projectData]);
 
+  const [deploymentDate, setDeploymentDate] = useState(new Date(project.DEPLOYMENT_DT));
+
+  // Effect to update chart when deployment date changes
+  useEffect(() => {
+    setChartOptions(prevOptions => ({
+      ...prevOptions,
+      xAxis: {
+        ...prevOptions.xAxis,
+        max: deploymentDate.getTime()
+      }
+    }));
+  }, [deploymentDate]);
 
   const options = {
     chart: {
@@ -62,10 +74,12 @@ const Chart = () => {
     title: {
       text: ''
     },
+
     xAxis: {
       type: 'datetime',
-      // Display labels at intervals of one year
-      tickInterval: 24 * 3600 * 1000 * 365, // approx. one year in milliseconds
+      min: Date.UTC(2024, 0, 1), // Fixed start date: January 1, 2024
+      max: deploymentDate.getTime(), // Set dynamically based on API data
+      tickInterval: 24 * 3600 * 1000 * 30, // approx. one month in milliseconds
       labels: {
         format: '{value:%Y}', // Display the year
         align: 'high', // Position labels at the top of the axis
@@ -74,10 +88,11 @@ const Chart = () => {
         }
       },
       dateTimeLabelFormats: {
-        month: '%e %b', // Customizing this format could be complex as Highcharts does not directly support single-letter month formats; '%b' gives the three-letter abbreviation.
+        month: '%b', // Three-letter abbreviation for the month
         year: '%Y'
       }
-    },    
+    },
+
     yAxis: {
       type: 'category',
       grid: {
