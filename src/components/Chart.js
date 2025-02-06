@@ -17,7 +17,7 @@ const Chart = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [deploymentDate, setDeploymentDate] = useState(null); 
+  // const [deploymentDate, setDeploymentDate] = useState(null); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,8 +33,8 @@ const Chart = () => {
 
         setProjectData(data);
         setFilteredData(data);
-        const firstProjectDeploymentDate = new Date(data.DEPLOYMENT_DT);
-        setDeploymentDate(firstProjectDeploymentDate);
+        // const firstProjectDeploymentDate = new Date(data.DEPLOYMENT_DT);
+        // setDeploymentDate(firstProjectDeploymentDate);
       } catch (err) {
         setError("Failed to load project data.");
         console.error(err);
@@ -58,15 +58,15 @@ const Chart = () => {
   }, [selectedManager, selectedCategory, projectData]);
 
 
-  useEffect(() => {
-    setChartOptions(prevOptions => ({
-      ...prevOptions,
-      xAxis: {
-        ...prevOptions.xAxis,
-        max: deploymentDate
-      }
-    }));
-  }, [deploymentDate]);
+  // useEffect(() => {
+  //   setChartOptions(prevOptions => ({
+  //     ...prevOptions,
+  //     xAxis: {
+  //       ...prevOptions.xAxis,
+  //       max: deploymentDate
+  //     }
+  //   }));
+  // }, [deploymentDate]);
 
   const [options, setChartOptions] = useState({    
     chart: {
@@ -79,7 +79,7 @@ const Chart = () => {
     xAxis: {
       type: 'datetime',
       min: Date.UTC(2024, 0, 1), // Fixed start date: January 1, 2024
-      max: deploymentDate, // Set dynamically based on API data
+      max: Date.UTC(2025, 11, 31), // Set dynamically based on API data
       tickInterval: 24 * 3600 * 1000 * 30, // approx. one month in milliseconds
       labels: {
         format: '{value:%Y}', // Display the year
