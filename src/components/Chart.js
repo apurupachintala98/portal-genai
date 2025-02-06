@@ -64,21 +64,20 @@ const Chart = () => {
     },
     xAxis: {
       type: 'datetime',
-      min: Date.UTC(2024, 5, 1),  // Set starting point to June 2024, note months are zero-indexed (5 for June)
-      tickPixelInterval: 70,
-      currentDateIndicator: true,
-      dateTimeLabelFormats: {
-        month: '%b \'%Y'
-      },
+      // Display labels at intervals of one year
+      tickInterval: 24 * 3600 * 1000 * 365, // approx. one year in milliseconds
       labels: {
-        format: '{value:%b \'%Y}',
+        format: '{value:%Y}', // Display the year
+        align: 'high', // Position labels at the top of the axis
         style: {
           color: '#333333'
-        },
-        y: 20,  // Adjust this value to better position your month-year labels
-        align: 'high'  // Positions labels at the top of the axis
+        }
+      },
+      dateTimeLabelFormats: {
+        month: '%e %b', // Customizing this format could be complex as Highcharts does not directly support single-letter month formats; '%b' gives the three-letter abbreviation.
+        year: '%Y'
       }
-    },
+    },    
     yAxis: {
       type: 'category',
       grid: {
