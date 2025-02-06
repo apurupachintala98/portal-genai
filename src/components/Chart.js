@@ -64,6 +64,7 @@ const Chart = () => {
     xAxis: [{
       tickInterval: 1000 * 60 * 60 * 24 * 3, // Month
       labels: {
+        format: '{value: %m}',
         padding: 0,
         style: {
           fontSize: '0.625rem',
