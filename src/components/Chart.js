@@ -62,7 +62,7 @@ const Chart = () => {
       text: ''
     },
     xAxis: [{
-      tickInterval: 1000 * 60 * 60 * 24 * 3, // Month
+      tickInterval: 24 * 3600 * 1000 * 30, // Month
       labels: {
         format: '{value: %m}',
         padding: 0,
@@ -71,7 +71,7 @@ const Chart = () => {
           'line-height': 1
         }
       },
-      min: Date.UTC(2024, 6, 1),
+      min: Date.UTC(2024, 9, 1),
       max: Date.UTC(2025, 11, 31),
     }, {
       tickInterval: 1000 * 60 * 60 * 24 * 365, // Year
