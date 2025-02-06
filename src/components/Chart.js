@@ -56,22 +56,33 @@ const Chart = () => {
 
   const options = {
     chart: {
-      height: filteredData.length * 70  // Adjusting height based on number of rows
+      height: filteredData.length * 40  // Adjusting height based on number of rows
     },
     title: {
       text: ''
     },
     xAxis: [{
       tickInterval: 24 * 3600 * 1000 * 30, // Month
+      // labels: {
+      //   format: '{value: %m}',
+      //   padding: 0,
+      //   style: {
+      //     fontSize: '0.625rem',
+      //     'line-height': 1
+      //   }
+      // },
       labels: {
-        format: '{value: %m}',
+        formatter: function() {
+            const monthNames = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
+            return monthNames[this.value.getMonth()]; // this.value will be the Date object of each tick
+        },
         padding: 0,
         style: {
-          fontSize: '0.625rem',
-          'line-height': 1
+            fontSize: '0.625rem',
+            lineHeight: '1' // Correct property format for CSS in JS
         }
-      },
-      min: Date.UTC(2024, 9, 1),
+    },
+      min: Date.UTC(2024, 8, 1),
       max: Date.UTC(2025, 11, 31),
     }, {
       tickInterval: 1000 * 60 * 60 * 24 * 365, // Year
