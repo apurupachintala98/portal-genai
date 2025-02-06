@@ -64,7 +64,7 @@ const Chart = () => {
     },
     xAxis: {
       type: 'datetime',
-      min: Date.UTC(2024, 0, 1), // Fixed start date: January 1, 2024
+      min: Date.UTC(2024, 6, 1), // Fixed start date: January 1, 2024
       max: Date.UTC(2025, 11, 31), // Set dynamically based on API data
       tickInterval: 24 * 3600 * 1000 * 30, // approx. one month in milliseconds
       labels: {
