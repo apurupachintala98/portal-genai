@@ -63,7 +63,7 @@ const Chart = () => {
       ...prevOptions,
       xAxis: {
         ...prevOptions.xAxis,
-        max: deploymentDate.getTime()
+        max: deploymentDate
       }
     }));
   }, [deploymentDate]);
@@ -79,7 +79,7 @@ const Chart = () => {
     xAxis: {
       type: 'datetime',
       min: Date.UTC(2024, 0, 1), // Fixed start date: January 1, 2024
-      max: deploymentDate.getTime(), // Set dynamically based on API data
+      max: deploymentDate, // Set dynamically based on API data
       tickInterval: 24 * 3600 * 1000 * 30, // approx. one month in milliseconds
       labels: {
         format: '{value:%Y}', // Display the year
