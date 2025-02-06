@@ -33,8 +33,7 @@ const Chart = () => {
 
         setProjectData(data);
         setFilteredData(data);
-        // Assume you want to set the deployment date of the first project or a specific project
-        const firstProjectDeploymentDate = new Date(data[0].DEPLOYMENT_DT);
+        const firstProjectDeploymentDate = new Date(data.DEPLOYMENT_DT);
         setDeploymentDate(firstProjectDeploymentDate);
       } catch (err) {
         setError("Failed to load project data.");
@@ -59,7 +58,6 @@ const Chart = () => {
   }, [selectedManager, selectedCategory, projectData]);
 
 
-  // Effect to update chart when deployment date changes
   useEffect(() => {
     setChartOptions(prevOptions => ({
       ...prevOptions,
