@@ -63,18 +63,20 @@ const Chart = () => {
       text: ''
     },
     xAxis: {
+      type: 'datetime',
+      min: Date.UTC(2024, 5, 1),  // Set starting point to June 2024, note months are zero-indexed (5 for June)
       tickPixelInterval: 70,
       currentDateIndicator: true,
       dateTimeLabelFormats: {
-        month: '%b \'%Y',
-        week: 'Week %W'
+        month: '%b \'%Y'
       },
       labels: {
         format: '{value:%b \'%Y}',
         style: {
           color: '#333333'
         },
-        y: 20  // You can adjust this value to better position your month-year labels
+        y: 20,  // Adjust this value to better position your month-year labels
+        align: 'high'  // Positions labels at the top of the axis
       }
     },
     yAxis: {
