@@ -70,7 +70,7 @@ const Chart = () => {
     }));
   }, [deploymentDate]);
 
-  const [chartOptions, setChartOptions] = useState({    
+  const [options, setChartOptions] = useState({    
     chart: {
       height: filteredData.length * 70  // Adjusting height based on number of rows
     },
