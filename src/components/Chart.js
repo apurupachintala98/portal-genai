@@ -63,27 +63,20 @@ const Chart = () => {
     },
     xAxis: [{
       tickInterval: 24 * 3600 * 1000 * 30, // Month
-      // labels: {
-      //   format: '{value: %m}',
-      //   padding: 0,
-      //   style: {
-      //     fontSize: '0.625rem',
-      //     'line-height': 1
-      //   }
-      // },
       labels: {
         formatter: function() {
+            const date = new Date(this.value); // Convert timestamp to Date object
             const monthNames = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
-            return monthNames[this.value.getMonth()]; // this.value will be the Date object of each tick
+            return monthNames[date.getUTCMonth()]; // Use getUTCMonth to avoid timezone issues
         },
         padding: 0,
         style: {
             fontSize: '0.625rem',
-            lineHeight: '1' // Correct property format for CSS in JS
+            lineHeight: '1'
         }
-    },
-      min: Date.UTC(2024, 8, 1),
-      max: Date.UTC(2025, 11, 31),
+      },
+      min: Date.UTC(2024, 8, 1), // September 2024
+      max: Date.UTC(2025, 11, 31), // December 2025
     }, {
       tickInterval: 1000 * 60 * 60 * 24 * 365, // Year
       gridLineWidth: 1,
@@ -95,11 +88,12 @@ const Chart = () => {
         padding: 0,
         style: {
           fontSize: '0.75rem',
-          'line-height': 1,
+          lineHeight: '1',
           fontWeight: 'bold'
         }
       },
-    }],   
+    }],
+      
     yAxis: {
       type: 'category',
       grid: {
