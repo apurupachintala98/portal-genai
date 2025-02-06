@@ -17,7 +17,7 @@ const Chart = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [maxDeploymentDate, setMaxDeploymentDate] = useState(new Date('2025-12-31'));
+  const [maxDeploymentDate, setMaxDeploymentDate] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,13 +54,17 @@ const Chart = () => {
     }
 
     // Calculate the maximum deployment date from the filtered data
-    const maxDate = new Date(Math.max(...filtered.map(project => new Date(project.DEPLOYMENT_DT).getTime())));
+    // const maxDate = new Date(Math.max(...filtered.map(project => new Date(project.DEPLOYMENT_DT).getTime())));
+    const maxDeploymentDate = new Date(Math.max(...filtered.map(project => {
+      const d = new Date(project.DEPLOYMENT_DT);
+      return d.getTime();
+    })));
 
     // Ensure maxDate is a valid date before setting it
-    if (!isNaN(maxDate.getTime())) {
-      setMaxDeploymentDate(maxDate);
+    if (!isNaN(maxDeploymentDate.getTime())) {
+      setMaxDeploymentDate(maxDeploymentDate);
     } else {
-      setMaxDeploymentDate(new Date('2025-12-31')); // Default or fallback max date
+      setMaxDeploymentDate(undefined); // Default or fallback max date
     }
 
     setFilteredData(filtered);
@@ -89,7 +93,8 @@ const Chart = () => {
       },
       min: Date.UTC(2024, 8, 1), // September 2024
       // max: Date.UTC(2025, 11, 31), // December 2025
-      max: maxDeploymentDate.getTime(),
+      // max: maxDeploymentDate.getTime(),
+      max: maxDeploymentDate ? maxDeploymentDate.getTime() : undefined,
     }, {
       tickInterval: 1000 * 60 * 60 * 24 * 365, // Year
       gridLineWidth: 1,
