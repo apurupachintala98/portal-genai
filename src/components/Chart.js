@@ -54,7 +54,6 @@ const Chart = () => {
     setFilteredData(filtered);
   }, [selectedManager, selectedCategory, projectData]);
 
-
   const options = {
     chart: {
       height: filteredData.length * 70  // Adjusting height based on number of rows
@@ -62,23 +61,42 @@ const Chart = () => {
     title: {
       text: ''
     },
-    xAxis: {
-      type: 'datetime',
-      min: Date.UTC(2024, 6, 1), // Fixed start date: January 1, 2024
-      max: Date.UTC(2025, 11, 31), // Set dynamically based on API data
-      tickInterval: 24 * 3600 * 1000 * 30, // approx. one month in milliseconds
+    xAxis: [{
+      tickInterval: 1000 * 60 * 60 * 24 * 3, // Month
       labels: {
-        format: '{value:%Y}', // Display the year
-        align: 'high', // Position labels at the top of the axis
+        value: new Date(),
+        useHTML: true,
+        // formatter: function () {
+        //   const monthStr = HighchartsGantt.dateFormat('%b', this.value).substring(0, 1);
+        //   const mntLabel = utcreportingStart == this.value ? `<strong style="color:#164F86">${monthStr}</strong>` : monthStr;
+        //   return mntLabel;
+        // },
+        padding: 0,
         style: {
-          color: '#333333'
+          fontSize: '0.625rem',
+          'line-height': 1
         }
       },
-      dateTimeLabelFormats: {
-        month: '%b', // Three-letter abbreviation for the month
-        year: '%Y'
-      }
-    },  
+      min: Date.UTC(2024, 6, 1),
+      max: Date.UTC(2025, 11, 31),
+    }, {
+      tickInterval: 1000 * 60 * 60 * 24 * 365, // Year
+      gridLineWidth: 1,
+      grid: {
+        cellHeight: 22
+      },
+      labels: {
+        format: '{value:%Y}',
+        padding: 0,
+        style: {
+          fontSize: '0.75rem',
+          'line-height': 1,
+          fontWeight: 'bold'
+        }
+      },
+      linkedTo: 0
+    }],
+    
     yAxis: {
       type: 'category',
       grid: {
