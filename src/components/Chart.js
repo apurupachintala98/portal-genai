@@ -64,13 +64,6 @@ const Chart = () => {
     xAxis: [{
       tickInterval: 1000 * 60 * 60 * 24 * 3, // Month
       labels: {
-        value: new Date(),
-        useHTML: true,
-        // formatter: function () {
-        //   const monthStr = HighchartsGantt.dateFormat('%b', this.value).substring(0, 1);
-        //   const mntLabel = utcreportingStart == this.value ? `<strong style="color:#164F86">${monthStr}</strong>` : monthStr;
-        //   return mntLabel;
-        // },
         padding: 0,
         style: {
           fontSize: '0.625rem',
@@ -94,9 +87,7 @@ const Chart = () => {
           fontWeight: 'bold'
         }
       },
-      linkedTo: 0
-    }],
-    
+    }],   
     yAxis: {
       type: 'category',
       grid: {
