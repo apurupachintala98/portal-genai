@@ -17,6 +17,7 @@ const Chart = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [maxDeploymentDate, setMaxDeploymentDate] = useState(new Date('2025-12-31'));
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,6 +52,17 @@ const Chart = () => {
     if (selectedCategory !== "All") {
       filtered = filtered.filter(project => project.CATEGORY === selectedCategory);
     }
+
+    // Calculate the maximum deployment date from the filtered data
+    const maxDate = new Date(Math.max(...filtered.map(project => new Date(project.DEPLOYMENT_DT).getTime())));
+
+    // Ensure maxDate is a valid date before setting it
+    if (!isNaN(maxDate.getTime())) {
+      setMaxDeploymentDate(maxDate);
+    } else {
+      setMaxDeploymentDate(new Date('2025-12-31')); // Default or fallback max date
+    }
+
     setFilteredData(filtered);
   }, [selectedManager, selectedCategory, projectData]);
 
@@ -64,19 +76,20 @@ const Chart = () => {
     xAxis: [{
       tickInterval: 24 * 3600 * 1000 * 30, // Month
       labels: {
-        formatter: function() {
-            const date = new Date(this.value); // Convert timestamp to Date object
-            const monthNames = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
-            return monthNames[date.getUTCMonth()]; // Use getUTCMonth to avoid timezone issues
+        formatter: function () {
+          const date = new Date(this.value); // Convert timestamp to Date object
+          const monthNames = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
+          return monthNames[date.getUTCMonth()]; // Use getUTCMonth to avoid timezone issues
         },
         padding: 0,
         style: {
-            fontSize: '0.625rem',
-            lineHeight: '1'
+          fontSize: '0.625rem',
+          lineHeight: '1'
         }
       },
       min: Date.UTC(2024, 8, 1), // September 2024
-      max: Date.UTC(2025, 11, 31), // December 2025
+      // max: Date.UTC(2025, 11, 31), // December 2025
+      max: maxDeploymentDate.getTime(),
     }, {
       tickInterval: 1000 * 60 * 60 * 24 * 365, // Year
       gridLineWidth: 1,
@@ -93,7 +106,7 @@ const Chart = () => {
         }
       },
     }],
-      
+
     yAxis: {
       type: 'category',
       grid: {
