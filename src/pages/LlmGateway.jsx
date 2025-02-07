@@ -129,7 +129,11 @@ const LlmGateway = () => {
             <AppBar position="static" sx={{ backgroundColor: "#fff", alignItems: "center" }}>
                 <Toolbar sx={{ width: "100%", justifyContent: "space-between" }}>
                     {/* App Bar Title */}
-                    <Typography variant="h6" sx={{ color: "#1a3673", fontWeight: "bold" }}>
+                    <Typography variant="h6" sx={{flexGrow: 1,
+              textAlign: "center",
+              fontWeight: "bold",
+              color: "#1a3673",
+              fontSize: "1.75rem" }}>
                         Data Intelligence Platform - LLM Gateway
                     </Typography>
 
