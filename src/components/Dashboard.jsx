@@ -34,8 +34,6 @@ import Chart from "./Chart";
 import { Link } from "react-router-dom";
 import { getAllProjectDetails } from "../services/apiService";
 import pptxgen from "pptxgenjs";
-import html2canvas from 'html2canvas';
-// import logoPpt from "../assets/images/logo-ppt.png";
 import bgImage from "../assets/images/bg-AI.jpeg";
 
 
