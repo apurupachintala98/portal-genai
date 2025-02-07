@@ -25,7 +25,7 @@ import LLM_Image from '../assets/images/LLM.png';
 const Banner = styled(Box)({
     backgroundImage: `url(${LLM_Image})`,
     backgroundPosition: "center",
-    backgroundSize: "contain", // Ensures the full image is visible
+    backgroundSize: "auto", // Ensures the full image is visible
     backgroundRepeat: "no-repeat",
     // width: "100vw",
     height: "600px",
