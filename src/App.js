@@ -111,7 +111,7 @@ function App() {
             }
           />
 
-          <Route path="http://10.126.192.122:3020/" element={<RedirectComponent to="/hedis" />} />
+          <Route path="/hedis" element={<RedirectComponent src="http://10.126.192.122:3020/" />} />
           <Route path="/safety-net" element={<RedirectComponent to="http://10.126.192.122:3010/" />} />
           <Route path="/arb-scheduler" element={<RedirectComponent to="https://arbassist.edagenaidev.awsdns.internal.das/" />} />
           <Route path="/arb-assist" element={<RedirectComponent to="https://arbassist.edagenaidev.awsdns.internal.das/" />} />
