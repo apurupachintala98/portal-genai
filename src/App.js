@@ -15,6 +15,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { IconButton } from "@mui/material";
 import SignUp from "./components/SignUp";
 import LlmGateway from "./pages/LlmGateway";
+import RedirectComponent from './components/RedirectComponent';
 
 function SettingsButton({ primaryColor, setSettingsOpen }) {
   const location = useLocation();
@@ -109,6 +110,15 @@ function App() {
              <LlmGateway />
             }
           />
+
+          <Route path="/hedis" element={<RedirectComponent to="http://10.126.192.122:3020/" />} />
+          <Route path="/safety-net" element={<RedirectComponent to="http://10.126.192.122:3010/" />} />
+          <Route path="/arb-scheduler" element={<RedirectComponent to="https://arbassist.edagenaidev.awsdns.internal.das/" />} />
+          <Route path="/arb-assist" element={<RedirectComponent to="https://arbassist.edagenaidev.awsdns.internal.das/" />} />
+          <Route path="/data-genie" element={<RedirectComponent to="http://10.126.192.122:3040/" />} />
+          <Route path="/conversational-chat" element={<RedirectComponent to="http://10.126.192.122:3050/" />} />
+          <Route path="/fhir-chat" element={<RedirectComponent to="http://10.126.192.122:3090/" />} />
+
           <Route path="*" element={<h1>404 - Page Not Found</h1>} />
         </Routes>
 
