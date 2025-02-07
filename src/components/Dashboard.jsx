@@ -83,23 +83,20 @@ const Dashboard = ({
         { title: "Projects", value: totalProjects, image: projectsIcon, bgColor: "#e7f5ff" },
     ];
 
+  
     const generatePPT = async () => {
         const pptx = new pptxgen();
-        pptx.layout = "LAYOUT_WIDE";  // Set the presentation layout to wide
+        // Set the presentation layout
+        pptx.layout = "LAYOUT_WIDE";
 
-        let chartImage = null;
-        // Ensure the chart element is available
-        if (chartRef.current) {
-            try {
-                chartImage = await html2canvas(chartRef.current).then(canvas => canvas.toDataURL('image/jpeg', 1.0));
-            } catch (error) {
-                console.error("Failed to capture chart for PowerPoint:", error);
-                return;  // Exit if the chart cannot be captured
-            }
-        } else {
-            console.error("Chart element not found!");
-            return;  // Exit if no chart reference
-        }
+        // Get the current date in MM/DD/YYYY format
+        const currentDate = new Date();
+        const formattedDate = `${(currentDate.getMonth() + 1)
+            .toString()
+            .padStart(2, "0")}/${currentDate
+                .getDate()
+                .toString()
+                .padStart(2, "0")}/${currentDate.getFullYear()}`;
 
         // Define the master slide layout
         pptx.defineSlideMaster({
@@ -124,7 +121,7 @@ const Dashboard = ({
                 },
                 {
                     text: {
-                        text: `Date: ${new Date().toLocaleDateString("en-US")}`,
+                        text: `Date: ${formattedDate}`,
                         options: { x: 11.3, y: 0.1, w: 5.5, h: 0.65, color: "1a3673", fontSize: 12, bold: true },
                     },
                 },
@@ -132,25 +129,41 @@ const Dashboard = ({
             slideNumber: { x: 0.3, y: "88%", color: "1a3673", fontSize: 12 },
         });
 
-        // Create a title slide
-        const titleSlide = pptx.addSlide({ masterName: "MASTER_SLIDE" });
-        titleSlide.addText("EDA Gen AI – Status Report", {
+        // Slide 1: Title Slide
+        const slide1 = pptx.addSlide({ masterName: "MASTER_SLIDE" });
+        slide1.addText("EDA Gen AI – Status Report", {
             x: 0.5,
             y: 0.5,
             fontSize: 28,
             color: "1a3673",
             fontFace: "Sans Medium",
         });
-        titleSlide.addImage({ path: bgImage, x: 0, y: 1.0, w: 13.34, h: 5.4 });
+        slide1.addImage({ path: bgImage, x: 0, y: 1.0, w: 13.34, h: 5.4 });
 
-        // Create slides with project data in a table
-        const rowsPerSlide = 10;
+        // Slide 2: Table Slides with Pagination
+        const tableHeader = [
+            [
+                { text: "#", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
+                {
+                    text: "Key Projects/ Milestone",
+                    options: { fontSize: 14, bold: true, align: "left", fill: "1a3673", color: "FFFFFF" },
+                },
+                { text: "Assigned", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
+                { text: "Manager", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
+                { text: "Status", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
+                { text: "Domain", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
+                { text: "Date", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
+                { text: "Category", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
+
+            ],
+        ];
+
+        const rowsPerSlide = 10; // Adjust this number to control rows per slide
         const totalSlides = Math.ceil(projectData.length / rowsPerSlide);
 
-        // Create slides with project data in a table
         for (let i = 0; i < totalSlides; i++) {
-            const slide = pptx.addSlide({ masterName: "MASTER_SLIDE" });
-            slide.addText("Project Status", {
+            const slide2 = pptx.addSlide({ masterName: "MASTER_SLIDE" });
+            slide2.addText("Project Status", {
                 x: 0.5,
                 y: 0.5,
                 fontSize: 18,
@@ -160,28 +173,10 @@ const Dashboard = ({
             });
 
             const startRow = i * rowsPerSlide;
-            const endRow = Math.min(startRow + rowsPerSlide, projectData.length);
+            const endRow = startRow + rowsPerSlide;
 
-            // Slide 2: Table Slides with Pagination
-            const tableHeader = [
-                [
-                    { text: "#", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
-                    {
-                        text: "Key Projects/ Milestone",
-                        options: { fontSize: 14, bold: true, align: "left", fill: "1a3673", color: "FFFFFF" },
-                    },
-                    { text: "Assigned", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
-                    { text: "Manager", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
-                    { text: "Status", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
-                    { text: "Domain", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
-                    { text: "Date", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
-                    { text: "Category", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
-
-                ],
-            ];
-
-            const tableRows = projectData.slice(startRow, endRow).map(project => [
-                { text: `${project.SL_NO}`, options: { align: "center" } },
+            const tableRows = projectData.slice(startRow, endRow).map((project) => [
+                { text: project.SL_NO, options: { align: "center" } },
                 { text: project.PRJ_NM, options: { align: "left" } },
                 { text: project.LEAD_NM, options: { align: "center" } },
                 { text: project.MANAGER_NM, options: { align: "center" } },
@@ -189,9 +184,10 @@ const Dashboard = ({
                 { text: project.LLM_PLATFORM, options: { align: "center" } },
                 { text: project.DEPLOYMENT_DT, options: { align: "center" } },
                 { text: project.CATEGORY, options: { align: "center" } },
+
             ]);
 
-            slide.addTable([tableHeader, ...tableRows], {
+            slide2.addTable([...tableHeader, ...tableRows], {
                 x: 0.5,
                 y: 1,
                 w: 12,
@@ -202,33 +198,29 @@ const Dashboard = ({
             });
         }
 
-        // Add a slide for the chart, if captured
-        if (chartImage) {
-            const chartSlide = pptx.addSlide({ masterName: "MASTER_SLIDE" });
-            chartSlide.addText("Project Status Chart", {
-                x: 0.5,
-                y: 0.5,
-                fontSize: 18,
-                bold: true,
-                color: "1a3673",
-                fontFace: "Sans Medium",
-            });
-            chartSlide.addImage({
-                data: chartImage,
-                x: 0.5,
-                y: 1,
-                w: 9,
-                h: 4,
-            });
-        }
-
-        // Save the presentation
-        pptx.writeFile("Project_Status_Report.pptx").then(() => {
-            console.log("Presentation successfully created!");
-        }).catch(error => {
-            console.error("Failed to save the presentation:", error);
-        });
+        // if (chartImage) {
+        //     const slide3 = pptx.addSlide({ masterName: "MASTER_SLIDE" });
+        //     slide3.addText("Project Status Chart", {
+        //         x: 0.5,
+        //         y: 0.5,
+        //         fontSize: 18,
+        //         bold: true,
+        //         color: "1a3673",
+        //         fontFace: "Sans Medium",
+        //     });
+    
+        //     slide3.addImage({
+        //         data: chartImage,
+        //         x: 0.5,
+        //         y: 1,
+        //         w: 9,
+        //         h: 4,
+        //     });
+    
+        // }
+        pptx.writeFile("Project_Status_Report.pptx");
     };
+
 
 
     return (
@@ -377,7 +369,7 @@ const Dashboard = ({
                         </Grid>
                     </Grid>
                     <ProjectTable />
-                    <Chart id="chartToCapture" ref={chartRef} theme={theme} themeColor={primaryColor} />
+                    <Chart theme={theme} themeColor={primaryColor} />
 
                     {/* <Grid container spacing={3} sx={{ mt: 3 }}> */}
                     {/* <Grid item xs={12} md={8}> */}
