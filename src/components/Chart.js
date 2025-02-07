@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsGantt from 'highcharts/modules/gantt';
 import HighchartsReact from 'highcharts-react-official';
 import { getAllProjectDetails } from "../services/apiService";
+// import Exporting from 'highcharts/modules/exporting';
 
 if (typeof HighchartsGantt === 'function') {
   HighchartsGantt(Highcharts);
 }
+// Exporting(Highcharts);
 
-const Chart = () => {
+const Chart = ({ onCaptureImage }) => {
+  const chartRef = useRef(null);
   const [projectData, setProjectData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [managers, setManagers] = useState([]);
@@ -18,6 +21,34 @@ const Chart = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [maxDeploymentDate, setMaxDeploymentDate] = useState();
+
+//   useEffect(() => {
+//     const captureChart = () => {
+//         if (chartRef.current && chartRef.current.chart && chartRef.current.chart.exportChart) {
+//             chartRef.current.chart.exportChart({
+//                 type: 'image/png',
+//                 filename: 'project-gantt-chart'
+//             }, {
+//                 chartOptions: { // Add custom options for the exported chart
+//                     title: {
+//                         text: 'Exported Chart'
+//                     }
+//                 }
+//             }, function(dataUrl) {
+//                 onCaptureImage(dataUrl);
+//             });
+//         } else {
+//             console.log("Chart or exportChart function not available");
+//         }
+//     };
+
+//     const timer = setTimeout(() => {
+//         captureChart();
+//     }, 3000); // Adjust the delay if necessary
+
+//     return () => clearTimeout(timer);
+// }, [onCaptureImage]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -193,7 +224,9 @@ const Chart = () => {
         </select>
       </div>
 
+      {/* <HighchartsReact highcharts={Highcharts} constructorType={'ganttChart'} options={options} ref={chartRef} /> */}
       <HighchartsReact highcharts={Highcharts} constructorType={'ganttChart'} options={options} />
+
     </div>
   );
 };

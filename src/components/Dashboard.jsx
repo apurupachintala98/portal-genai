@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
     AppBar,
     Box,
@@ -56,7 +56,11 @@ const Dashboard = ({
     const [themeColor, setThemeColor] = useState("#673ab7"); // Default chart and theme color
     const [totalProjects, setTotalProjects] = useState(0);
     const [projectData, setProjectData] = useState([]);
-    const chartRef = useRef(null);
+    // const [chartImageData, setChartImageData] = useState(null);
+
+    // const handleChartImage = useCallback((imageData) => {
+    //     setChartImageData(imageData);
+    // }, []);
 
     useEffect(() => {
         const fetchProjectCount = async () => {
@@ -196,30 +200,26 @@ const Dashboard = ({
             });
         }
 
-        // if (chartImage) {
+        // if (chartImageData) {
         //     const slide3 = pptx.addSlide({ masterName: "MASTER_SLIDE" });
         //     slide3.addText("Project Status Chart", {
-        //         x: 0.5,
-        //         y: 0.5,
-        //         fontSize: 18,
-        //         bold: true,
-        //         color: "1a3673",
-        //         fontFace: "Sans Medium",
-        //     });
-    
+        //                 x: 0.5,
+        //                 y: 0.5,
+        //                 fontSize: 18,
+        //                 bold: true,
+        //                 color: "1a3673",
+        //                 fontFace: "Sans Medium",
+        //             });
         //     slide3.addImage({
-        //         data: chartImage,
-        //         x: 0.5,
+        //         data: chartImageData,
+        //         x: 1,
         //         y: 1,
-        //         w: 9,
-        //         h: 4,
+        //         w: 8,
+        //         h: 4.5
         //     });
-    
         // }
         pptx.writeFile("Project_Status_Report.pptx");
     };
-
-
 
     return (
         <Box sx={{ display: "flex", height: "100vh" }}>
@@ -367,6 +367,7 @@ const Dashboard = ({
                         </Grid>
                     </Grid>
                     <ProjectTable />
+                    {/* <Chart theme={theme} themeColor={primaryColor} onCaptureImage={handleChartImage} /> */}
                     <Chart theme={theme} themeColor={primaryColor} />
 
                     {/* <Grid container spacing={3} sx={{ mt: 3 }}> */}
