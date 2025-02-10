@@ -16,6 +16,8 @@ import { IconButton } from "@mui/material";
 import SignUp from "./components/SignUp";
 import LlmGateway from "./pages/LlmGateway";
 import RedirectComponent from './components/RedirectComponent';
+import Chat from './components/Chat';
+import DashboardContent from "./components/DashboardContent";
 
 function SettingsButton({ primaryColor, setSettingsOpen }) {
   const location = useLocation();
@@ -95,19 +97,32 @@ function App() {
           <Route
             path="/dashboard"
             element={
-                <Dashboard
-                  toggleTheme={toggleTheme}
-                  theme={themeMode}
-                  sidebarType={sidebarType}
-                  setSidebarType={setSidebarType}
-                  primaryColor={primaryColor}
-                />
+              <Dashboard
+                toggleTheme={toggleTheme}
+                theme={themeMode}
+                sidebarType={sidebarType}
+                setSidebarType={setSidebarType}
+                primaryColor={primaryColor}
+              />
             }
           />
-           <Route
+          <Route
             path="/llm-gateway"
             element={
-             <LlmGateway />
+              <LlmGateway />
+            }
+          />
+
+          <Route
+            path="/chat"
+            element={
+              <Chat />
+            }
+          />
+          <Route
+            path="/dashboardcontent"
+            element={
+              <DashboardContent />
             }
           />
 
@@ -122,7 +137,7 @@ function App() {
           <Route path="*" element={<h1>404 - Page Not Found</h1>} />
         </Routes>
 
-        {/* Settings Drawer */}
+        {/* Settings Drawer
         <Settings
           open={settingsOpen}
           onClose={() => setSettingsOpen(false)}
@@ -131,13 +146,13 @@ function App() {
           setSidebarType={setSidebarType}
           theme={themeMode}
           sidebarType={sidebarType}
-        />
+        /> */}
 
-        {/* Settings Button: Appears only on the dashboard */}
+        {/* Settings Button: Appears only on the dashboard
         <SettingsButton
           primaryColor={primaryColor}
           setSettingsOpen={setSettingsOpen}
-        />
+        /> */}
       </Router>
     </ThemeProvider>
   );
