@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {
     Box,
-   
-    Typography,
     Grid,
-  
-    Paper,
+    Typography, Button, Checkbox, FormGroup, FormControlLabel,
+    Paper, Dialog, DialogActions, DialogContent, DialogTitle, Select, MenuItem, InputLabel, FormControl
 } from "@mui/material";
 import ProjectTable from "./ProjectTable";
 import DashboardCard from "./DashboardCard";
@@ -23,27 +21,78 @@ const DashboardContent = ({
 }) => {
     const [totalProjects, setTotalProjects] = useState(0);
     const [projectData, setProjectData] = useState([]);
+    const [open, setOpen] = useState(false);
+    // const [managerFilter, setManagerFilter] = useState('');
+    // const [statusFilter, setStatusFilter] = useState('');
+    // const [categoryFilter, setCategoryFilter] = useState('');
+
+    const [filters, setFilters] = useState({
+        managers: {},
+        statuses: {},
+        categories: {}
+    });
 
     useEffect(() => {
-        const fetchProjectCount = async () => {
+        const fetchData = async () => {
             try {
                 const data = await getAllProjectDetails();
-                const total = data.length; // Calculate the total number of projects
-                setTotalProjects(total);
+                setTotalProjects(data.length);
                 setProjectData(data);
+
+                const managers = {};
+                const statuses = {};
+                const categories = {};
+
+                data.forEach(item => {
+                    managers[item.manager] = false;  // Assuming 'manager' is the key in your data
+                    statuses[item.status] = false;   // Assuming 'status' is the key in your data
+                    categories[item.category] = false; // Assuming 'category' is the key in your data
+                });
+
+                setFilters({
+                    managers,
+                    statuses,
+                    categories
+                });
+
             } catch (error) {
                 console.error("Error fetching project details:", error);
             }
         };
 
-        fetchProjectCount();
+        fetchData();
     }, []);
+
+    const handleCheckboxChange = (filterType, value) => {
+        setFilters(prev => ({
+            ...prev,
+            [filterType]: {
+                ...prev[filterType],
+                [value]: !prev[filterType][value]
+            }
+        }));
+    };
+
+    const handleFilterSubmit = () => {
+        console.log('Filter applied with:', filters);
+        setOpen(false); // Close the dialog after submitting
+    };
+
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
 
     const stats = [
         { title: "Projects", value: totalProjects, image: projectsIcon, bgColor: "#e7f5ff" },
     ];
 
-  
+
     const generatePPT = async () => {
         const pptx = new pptxgen();
         // Set the presentation layout
@@ -176,7 +225,8 @@ const DashboardContent = ({
                 <Grid item>
                     <Paper
                         elevation={3}
-                        onClick={generatePPT}
+                        // onClick={generatePPT}
+                        onClick={handleOpen}
                         sx={{
                             borderRadius: 3,
                             p: 2,
@@ -212,6 +262,40 @@ const DashboardContent = ({
             </Grid>
             <ProjectTable />
             <Chart theme={theme} themeColor={primaryColor} />
+
+            <Dialog open={open} onClose={() => setOpen(false)} PaperProps={{ style: { width: '80%' } }}>
+                <DialogTitle>Filter Options</DialogTitle>
+                <DialogContent>
+                    <FormGroup>
+                        {Object.entries(filters.managers).map(([manager, checked]) => (
+                            <FormControlLabel
+                                key={manager}
+                                control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('managers', manager)} />}
+                                label={manager}
+                            />
+                        ))}
+                        {Object.entries(filters.statuses).map(([status, checked]) => (
+                            <FormControlLabel
+                                key={status}
+                                control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('statuses', status)} />}
+                                label={status}
+                            />
+                        ))}
+                        {Object.entries(filters.categories).map(([category, checked]) => (
+                            <FormControlLabel
+                                key={category}
+                                control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('categories', category)} />}
+                                label={category}
+                            />
+                        ))}
+                    </FormGroup>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpen(false)}>Close</Button>
+                    <Button onClick={handleFilterSubmit}>Submit</Button>
+                </DialogActions>
+            </Dialog>
+
         </Box>
     );
 };
