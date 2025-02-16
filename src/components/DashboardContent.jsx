@@ -275,46 +275,40 @@ const DashboardContent = ({
             <Dialog open={open} onClose={() => setOpen(false)} PaperProps={{ style: { width: '80%' } }}>
         <DialogTitle>Filter Options</DialogTitle>
         <DialogContent>
-            <Grid container spacing={2}>
-                <Grid item xs={12} md={4}>
-                    <Typography variant="h6">Manager</Typography>
-                    <Grid container spacing={1}>
-                        {Object.entries(filters.managers).map(([manager, checked]) => (
-                            <Grid item key={manager}>
-                                <FormControlLabel
-                                    control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('managers', manager)} />}
-                                    label={manager}
-                                />
-                            </Grid>
-                        ))}
+            <Typography variant="h6">Manager</Typography>
+            <Grid container spacing={1} justifyContent="flex-start">
+                {Object.entries(filters.managers).map(([manager, checked]) => (
+                    <Grid item xs={3} sm={2} md={1} key={manager}>
+                        <FormControlLabel
+                            control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('managers', manager)} />}
+                            label={manager}
+                        />
                     </Grid>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                    <Typography variant="h6">Status</Typography>
-                    <Grid container spacing={1}>
-                        {Object.entries(filters.statuses).map(([status, checked]) => (
-                            <Grid item key={status}>
-                                <FormControlLabel
-                                    control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('statuses', status)} />}
-                                    label={status}
-                                />
-                            </Grid>
-                        ))}
+                ))}
+            </Grid>
+
+            <Typography variant="h6">Status</Typography>
+            <Grid container spacing={1} justifyContent="flex-start">
+                {Object.entries(filters.statuses).map(([status, checked]) => (
+                    <Grid item xs={3} sm={2} md={1} key={status}>
+                        <FormControlLabel
+                            control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('statuses', status)} />}
+                            label={status}
+                        />
                     </Grid>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                    <Typography variant="h6">Category</Typography>
-                    <Grid container spacing={1}>
-                        {Object.entries(filters.categories).map(([category, checked]) => (
-                            <Grid item key={category}>
-                                <FormControlLabel
-                                    control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('categories', category)} />}
-                                    label={category}
-                                />
-                            </Grid>
-                        ))}
+                ))}
+            </Grid>
+
+            <Typography variant="h6">Category</Typography>
+            <Grid container spacing={1} justifyContent="flex-start">
+                {Object.entries(filters.categories).map(([category, checked]) => (
+                    <Grid item xs={3} sm={2} md={1} key={category}>
+                        <FormControlLabel
+                            control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('categories', category)} />}
+                            label={category}
+                        />
                     </Grid>
-                </Grid>
+                ))}
             </Grid>
         </DialogContent>
         <DialogActions>
