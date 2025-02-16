@@ -272,43 +272,52 @@ const DashboardContent = ({
             <ProjectTable />
             <Chart theme={theme} themeColor={primaryColor} />
 
-            <Dialog open={open} onClose={() => setOpen(false)} PaperProps={{ style: { width: '80%' } }}>
+            <Dialog open={open} onClose={() => setOpen(false)} PaperProps={{ style: { width: '90%' } }}>
         <DialogTitle>Filter Options</DialogTitle>
         <DialogContent>
-            <Typography variant="h6">Manager</Typography>
-            <Grid container spacing={1} justifyContent="flex-start">
-                {Object.entries(filters.managers).map(([manager, checked]) => (
-                    <Grid item xs={3} sm={2} md={1} key={manager}>
-                        <FormControlLabel
-                            control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('managers', manager)} />}
-                            label={manager}
-                        />
+            <Grid container spacing={3}>
+                <Grid item xs={12}>
+                    <Typography variant="h6" gutterBottom>Manager</Typography>
+                    <Grid container spacing={2}>
+                        {Object.entries(filters.managers).map(([manager, checked]) => (
+                            <Grid item xs={12} sm={6} md={4} lg={3} key={manager}>
+                                <FormControlLabel
+                                    control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('managers', manager)} />}
+                                    label={manager}
+                                    style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                                />
+                            </Grid>
+                        ))}
                     </Grid>
-                ))}
-            </Grid>
-
-            <Typography variant="h6">Status</Typography>
-            <Grid container spacing={1} justifyContent="flex-start">
-                {Object.entries(filters.statuses).map(([status, checked]) => (
-                    <Grid item xs={3} sm={2} md={1} key={status}>
-                        <FormControlLabel
-                            control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('statuses', status)} />}
-                            label={status}
-                        />
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography variant="h6" gutterBottom>Status</Typography>
+                    <Grid container spacing={2}>
+                        {Object.entries(filters.statuses).map(([status, checked]) => (
+                            <Grid item xs={12} sm={6} md={4} lg={3} key={status}>
+                                <FormControlLabel
+                                    control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('statuses', status)} />}
+                                    label={status}
+                                    style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                                />
+                            </Grid>
+                        ))}
                     </Grid>
-                ))}
-            </Grid>
-
-            <Typography variant="h6">Category</Typography>
-            <Grid container spacing={1} justifyContent="flex-start">
-                {Object.entries(filters.categories).map(([category, checked]) => (
-                    <Grid item xs={3} sm={2} md={1} key={category}>
-                        <FormControlLabel
-                            control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('categories', category)} />}
-                            label={category}
-                        />
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography variant="h6" gutterBottom>Category</Typography>
+                    <Grid container spacing={2}>
+                        {Object.entries(filters.categories).map(([category, checked]) => (
+                            <Grid item xs={12} sm={6} md={4} lg={3} key={category}>
+                                <FormControlLabel
+                                    control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('categories', category)} />}
+                                    label={category}
+                                    style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                                />
+                            </Grid>
+                        ))}
                     </Grid>
-                ))}
+                </Grid>
             </Grid>
         </DialogContent>
         <DialogActions>
