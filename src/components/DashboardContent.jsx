@@ -272,7 +272,7 @@ const DashboardContent = ({
             <ProjectTable />
             <Chart theme={theme} themeColor={primaryColor} />
 
-            <Dialog open={open} onClose={() => setOpen(false)} PaperProps={{ style: { width: '80%' } }}>
+            {/* <Dialog open={open} onClose={() => setOpen(false)} PaperProps={{ style: { width: '80%' } }}>
                 <DialogTitle>Filter Options</DialogTitle>
                 <DialogContent>
                     <FormGroup>
@@ -303,7 +303,55 @@ const DashboardContent = ({
                     <Button onClick={() => setOpen(false)}>Close</Button>
                     <Button onClick={handleFilterSubmit}>Submit</Button>
                 </DialogActions>
-            </Dialog>
+            </Dialog> */}
+
+<Dialog open={open} onClose={() => setOpen(false)} PaperProps={{ style: { width: '80%' } }}>
+        <DialogTitle>Filter Options</DialogTitle>
+        <DialogContent>
+            <Grid container spacing={2}>
+                <Grid item xs={12} md={4}>
+                    <Typography variant="h6">Managers</Typography>
+                    <FormGroup>
+                        {Object.entries(filters.managers).map(([manager, checked]) => (
+                            <FormControlLabel
+                                key={manager}
+                                control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('managers', manager)} />}
+                                label={manager}
+                            />
+                        ))}
+                    </FormGroup>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                    <Typography variant="h6">Statuses</Typography>
+                    <FormGroup>
+                        {Object.entries(filters.statuses).map(([status, checked]) => (
+                            <FormControlLabel
+                                key={status}
+                                control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('statuses', status)} />}
+                                label={status}
+                            />
+                        ))}
+                    </FormGroup>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                    <Typography variant="h6">Categories</Typography>
+                    <FormGroup>
+                        {Object.entries(filters.categories).map(([category, checked]) => (
+                            <FormControlLabel
+                                key={category}
+                                control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('categories', category)} />}
+                                label={category}
+                            />
+                        ))}
+                    </FormGroup>
+                </Grid>
+            </Grid>
+        </DialogContent>
+        <DialogActions>
+            <Button onClick={() => setOpen(false)}>Close</Button>
+            <Button onClick={handleFilterSubmit}>Submit</Button>
+        </DialogActions>
+    </Dialog>
 
         </Box>
     );
