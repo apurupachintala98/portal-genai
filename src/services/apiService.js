@@ -20,9 +20,19 @@ export const getLLMResponse = async (data) => {
 };
 
 export const getAllProjectDetails = async () => {
-  const response = await axios.get(`${Dashboard_BASE_URL}/get_all_project_details/`);
-  return response.data;
+  try {
+      const response = await axios.get(`${Dashboard_BASE_URL}/get_all_project_details/`);
+      if (response.status === 200) {
+          return response.data; 
+      } else {
+          throw new Error('Failed to fetch data');
+      }
+  } catch (error) {
+      console.error('API call failed:', error);
+      return [];  // Returning an empty array as a fallback
+  }
 };
+
 
 export const insertNewProjectDetails = async (newProject) => {
   try {

@@ -36,32 +36,41 @@ const DashboardContent = ({
         const fetchData = async () => {
             try {
                 const data = await getAllProjectDetails();
+                console.log("Project Data:", data);  // Ensure the data structure is as expected
+    
                 setTotalProjects(data.length);
                 setProjectData(data);
-
-                const managers = {};
-                const statuses = {};
-                const categories = {};
-
+    
+                const managerSet = new Set();
+                const statusSet = new Set();
+                const categorySet = new Set();
+    
                 data.forEach(item => {
-                    managers[item.manager] = false;  // Assuming 'manager' is the key in your data
-                    statuses[item.status] = false;   // Assuming 'status' is the key in your data
-                    categories[item.category] = false; // Assuming 'category' is the key in your data
+                    if (item.MANAGER_NM && typeof item.MANAGER_NM === 'string') {
+                        managerSet.add(item.MANAGER_NM.trim());
+                    }
+                    if (item.CURRENT_PHASE && typeof item.CURRENT_PHASE === 'string') {
+                        statusSet.add(item.CURRENT_PHASE.trim());
+                    }
+                    if (item.CATEGORY && typeof item.CATEGORY === 'string') {
+                        categorySet.add(item.CATEGORY.trim());
+                    }
                 });
-
+    
                 setFilters({
-                    managers,
-                    statuses,
-                    categories
+                    managers: Object.fromEntries([...managerSet].map(key => [key, false])),
+                    statuses: Object.fromEntries([...statusSet].map(key => [key, false])),
+                    categories: Object.fromEntries([...categorySet].map(key => [key, false])),
                 });
-
+    
             } catch (error) {
                 console.error("Error fetching project details:", error);
             }
         };
-
+    
         fetchData();
     }, []);
+    
 
     const handleCheckboxChange = (filterType, value) => {
         setFilters(prev => ({
