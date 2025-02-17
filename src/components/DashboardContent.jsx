@@ -104,6 +104,24 @@ const DashboardContent = ({
         { title: "Projects", value: totalProjects, image: projectsIcon, bgColor: "#e7f5ff" },
     ];
 
+    const handleFilterSubmit = async () => {
+        // Generate the PPT before resetting the filters
+        await generatePPT();
+    
+        console.log('Filter applied with:', filters);
+        setOpen(false); // Close the dialog after submitting
+    
+        // Reset filters to all true after submitting
+        const resetFilters = {};
+        Object.keys(filters).forEach(filterType => {
+            resetFilters[filterType] = Object.fromEntries(
+                Object.keys(filters[filterType]).map(key => [key, true])
+            );
+        });
+        setFilters(resetFilters);
+    };
+    
+
 
     const generatePPT = async () => {
         const pptx = new pptxgen();
@@ -380,7 +398,7 @@ const DashboardContent = ({
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => setOpen(false)}>Close</Button>
-                    <Button onClick={generatePPT}>Submit</Button>
+                    <Button onClick={handleFilterSubmit}>Submit</Button>
                 </DialogActions>
             </Dialog>
 
