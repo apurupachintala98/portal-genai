@@ -29,19 +29,21 @@ const DashboardContent = ({
         categories: {}
     });
 
+    const isAllSelected = (items) => Object.values(items).every(Boolean);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const data = await getAllProjectDetails();
                 console.log("Project Data:", data);  // Ensure the data structure is as expected
-    
+
                 setTotalProjects(data.length);
                 setProjectData(data);
-    
+
                 const managerSet = new Set();
                 const statusSet = new Set();
                 const categorySet = new Set();
-    
+
                 data.forEach(item => {
                     if (item.MANAGER_NM && typeof item.MANAGER_NM === 'string') {
                         managerSet.add(item.MANAGER_NM.trim());
@@ -53,31 +55,52 @@ const DashboardContent = ({
                         categorySet.add(item.CATEGORY.trim());
                     }
                 });
-    
+
                 setFilters({
                     managers: Object.fromEntries([...managerSet].map(key => [key, false])),
                     statuses: Object.fromEntries([...statusSet].map(key => [key, false])),
                     categories: Object.fromEntries([...categorySet].map(key => [key, false])),
                 });
-    
+
             } catch (error) {
                 console.error("Error fetching project details:", error);
             }
         };
-    
+
         fetchData();
     }, []);
-    
 
-    const handleCheckboxChange = (filterType, value) => {
-        setFilters(prev => ({
-            ...prev,
-            [filterType]: {
-                ...prev[filterType],
-                [value]: !prev[filterType][value]
-            }
-        }));
+
+    // const handleCheckboxChange = (filterType, value) => {
+    //     setFilters(prev => ({
+    //         ...prev,
+    //         [filterType]: {
+    //             ...prev[filterType],
+    //             [value]: !prev[filterType][value]
+    //         }
+    //     }));
+    // };
+
+    const handleCheckboxChange = (filterType, key, isChecked) => {
+        if (key === true || key === false) {
+            // If key is a boolean, toggle all
+            setFilters(prev => ({
+                ...prev,
+                [filterType]: Object.fromEntries(Object.keys(prev[filterType]).map(subKey => [subKey, key]))
+            }));
+        } else {
+            // If key is not a boolean, toggle individual
+            setFilters(prev => ({
+                ...prev,
+                [filterType]: {
+                    ...prev[filterType],
+                    [key]: isChecked
+                }
+            }));
+        }
     };
+
+
 
     const handleFilterSubmit = () => {
         console.log('Filter applied with:', filters);
@@ -270,58 +293,65 @@ const DashboardContent = ({
             <Chart theme={theme} themeColor={primaryColor} />
 
             <Dialog open={open} onClose={() => setOpen(false)} PaperProps={{ style: { width: '90%' } }}>
-        <DialogTitle>Filter Options</DialogTitle>
-        <DialogContent>
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <Typography variant="h6" gutterBottom sx={{fontSize: "1.0rem", fontWeight: "bold", marginBottom: "1.1rem"}}>Manager</Typography>
-                    <Grid container spacing={2}>
-                        {Object.entries(filters.managers).map(([manager, checked]) => (
-                            <Grid item xs={12} sm={6} md={4} lg={3} key={manager} sx={{paddingTop: 0}}>
-                                <FormControlLabel
-                                    control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('managers', manager)} style={{ transform: 'scale(0.75)' }}/>}
-                                    label={manager}
-                                    style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontSize: "0.9rem" }}
-                                />
+                <DialogTitle>Filter Options</DialogTitle>
+                <DialogContent>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12}>
+                            <Typography variant="h6" gutterBottom sx={{ fontSize: "1.0rem", fontWeight: "bold", marginBottom: "1.1rem" }}>Manager</Typography>
+                            <Grid container spacing={2}>
+                                {Object.entries(filters.managers).map(([manager, checked]) => (
+                                    <Grid item xs={12} sm={6} md={4} lg={3} key={manager} sx={{ paddingTop: 0 }}>
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    checked={checked}
+                                                    onChange={(e) => handleCheckboxChange('managers', manager, e.target.checked)} // Pass event object
+                                                    style={{ transform: 'scale(0.75)' }}
+                                                />
+                                            }
+                                            label={manager}
+                                            style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontSize: "0.9rem" }}
+                                        />
+                                    </Grid>
+                                ))}
                             </Grid>
-                        ))}
-                    </Grid>
-                </Grid>
-                <Grid item xs={12}>
-                    <Typography variant="h6" gutterBottom sx={{fontSize: "1.0rem", fontWeight: "bold", marginBottom: "1.1rem"}}>Status</Typography>
-                    <Grid container spacing={2}>
-                        {Object.entries(filters.statuses).map(([status, checked]) => (
-                            <Grid item xs={12} sm={6} md={4} lg={3} key={status} sx={{paddingTop: 0}}>
-                                <FormControlLabel
-                                    control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('statuses', status)} style={{ transform: 'scale(0.75)' }}/>}
-                                    label={status}
-                                    style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontSize: "0.9rem" }}
-                                />
+
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Typography variant="h6" gutterBottom sx={{ fontSize: "1.0rem", fontWeight: "bold", marginBottom: "1.1rem" }}>Status</Typography>
+                            <Grid container spacing={2}>
+                                {Object.entries(filters.statuses).map(([status, checked]) => (
+                                    <Grid item xs={12} sm={6} md={4} lg={3} key={status} sx={{ paddingTop: 0 }}>
+                                        <FormControlLabel
+                                            control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('statuses', status)} style={{ transform: 'scale(0.75)' }} />}
+                                            label={status}
+                                            style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontSize: "0.9rem" }}
+                                        />
+                                    </Grid>
+                                ))}
                             </Grid>
-                        ))}
-                    </Grid>
-                </Grid>
-                <Grid item xs={12}>
-                    <Typography variant="h6" gutterBottom sx={{fontSize: "1.0rem", fontWeight: "bold", marginBottom: "1.1rem"}}>Category</Typography>
-                    <Grid container spacing={2}>
-                        {Object.entries(filters.categories).map(([category, checked]) => (
-                            <Grid item xs={12} sm={6} md={4} lg={3} key={category} sx={{paddingTop: 0}}>
-                                <FormControlLabel
-                                    control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('categories', category)} style={{ transform: 'scale(0.75)' }}/>}
-                                    label={category}
-                                    style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontSize: "0.9rem" }}
-                                />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Typography variant="h6" gutterBottom sx={{ fontSize: "1.0rem", fontWeight: "bold", marginBottom: "1.1rem" }}>Category</Typography>
+                            <Grid container spacing={2}>
+                                {Object.entries(filters.categories).map(([category, checked]) => (
+                                    <Grid item xs={12} sm={6} md={4} lg={3} key={category} sx={{ paddingTop: 0 }}>
+                                        <FormControlLabel
+                                            control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('categories', category)} style={{ transform: 'scale(0.75)' }} />}
+                                            label={category}
+                                            style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontSize: "0.9rem" }}
+                                        />
+                                    </Grid>
+                                ))}
                             </Grid>
-                        ))}
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Grid>
-        </DialogContent>
-        <DialogActions>
-            <Button onClick={() => setOpen(false)}>Close</Button>
-            <Button onClick={handleFilterSubmit}>Submit</Button>
-        </DialogActions>
-    </Dialog>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpen(false)}>Close</Button>
+                    <Button onClick={handleFilterSubmit}>Submit</Button>
+                </DialogActions>
+            </Dialog>
 
         </Box>
     );
