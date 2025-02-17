@@ -81,25 +81,15 @@ const DashboardContent = ({
     //     }));
     // };
 
-    const handleCheckboxChange = (filterType, key, isChecked) => {
-        if (key === true || key === false) {
-            // If key is a boolean, toggle all
-            setFilters(prev => ({
-                ...prev,
-                [filterType]: Object.fromEntries(Object.keys(prev[filterType]).map(subKey => [subKey, key]))
-            }));
-        } else {
-            // If key is not a boolean, toggle individual
-            setFilters(prev => ({
-                ...prev,
-                [filterType]: {
-                    ...prev[filterType],
-                    [key]: isChecked
-                }
-            }));
-        }
+    const handleCheckboxChange = (filterType, key, isChecked, isSelectAll = false) => {
+        setFilters(prev => ({
+            ...prev,
+            [filterType]: isSelectAll
+                ? Object.fromEntries(Object.keys(prev[filterType]).map(subKey => [subKey, isChecked]))
+                : { ...prev[filterType], [key]: isChecked }
+        }));
     };
-
+    
 
 
     const handleFilterSubmit = () => {
