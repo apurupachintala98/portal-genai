@@ -22,9 +22,6 @@ const DashboardContent = ({
     const [totalProjects, setTotalProjects] = useState(0);
     const [projectData, setProjectData] = useState([]);
     const [open, setOpen] = useState(false);
-    // const [managerFilter, setManagerFilter] = useState('');
-    // const [statusFilter, setStatusFilter] = useState('');
-    // const [categoryFilter, setCategoryFilter] = useState('');
 
     const [filters, setFilters] = useState({
         managers: {},
@@ -277,42 +274,42 @@ const DashboardContent = ({
         <DialogContent>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    <Typography variant="h6" gutterBottom>Manager</Typography>
+                    <Typography variant="h6" gutterBottom sx={{fontSize: "1.0rem", fontWeight: "bold"}}>Manager</Typography>
                     <Grid container spacing={2}>
                         {Object.entries(filters.managers).map(([manager, checked]) => (
                             <Grid item xs={12} sm={6} md={4} lg={3} key={manager}>
                                 <FormControlLabel
-                                    control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('managers', manager)} />}
+                                    control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('managers', manager)} style={{ transform: 'scale(0.75)' }}/>}
                                     label={manager}
-                                    style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                                    style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontSize: "0.9rem" }}
                                 />
                             </Grid>
                         ))}
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
-                    <Typography variant="h6" gutterBottom>Status</Typography>
+                    <Typography variant="h6" gutterBottom sx={{fontSize: "1.0rem", fontWeight: "bold"}}>Status</Typography>
                     <Grid container spacing={2}>
                         {Object.entries(filters.statuses).map(([status, checked]) => (
                             <Grid item xs={12} sm={6} md={4} lg={3} key={status}>
                                 <FormControlLabel
-                                    control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('statuses', status)} />}
+                                    control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('statuses', status)} style={{ transform: 'scale(0.75)' }}/>}
                                     label={status}
-                                    style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                                    style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontSize: "0.9rem" }}
                                 />
                             </Grid>
                         ))}
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
-                    <Typography variant="h6" gutterBottom>Category</Typography>
+                    <Typography variant="h6" gutterBottom sx={{fontSize: "1.0rem", fontWeight: "bold"}}>Category</Typography>
                     <Grid container spacing={2}>
                         {Object.entries(filters.categories).map(([category, checked]) => (
                             <Grid item xs={12} sm={6} md={4} lg={3} key={category}>
                                 <FormControlLabel
-                                    control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('categories', category)} />}
+                                    control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('categories', category)} style={{ transform: 'scale(0.75)' }}/>}
                                     label={category}
-                                    style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                                    style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontSize: "0.9rem" }}
                                 />
                             </Grid>
                         ))}
