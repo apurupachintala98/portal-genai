@@ -36,14 +36,14 @@ const DashboardContent = ({
             try {
                 const data = await getAllProjectDetails();
                 console.log("Project Data:", data);  // Ensure the data structure is as expected
-
+    
                 setTotalProjects(data.length);
                 setProjectData(data);
-
+    
                 const managerSet = new Set();
                 const statusSet = new Set();
                 const categorySet = new Set();
-
+    
                 data.forEach(item => {
                     if (item.MANAGER_NM && typeof item.MANAGER_NM === 'string') {
                         managerSet.add(item.MANAGER_NM.trim());
@@ -55,22 +55,21 @@ const DashboardContent = ({
                         categorySet.add(item.CATEGORY.trim());
                     }
                 });
-
+    
                 setFilters({
-                    managers: Object.fromEntries([...managerSet].map(key => [key, false])),
-                    statuses: Object.fromEntries([...statusSet].map(key => [key, false])),
-                    categories: Object.fromEntries([...categorySet].map(key => [key, false])),
+                    managers: Object.fromEntries([...managerSet].map(key => [key, true])),
+                    statuses: Object.fromEntries([...statusSet].map(key => [key, true])),
+                    categories: Object.fromEntries([...categorySet].map(key => [key, true])),
                 });
-
+    
             } catch (error) {
                 console.error("Error fetching project details:", error);
             }
         };
-
+    
         fetchData();
     }, []);
-
-
+    
     // const handleCheckboxChange = (filterType, value) => {
     //     setFilters(prev => ({
     //         ...prev,
