@@ -299,6 +299,19 @@ const DashboardContent = ({
                         <Grid item xs={12}>
                             <Typography variant="h6" gutterBottom sx={{ fontSize: "1.0rem", fontWeight: "bold", marginBottom: "1.1rem" }}>Manager</Typography>
                             <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6} md={4} lg={3}>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={isAllSelected(filters.managers)}
+                                                onChange={(e) => handleCheckboxChange('managers', null, e.target.checked, true)}
+                                                style={{ transform: 'scale(0.75)' }}
+                                            />
+                                        }
+                                        label="Select All Managers"
+                                        style={{ fontWeight: 'bold', fontSize: "0.9rem" }}
+                                    />
+                                </Grid>
                                 {Object.entries(filters.managers).map(([manager, checked]) => (
                                     <Grid item xs={12} sm={6} md={4} lg={3} key={manager} sx={{ paddingTop: 0 }}>
                                         <FormControlLabel
