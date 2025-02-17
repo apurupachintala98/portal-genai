@@ -89,7 +89,7 @@ const DashboardContent = ({
                 : { ...prev[filterType], [key]: isChecked }
         }));
     };
-    
+
 
 
     const handleFilterSubmit = () => {
@@ -289,7 +289,7 @@ const DashboardContent = ({
                         <Grid item xs={12}>
                             <Typography variant="h6" gutterBottom sx={{ fontSize: "1.0rem", fontWeight: "bold", marginBottom: "1.1rem" }}>Manager</Typography>
                             <Grid container spacing={2}>
-                                <Grid item xs={12} sm={6} md={4} lg={3}>
+                                <Grid item xs={12} sm={6} md={4} lg={3} sx={{ paddingTop: 0 }}>
                                     <FormControlLabel
                                         control={
                                             <Checkbox
@@ -298,7 +298,7 @@ const DashboardContent = ({
                                                 style={{ transform: 'scale(0.75)' }}
                                             />
                                         }
-                                        label="Select All Managers"
+                                        label="Select All"
                                         style={{ fontWeight: 'bold', fontSize: "0.9rem" }}
                                     />
                                 </Grid>
@@ -323,6 +323,19 @@ const DashboardContent = ({
                         <Grid item xs={12}>
                             <Typography variant="h6" gutterBottom sx={{ fontSize: "1.0rem", fontWeight: "bold", marginBottom: "1.1rem" }}>Status</Typography>
                             <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6} md={4} lg={3} sx={{ paddingTop: 0 }}>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={isAllSelected(filters.statuses)}
+                                                onChange={(e) => handleCheckboxChange('statuses', null, e.target.checked, true)}
+                                                style={{ transform: 'scale(0.75)' }}
+                                            />
+                                        }
+                                        label="Select All"
+                                        style={{ fontWeight: 'bold', fontSize: "0.9rem" }}
+                                    />
+                                </Grid>
                                 {Object.entries(filters.statuses).map(([status, checked]) => (
                                     <Grid item xs={12} sm={6} md={4} lg={3} key={status} sx={{ paddingTop: 0 }}>
                                         <FormControlLabel
@@ -337,6 +350,19 @@ const DashboardContent = ({
                         <Grid item xs={12}>
                             <Typography variant="h6" gutterBottom sx={{ fontSize: "1.0rem", fontWeight: "bold", marginBottom: "1.1rem" }}>Category</Typography>
                             <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6} md={4} lg={3} sx={{ paddingTop: 0 }}>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={isAllSelected(filters.categories)}
+                                                onChange={(e) => handleCheckboxChange('categories', null, e.target.checked, true)}
+                                                style={{ transform: 'scale(0.75)' }}
+                                            />
+                                        }
+                                        label="Select All"
+                                        style={{ fontWeight: 'bold', fontSize: "0.9rem" }}
+                                    />
+                                </Grid>
                                 {Object.entries(filters.categories).map(([category, checked]) => (
                                     <Grid item xs={12} sm={6} md={4} lg={3} key={category} sx={{ paddingTop: 0 }}>
                                         <FormControlLabel
