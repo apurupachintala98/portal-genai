@@ -274,10 +274,10 @@ const DashboardContent = ({
         <DialogContent>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    <Typography variant="h6" gutterBottom sx={{fontSize: "1.0rem", fontWeight: "bold"}}>Manager</Typography>
+                    <Typography variant="h6" gutterBottom sx={{fontSize: "1.0rem", fontWeight: "bold", marginBottom: "1.1rem"}}>Manager</Typography>
                     <Grid container spacing={2}>
                         {Object.entries(filters.managers).map(([manager, checked]) => (
-                            <Grid item xs={12} sm={6} md={4} lg={3} key={manager}>
+                            <Grid item xs={12} sm={6} md={4} lg={3} key={manager} sx={{paddingTop: 0}}>
                                 <FormControlLabel
                                     control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('managers', manager)} style={{ transform: 'scale(0.75)' }}/>}
                                     label={manager}
@@ -288,10 +288,10 @@ const DashboardContent = ({
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
-                    <Typography variant="h6" gutterBottom sx={{fontSize: "1.0rem", fontWeight: "bold"}}>Status</Typography>
+                    <Typography variant="h6" gutterBottom sx={{fontSize: "1.0rem", fontWeight: "bold", marginBottom: "1.1rem"}}>Status</Typography>
                     <Grid container spacing={2}>
                         {Object.entries(filters.statuses).map(([status, checked]) => (
-                            <Grid item xs={12} sm={6} md={4} lg={3} key={status}>
+                            <Grid item xs={12} sm={6} md={4} lg={3} key={status} sx={{paddingTop: 0}}>
                                 <FormControlLabel
                                     control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('statuses', status)} style={{ transform: 'scale(0.75)' }}/>}
                                     label={status}
@@ -302,10 +302,10 @@ const DashboardContent = ({
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
-                    <Typography variant="h6" gutterBottom sx={{fontSize: "1.0rem", fontWeight: "bold"}}>Category</Typography>
+                    <Typography variant="h6" gutterBottom sx={{fontSize: "1.0rem", fontWeight: "bold", marginBottom: "1.1rem"}}>Category</Typography>
                     <Grid container spacing={2}>
                         {Object.entries(filters.categories).map(([category, checked]) => (
-                            <Grid item xs={12} sm={6} md={4} lg={3} key={category}>
+                            <Grid item xs={12} sm={6} md={4} lg={3} key={category} sx={{paddingTop: 0}}>
                                 <FormControlLabel
                                     control={<Checkbox checked={checked} onChange={() => handleCheckboxChange('categories', category)} style={{ transform: 'scale(0.75)' }}/>}
                                     label={category}
