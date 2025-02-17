@@ -222,8 +222,8 @@ const DashboardContent = ({
             const startRow = i * rowsPerSlide;
             const endRow = startRow + rowsPerSlide;
 
-            const tableRows = filteredData.slice(startRow, endRow).map((project) => [
-                { text: project.SL_NO, options: { align: "center" } },
+            const tableRows = filteredData.slice(startRow, endRow).map((project, index) => [
+                { text: String(startRow + index + 1), options: { align: "center" } },
                 { text: project.PRJ_NM, options: { align: "left" } },
                 { text: project.LEAD_NM, options: { align: "center" } },
                 { text: project.MANAGER_NM, options: { align: "center" } },
