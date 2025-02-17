@@ -91,12 +91,6 @@ const DashboardContent = ({
 
 
 
-    const handleFilterSubmit = () => {
-        console.log('Filter applied with:', filters);
-        setOpen(false); // Close the dialog after submitting
-    };
-
-
     const handleOpen = () => {
         setOpen(true);
     };
@@ -156,6 +150,14 @@ const DashboardContent = ({
             slideNumber: { x: 0.3, y: "88%", color: "1a3673", fontSize: 12 },
         });
 
+        // Apply filters
+    const filteredData = projectData.filter(project => {
+        const managerCheck = filters.managers[project.MANAGER_NM] || false;
+        const statusCheck = filters.statuses[project.CURRENT_PHASE] || false;
+        const categoryCheck = filters.categories[project.CATEGORY] || false;
+        return managerCheck && statusCheck && categoryCheck;
+    });
+
         // Slide 1: Title Slide
         const slide1 = pptx.addSlide({ masterName: "MASTER_SLIDE" });
         slide1.addText("EDA Gen AI – Status Report", {
@@ -202,7 +204,7 @@ const DashboardContent = ({
             const startRow = i * rowsPerSlide;
             const endRow = startRow + rowsPerSlide;
 
-            const tableRows = projectData.slice(startRow, endRow).map((project) => [
+            const tableRows = filteredData.slice(startRow, endRow).map((project) => [
                 { text: project.SL_NO, options: { align: "center" } },
                 { text: project.PRJ_NM, options: { align: "left" } },
                 { text: project.LEAD_NM, options: { align: "center" } },
@@ -225,6 +227,7 @@ const DashboardContent = ({
             });
         }
         pptx.writeFile("Project_Status_Report.pptx");
+        setOpen(false);
     };
 
     return (
@@ -377,7 +380,7 @@ const DashboardContent = ({
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => setOpen(false)}>Close</Button>
-                    <Button onClick={handleFilterSubmit}>Submit</Button>
+                    <Button onClick={generatePPT}>Submit</Button>
                 </DialogActions>
             </Dialog>
 
