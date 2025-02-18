@@ -38,7 +38,8 @@ const menuData = [
     { name: "EDM IntelliQ", url: "/" },
     { name: "Prov360", url: "/" },
     { name: "RMA.ai", url: "/" },
-    { name: "IQT", url: "/" }
+    { name: "IQT", url: "/" },
+    { name: "Privia", url: "/" }
     ],
   },
 ];
