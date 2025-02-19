@@ -15,12 +15,16 @@ import {
     CircularProgress,
     Card,
     CardContent,
-    IconButton
+    IconButton,
+    CssBaseline,
+    Drawer,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import HomeIcon from "@mui/icons-material/Home";
 import { getPlatforms, getModelsByPlatform, getLLMResponse } from "../services/apiService";
 import LLM_Image from '../assets/images/LLM.png';
+import logo from '../assets/images/logo.png';
 
 const Banner = styled(Box)({
     backgroundImage: `url(${LLM_Image})`,
@@ -29,9 +33,13 @@ const Banner = styled(Box)({
     backgroundRepeat: "no-repeat",
     // width: "100vw",
     height: "600px",
+    p: 0,
 });
 
-const LlmGateway = () => {
+const drawerWidth = 200;
+
+const LlmGateway = ({ sidebarType,
+    setSidebarType, theme }) => {
     const [platforms, setPlatforms] = useState([]);
     const [models, setModels] = useState([]);
     const [selectedPlatform, setSelectedPlatform] = useState("");
@@ -43,6 +51,10 @@ const LlmGateway = () => {
     const [context, setContext] = useState("");
     const [customContext, setCustomContext] = useState("");
     const cardRef = useRef(null);
+    const navigate = useNavigate();
+    const collapsed = sidebarType === "mini";
+
+
 
     const defaultContexts = [
         "You are a powerful assistant in providing accurate answers based on given context",
@@ -124,20 +136,25 @@ const LlmGateway = () => {
     }, [apiResponse]);
 
     return (
-        <Box sx={{ marginBottom: "50px" }}>
-
-            <AppBar position="static" sx={{ backgroundColor: "#fff", alignItems: "center" }}>
-                <Toolbar sx={{ width: "100%", justifyContent: "space-between" }}>
-                    {/* App Bar Title */}
-                    <Typography variant="h6" sx={{flexGrow: 1,
-              textAlign: "center",
-              fontWeight: "bold",
-              color: "#1a3673",
-              fontSize: "1.75rem" }}>
+        <Box sx={{ display: "flex", height: "100vh" }}>
+            <CssBaseline />
+            <AppBar position="fixed" sx={{
+                zIndex: (theme) => theme.zIndex.drawer + 1,
+                backgroundColor: "#1a3673",
+                boxShadow: "-1px -4px 14px #000",
+                height: '64px',
+            }}>
+                <Toolbar sx={{ justifyContent: "flex-start" }}>
+                    {logo && <img src={logo} alt="Logo" style={{ width: 120 }} />}
+                    <Typography variant="h6" sx={{
+                        flexGrow: 1,
+                        textAlign: "center",
+                        fontWeight: "bold",
+                        fontSize: "1.5rem",
+                        marginLeft: '-80px'
+                    }}>
                         Data Intelligence Platform - LLM Gateway
                     </Typography>
-
-                    {/* Home Icon with Text */}
                     <Box
                         component={Link}
                         to="/home" // Replace with your home route
@@ -148,156 +165,178 @@ const LlmGateway = () => {
                             color: "inherit",
                         }}
                     >
-                        <IconButton color="inherit" sx={{ color: "#1a3673" }}>
+                        <IconButton color="inherit" sx={{ color: "#fff" }}>
                             <HomeIcon />
                         </IconButton>
-                        <Typography sx={{ fontWeight: "bold", color: "#1a3673" }}>
+                        <Typography sx={{ fontWeight: "bold", color: "#fff" }}>
                             Home
                         </Typography>
                     </Box>
                 </Toolbar>
             </AppBar>
-            {/* Banner */}
-            <Banner />
+            <Drawer variant="permanent" sx={{
+                width: drawerWidth, flexShrink: 0, [`& .MuiDrawer-paper`]: {
+                    width: drawerWidth,
+                    boxSizing: "border-box",
+                    backgroundColor: "#fff",
+                    boxShadow: '-1px -3px 10px grey',
+                }
+            }}>
+                <Toolbar />
 
-            {/* Platform Selection */}
+            </Drawer>
+
             <Box
+                component="main"
                 sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    mt: 4
+                    flexGrow: 1,
+                    mt: 8,
+                    backgroundColor: "background.default",
+                    transition: "margin 0.3s ease",
                 }}
             >
-                <Typography variant="h5" gutterBottom sx={{ alignItems: 'left', fontWeight: 'bold', fontFamily: 'Roboto, sans-serif', fontSize: "20px", color: "#1a3673" }}>
-                    Choose LLM Platform
-                </Typography>
-                <FormControl sx={{ width: 300 }}>
-                    {/* <InputLabel id="platform-select-label">Choose LLM Platform</InputLabel> */}
-                    <Select
-                        value={selectedPlatform}
-                        onChange={handlePlatformChange}
-                        sx={{ backgroundColor: 'white', textAlign: "left" }}
+                {/* Banner */}
+                <Banner />
 
-                    >
-                        {platforms.map((platform) => (
-                            <MenuItem key={platform} value={platform}>
-                                {platform}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-
-            </Box>
-
-            {/* Conditional Dropdowns and Input */}
-            {selectedPlatform && (
-                <Paper elevation={3} sx={{ padding: 4, mt: 4, mx: "auto", maxWidth: 600 }}>
-                    {/* Select Model */}
-                    <Typography variant="h6" mb={2} sx={{ fontWeight: "bold", color: "#1a3673" }}>
-                        Ask using {selectedPlatform}
+                {/* Platform Selection */}
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        mt: 4
+                    }}
+                >
+                    <Typography variant="h5" gutterBottom sx={{ alignItems: 'left', fontWeight: 'bold', fontFamily: 'Roboto, sans-serif', fontSize: "20px", color: "#1a3673" }}>
+                        Choose LLM Platform
                     </Typography>
-
-                    {/* Model Selection */}
-                    <FormControl fullWidth margin="normal">
-                        {/* <InputLabel id="model-select-label">Select your model</InputLabel> */}
+                    <FormControl sx={{ width: 300 }}>
+                        {/* <InputLabel id="platform-select-label">Choose LLM Platform</InputLabel> */}
                         <Select
-                            value={selectedModel}
-                            onChange={handleModelChange}
+                            value={selectedPlatform}
+                            onChange={handlePlatformChange}
                             sx={{ backgroundColor: 'white', textAlign: "left" }}
 
                         >
-                            {models.map((model) => (
-                                <MenuItem key={model} value={model}>{model}</MenuItem>
-                            ))}
-
-                        </Select>
-                    </FormControl>
-
-                    {/* Context Selection */}
-                    <Typography variant="h6" sx={{ mt: 2, fontWeight: "bold", color: "#1a3673" }}>
-                        Choose Context or Enter Custom
-                    </Typography>
-                    <FormControl fullWidth margin="normal">
-                        <Select
-                            value={context}
-                            onChange={(e) => setContext(e.target.value)}
-                            sx={{ backgroundColor: 'white' }}
-                        >
-                            {defaultContexts.map((defaultContext, index) => (
-                                <MenuItem key={index} value={defaultContext}>
-                                    {defaultContext}
+                            {platforms.map((platform) => (
+                                <MenuItem key={platform} value={platform}>
+                                    {platform}
                                 </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
-                    <TextField
-                        fullWidth
-                        margin="normal"
-                        variant="outlined"
-                        placeholder="Enter custom context (optional)"
-                        value={customContext}
 
-                        onChange={(e) => setCustomContext(e.target.value)}
-                    />
+                </Box>
 
-                    <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', fontFamily: 'Roboto, sans-serif', fontSize: "20px", color: "#1a3673" }}>
-                        Add Prompt
-                    </Typography>
-                    {/* Prompt Input */}
-                    <TextField
-                        fullWidth
-                        margin="normal"
-                        variant="outlined"
-                        value={prompt}
-                        onChange={(e) => setPrompt(e.target.value)}
-                    />
+                {/* Conditional Dropdowns and Input */}
+                {selectedPlatform && (
+                    <Paper elevation={3} sx={{ padding: 4, mt: 4, mx: "auto", maxWidth: 600 }}>
+                        {/* Select Model */}
+                        <Typography variant="h6" mb={2} sx={{ fontWeight: "bold", color: "#1a3673" }}>
+                            Ask using {selectedPlatform}
+                        </Typography>
 
-                    <Typography variant="body1" sx={{ mt: 2 }}>
-                        <b>Selected model:</b> {selectedModel || "None"}
-                    </Typography>
-                    {/* Display Requested Prompt */}
-                    {responsePrompt && (
-                        <Box sx={{ mt: 4 }}>
-                            <Typography variant="body1" sx={{ fontWeight: "bold" }}>Requested Prompt:</Typography>
-                            <Typography variant="body2">{responsePrompt}</Typography>
-                        </Box>
-                    )}
+                        {/* Model Selection */}
+                        <FormControl fullWidth margin="normal">
+                            {/* <InputLabel id="model-select-label">Select your model</InputLabel> */}
+                            <Select
+                                value={selectedModel}
+                                onChange={handleModelChange}
+                                sx={{ backgroundColor: 'white', textAlign: "left" }}
 
-                    <Button
-                        variant="contained"
-                        sx={{ backgroundColor: "#1a3673", mt: 2 }}
-                        onClick={handleSubmit}
-                        disabled={loading}
-                    >
-                        {loading ? "Generating..." : "Submit"}
-                    </Button>
+                            >
+                                {models.map((model) => (
+                                    <MenuItem key={model} value={model}>{model}</MenuItem>
+                                ))}
 
-                    {/* Loader */}
-                    {loading && (
-                        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-                            <CircularProgress size={24} />
-                        </Box>
-                    )}
-                </Paper>
-            )}
+                            </Select>
+                        </FormControl>
 
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
-                {apiResponse && (
-                    <Card ref={cardRef} elevation={3} sx={{ mt: 4, mx: "auto", maxWidth: 670, backgroundColor: '#f5f5f5', border: '1px solid #ddd', borderRadius: 2, boxShadow: 2 }}>
-                        <CardContent>
-                            <Typography variant="body2" sx={{ whiteSpace: 'pre-line', textAlign: 'left' }}>{formatApiResponse(apiResponse)}</Typography>
-                        </CardContent>
-                    </Card>
+                        {/* Context Selection */}
+                        <Typography variant="h6" sx={{ mt: 2, fontWeight: "bold", color: "#1a3673" }}>
+                            Choose Context or Enter Custom
+                        </Typography>
+                        <FormControl fullWidth margin="normal">
+                            <Select
+                                value={context}
+                                onChange={(e) => setContext(e.target.value)}
+                                sx={{ backgroundColor: 'white' }}
+                            >
+                                {defaultContexts.map((defaultContext, index) => (
+                                    <MenuItem key={index} value={defaultContext}>
+                                        {defaultContext}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <TextField
+                            fullWidth
+                            margin="normal"
+                            variant="outlined"
+                            placeholder="Enter custom context (optional)"
+                            value={customContext}
+
+                            onChange={(e) => setCustomContext(e.target.value)}
+                        />
+
+                        <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', fontFamily: 'Roboto, sans-serif', fontSize: "20px", color: "#1a3673" }}>
+                            Add Prompt
+                        </Typography>
+                        {/* Prompt Input */}
+                        <TextField
+                            fullWidth
+                            margin="normal"
+                            variant="outlined"
+                            value={prompt}
+                            onChange={(e) => setPrompt(e.target.value)}
+                        />
+
+                        <Typography variant="body1" sx={{ mt: 2 }}>
+                            <b>Selected model:</b> {selectedModel || "None"}
+                        </Typography>
+                        {/* Display Requested Prompt */}
+                        {responsePrompt && (
+                            <Box sx={{ mt: 4 }}>
+                                <Typography variant="body1" sx={{ fontWeight: "bold" }}>Requested Prompt:</Typography>
+                                <Typography variant="body2">{responsePrompt}</Typography>
+                            </Box>
+                        )}
+
+                        <Button
+                            variant="contained"
+                            sx={{ backgroundColor: "#1a3673", mt: 2 }}
+                            onClick={handleSubmit}
+                            disabled={loading}
+                        >
+                            {loading ? "Generating..." : "Submit"}
+                        </Button>
+
+                        {/* Loader */}
+                        {loading && (
+                            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                                <CircularProgress size={24} />
+                            </Box>
+                        )}
+                    </Paper>
                 )}
-            </Box>
 
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}>
+                    {apiResponse && (
+                        <Card ref={cardRef} elevation={3} sx={{ mt: 4, mx: "auto", maxWidth: 670, backgroundColor: '#f5f5f5', border: '1px solid #ddd', borderRadius: 2, boxShadow: 2 }}>
+                            <CardContent>
+                                <Typography variant="body2" sx={{ whiteSpace: 'pre-line', textAlign: 'left' }}>{formatApiResponse(apiResponse)}</Typography>
+                            </CardContent>
+                        </Card>
+                    )}
+                </Box>
+
+            </Box>
         </Box>
 
     );

@@ -46,8 +46,8 @@ const Dashboard = ({
     const collapsed = sidebarType === "mini";
     const [currentTab, setCurrentTab] = useState('dashboard'); // Default to showing the Dashboard
 
-    const handleMenuItemClick = (itemText) => {
-        setCurrentTab(itemText.toLowerCase()); // Set current tab based on the item clicked
+    const handleMenuItemClick = (itemId) => {
+        setCurrentTab(itemId); // Set current tab based on the item ID
     };
 
     const handleNavigateHome = () => {
@@ -56,7 +56,7 @@ const Dashboard = ({
 
     const menuItems = [
         { text: "Dashboard", icon: <DashboardIcon />, id: "dashboard" },
-        { text: "Chat", icon: <ChatIcon />, id: "chat" },
+        { text: "Project Status Chat", icon: <ChatIcon />, id: "chat" },
     ];
 
     return (
@@ -94,7 +94,7 @@ const Dashboard = ({
 
                 <List>
                     {menuItems.map((item, index) => (
-                        <ListItem button key={index} onClick={() => handleMenuItemClick(item.text)}
+                        <ListItem button key={index} onClick={() => handleMenuItemClick(item.id)}
                             sx={{
                                 textDecoration: "none", bgcolor: currentTab === item.id ? '#fff' : 'inherit',
                                 color: currentTab === item.id ? '#1a3673' : '#fff',
@@ -134,11 +134,10 @@ const Dashboard = ({
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        {currentTab.charAt(0).toUpperCase() + currentTab.slice(1)}
+                        {currentTab === 'dashboard' ? 'Elevance Data Intelligence Platform Dashboard' :
+                            currentTab.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
                     </Typography>
-                    {/* <IconButton color="inherit" onClick={toggleTheme}>
-                        {theme === "light" ? <DarkModeIcon /> : <LightModeIcon />}
-                    </IconButton> */}
+
                     <IconButton color="inherit" onClick={handleNavigateHome}>
                         <HomeIcon />
                     </IconButton>
@@ -161,7 +160,15 @@ const Dashboard = ({
                     <Link underline="hover" color="inherit" href="/" onClick={handleNavigateHome} sx={{ fontSize: "10px" }}>
                         <HomeIcon />
                     </Link>
-                    <Typography color="text.primary">{currentTab.charAt(0).toUpperCase() + currentTab.slice(1)}</Typography>
+                    {/* <Typography color="text.primary">
+                        {currentTab === 'chat' ? 'Project Status Chat' : currentTab.charAt(0).toUpperCase() + currentTab.slice(1)}
+                    </Typography> */}
+                    <Typography color="text.primary">
+                        {currentTab === 'chat' ?
+                            'Project Status Chat' :
+                            currentTab.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                    </Typography>
+
                 </Breadcrumbs>
                 {currentTab === 'dashboard' && <DashboardContent />}
                 {currentTab === 'chat' && <Chat />}
