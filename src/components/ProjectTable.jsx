@@ -236,7 +236,7 @@ const ProjectTable = () => {
                   { label: "Status", key: "CURRENT_PHASE" },
                   { label: "Domain", key: "LLM_PLATFORM" },
                   { label: "Date", key: "DEPLOYMENT_DT" },
-                  { label: "Category", key: "CATEGORY" },
+                  { label: "Platform", key: "CATEGORY" },
                   { label: "Actions", key: null },
                 ].map((column, index) => (
                   <TableCell key={column.key ? column.key : `column-${index}`} sx={{ fontWeight: "bold", fontSize: "16px", textAlign: index !== 0 ? "center" : "left" }}>

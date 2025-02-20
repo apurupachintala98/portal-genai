@@ -211,7 +211,7 @@ const Chart = ({ onCaptureImage }) => {
         </select>
 
 
-        <label style={{ marginRight: '10px', marginLeft: '10px' }}>Category:</label>
+        <label style={{ marginRight: '10px', marginLeft: '10px' }}>Platform:</label>
         <select
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
