@@ -66,8 +66,6 @@ export const updateProjectDetails = async (sl_no, updatedProject) => {
   }
 };
 
-
-
 // Delete project details
 export const deleteProjectDetails = async (sl_no) => {
   try {

@@ -146,10 +146,9 @@ const handleAddClick = () => {
 
   const handleSave = async (SL_NO) => {
     try {
-      const sanitizedData = { ...editedData }; // Clone the data
-      delete sanitizedData.SL_NO; // Remove SL_NO from the payload
-
-      await updateProjectDetails(SL_NO, sanitizedData); // Pass SL_NO as a query parameter
+      // const sanitizedData = { ...editedData }; // Clone the data
+      // delete sanitizedData.SL_NO; // Remove SL_NO from the payload
+      await updateProjectDetails(SL_NO, editedData); // Pass SL_NO as a query parameter
       fetchProjects(); // Refresh the project list
       setEditRowId(null); // Exit edit mode
       setEditedData({});

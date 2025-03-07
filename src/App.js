@@ -22,7 +22,6 @@ import DashboardContent from "./components/DashboardContent";
 function SettingsButton({ primaryColor, setSettingsOpen }) {
   const location = useLocation();
 
-  // Show only on "/dashboard"
   if (location.pathname !== "/dashboard") return null;
 
   return (
