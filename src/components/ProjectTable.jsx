@@ -107,32 +107,60 @@ const ProjectTable = () => {
     }
   };
 
+  // const handleAddClick = () => {
+  //   setIsNewRow(true);
+  //   setNewProject({
+  //     SL_NO: projects.length > 0
+  //       ? Math.max(...projects.map((p) => p.SL_NO)) + 1
+  //       : 1, // Assign the next SL_NO
+  //   STAFF_VP: "",
+  //   DIRECTOR: "",
+  //   LEAD_NM: "",
+  //   TGOV_NO: "",
+  //   PROGRAM_TYPE: "",
+  //   PROJECT_NAME: "",
+  //   PROJECT_DESCRIPTION: "",
+  //   LLM_PLATFORM: "",
+  //   LLM_MODEL: "",
+  //   PLATFORM_SERVICES: "",
+  //   DATA: "",
+  //   BUSINESS_USER: "",
+  //   START_DATE: "",
+  //   DEPLOYMENT_DATE: "",
+  //   CURRENT_PHASE: "",
+  //   STATUS: "",
+  //   LINK_TO_SLIDE: ""
+  //   });
+  // };
+
   const handleAddClick = () => {
     setIsNewRow(true);
-    setNewProject({
-      SL_NO: projects.length > 0
-        ? Math.max(...projects.map((p) => p.SL_NO)) + 1
-        : 1, // Assign the next SL_NO
-    STAFF_VP: "",
-    DIRECTOR: "",
-    LEAD_NM: "",
-    TGOV_NO: "",
-    PROGRAM_TYPE: "",
-    PROJECT_NAME: "",
-    PROJECT_DESCRIPTION: "",
-    LLM_PLATFORM: "",
-    LLM_MODEL: "",
-    PLATFORM_SERVICES: "",
-    DATA: "",
-    BUSINESS_USER: "",
-    START_DATE: "",
-    DEPLOYMENT_DATE: "",
-    CURRENT_PHASE: "",
-    STATUS: "",
-    LINK_TO_SLIDE: ""
-    });
-  };
 
+    const nextSlNo = projects.length > 0
+        ? Math.max(...projects.map(p => p.SL_NO)) + 1
+        : 1;
+
+    setNewProject({
+        SL_NO: nextSlNo, 
+        PROJECT_NAME: "",
+        LEAD_NM: "",
+        STAFF_VP: "",
+        DIRECTOR: "",
+        TGOV_NO: "",
+        PROGRAM_TYPE: "",
+        PROJECT_DESCRIPTION: "",
+        LLM_PLATFORM: "",
+        LLM_MODEL: "",
+        PLATFORM_SERVICES: "",
+        DATA: "",
+        BUSINESS_USER: "",
+        START_DATE: "",
+        DEPLOYMENT_DATE: "",
+        CURRENT_PHASE: "",
+        STATUS: "",
+        LINK_TO_SLIDE: ""
+    });
+};
 
   const handleSave = async (SL_NO) => {
     try {
