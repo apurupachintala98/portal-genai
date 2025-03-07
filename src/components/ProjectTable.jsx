@@ -271,7 +271,7 @@ const handleAddClick = () => {
                   <TableCell sx={{ fontSize: "14px", padding: "6px" , paddingLeft: "18px"}}>
                     {editRowId === project.SL_NO ? (
                       <TextField
-                        value={editedData.Project_Name ?? project.Project_Name}
+                        value={editedData.Project_Name ?? project.PROJECT_NAME}
                         onChange={(e) => handleChange(e, "Project_Name")}
                         fullWidth
                       />
@@ -293,7 +293,7 @@ const handleAddClick = () => {
                   <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
                     {editRowId === project.SL_NO ? (
                       <TextField
-                        value={editedData.Staff_VP ?? project.Staff_VP}
+                        value={editedData.Staff_VP ?? project.STAFF_VP}
                         onChange={(e) => handleChange(e, "Staff_VP")}
                         fullWidth
                       />
@@ -304,7 +304,7 @@ const handleAddClick = () => {
                   <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
                     {editRowId === project.SL_NO ? (
                       <TextField
-                        value={editedData.Current_Phase ?? project.Current_Phase}
+                        value={editedData.Current_Phase ?? project.CURRENT_PHASE}
                         onChange={(e) => handleChange(e, "Current_Phase")}
                         fullWidth
                       />
@@ -337,7 +337,7 @@ const handleAddClick = () => {
                     {editRowId === project.SL_NO ? (
                       <TextField
                         type="date"
-                        value={(editedData.Deployment_Date ?? project.Deployment_Date)?.split(" ")[0]}
+                        value={(editedData.Deployment_Date ?? project.DEPLOYMENT_DATE)?.split(" ")[0]}
                         onChange={(e) => handleChange(e, "Deployment_Date")}
                         fullWidth
                       />
