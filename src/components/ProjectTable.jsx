@@ -28,7 +28,6 @@ const ProjectTable = () => {
   const [projects, setProjects] = useState([]);
   const [editRowId, setEditRowId] = useState(null); // Track editable row
   const [editedData, setEditedData] = useState({}); // Store edited values
-  const [editedRow, setEditedRow] = useState(null); // For editing row
   const [isNewRow, setIsNewRow] = useState(false);
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
@@ -198,12 +197,10 @@ const handleAddClick = () => {
     }
   };
 
-
-
   const handleEditClick = (sl_no) => {
     const project = projects.find((p) => p.SL_NO === sl_no);
     setEditRowId(sl_no);
-    setEditedData({ ...project }); // Clone the selected project for editing
+    setEditedData({ }); // Clone the selected project for editing
   };
 
   if (loading) {
