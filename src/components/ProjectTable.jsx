@@ -38,12 +38,23 @@ const ProjectTable = () => {
   const [filters, setFilters] = useState({});
   const [showAllOptions, setShowAllOptions] = useState({});
   const [newProject, setNewProject] = useState({
-    Project_Name: "",
-    LEAD_NM: "",
     Staff_VP: "",
-    Current_Phase: "",
+    Director: "",
+    LEAD_NM: "",
+    TGOV_NO: "",
+    Program_Type: "",
+    Project_Name: "",
+    Project_Description: "",
     LLM_PLATFORM: "",
+    LLM_MODEL: "",
+    Platform_Services: "",
+    data: "",
+    Business_User: "",
+    Start_Date: "",
     Deployment_Date: "",
+    Current_Phase: "",
+    status: "",
+    Link_to_Slide: ""
   });
   useEffect(() => {
     fetchProjects();
