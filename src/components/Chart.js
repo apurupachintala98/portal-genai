@@ -55,11 +55,11 @@ const Chart = ({ onCaptureImage }) => {
       setLoading(true);
       try {
         const data = await getAllProjectDetails();
-        const uniqueManagers = [...new Set(data.map(project => project.MANAGER_NM))];
+        const uniqueManagers = [...new Set(data.map(project => project.STAFF_VP))];
         console.log("Unique Managers:", uniqueManagers); // Check the fetched and processed manager names
         setManagers(uniqueManagers);
 
-        const uniqueCategories = [...new Set(data.map(project => project.CATEGORY))];
+        const uniqueCategories = [...new Set(data.map(project => project.LLM_PLATFORM))];
         setCategories(uniqueCategories);
 
         setProjectData(data);
@@ -78,16 +78,16 @@ const Chart = ({ onCaptureImage }) => {
   useEffect(() => {
     let filtered = projectData;
     if (selectedManager !== "All") {
-      filtered = filtered.filter(project => project.MANAGER_NM === selectedManager);
+      filtered = filtered.filter(project => project.STAFF_VP === selectedManager);
     }
     if (selectedCategory !== "All") {
-      filtered = filtered.filter(project => project.CATEGORY === selectedCategory);
+      filtered = filtered.filter(project => project.LLM_PLATFORM === selectedCategory);
     }
 
     // Calculate the maximum deployment date from the filtered data
     // const maxDate = new Date(Math.max(...filtered.map(project => new Date(project.DEPLOYMENT_DT).getTime())));
     const maxDeploymentDate = new Date(Math.max(...filtered.map(project => {
-      const d = new Date(project.DEPLOYMENT_DT);
+      const d = new Date(project.DEPLOYMENT_DATE);
       return d.getTime();
     })));
 
@@ -177,14 +177,15 @@ const Chart = ({ onCaptureImage }) => {
       {
         name: 'Projects',
         data: filteredData.map(project => {
-          const deploymentDate = new Date(project.DEPLOYMENT_DT).getTime();
-          const startDate = new Date('2024-09-01').getTime();
+          const deploymentDate = new Date(project.DEPLOYMENT_DATE).getTime();
+          // const startDate = new Date('2024-09-01').getTime();
+          const startDate = new Date(project.START_DATE).getTime();
 
           return {
-            name: project.PRJ_NM,
+            name: project.PROJECT_NAME,
             start: startDate,
             end: deploymentDate,
-            manager: project.MANAGER_NM,
+            manager: project.STAFF_VP,
             y: filteredData.indexOf(project)
           };
         })

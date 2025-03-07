@@ -45,14 +45,14 @@ const DashboardContent = ({
                 const categorySet = new Set();
     
                 data.forEach(item => {
-                    if (item.MANAGER_NM && typeof item.MANAGER_NM === 'string') {
-                        managerSet.add(item.MANAGER_NM.trim());
+                    if (item.STAFF_VP && typeof item.STAFF_VP === 'string') {
+                        managerSet.add(item.STAFF_VP.trim());
                     }
                     if (item.CURRENT_PHASE && typeof item.CURRENT_PHASE === 'string') {
                         statusSet.add(item.CURRENT_PHASE.trim());
                     }
-                    if (item.CATEGORY && typeof item.CATEGORY === 'string') {
-                        categorySet.add(item.CATEGORY.trim());
+                    if (item.LLM_PLATFORM && typeof item.LLM_PLATFORM === 'string') {
+                        categorySet.add(item.LLM_PLATFORM.trim());
                     }
                 });
     
@@ -170,9 +170,9 @@ const DashboardContent = ({
 
         // Apply filters
     const filteredData = projectData.filter(project => {
-        const managerCheck = filters.managers[project.MANAGER_NM] || false;
+        const managerCheck = filters.managers[project.STAFF_VP] || false;
         const statusCheck = filters.statuses[project.CURRENT_PHASE] || false;
-        const categoryCheck = filters.categories[project.CATEGORY] || false;
+        const categoryCheck = filters.categories[project.LLM_PLATFORM] || false;
         return managerCheck && statusCheck && categoryCheck;
     });
 
@@ -196,11 +196,10 @@ const DashboardContent = ({
                     options: { fontSize: 14, bold: true, align: "left", fill: "1a3673", color: "FFFFFF" },
                 },
                 { text: "Assigned", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
-                { text: "Manager", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
+                { text: "Staff VP", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
                 { text: "Status", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
-                { text: "Domain", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
+                { text: "Platform", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
                 { text: "Date", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
-                { text: "Category", options: { fontSize: 14, bold: true, align: "center", fill: "1a3673", color: "FFFFFF" } },
 
             ],
         ];
@@ -224,13 +223,12 @@ const DashboardContent = ({
 
             const tableRows = filteredData.slice(startRow, endRow).map((project, index) => [
                 { text: String(startRow + index + 1), options: { align: "center" } },
-                { text: project.PRJ_NM, options: { align: "left" } },
+                { text: project.PROJECT_NAME, options: { align: "left" } },
                 { text: project.LEAD_NM, options: { align: "center" } },
-                { text: project.MANAGER_NM, options: { align: "center" } },
+                { text: project.STAFF_VP, options: { align: "center" } },
                 { text: project.CURRENT_PHASE, options: { align: "center" } },
                 { text: project.LLM_PLATFORM, options: { align: "center" } },
-                { text: project.DEPLOYMENT_DT, options: { align: "center" } },
-                { text: project.CATEGORY, options: { align: "center" } },
+                { text: project.DEPLOYMENT_DATE, options: { align: "center" } },
 
             ]);
 

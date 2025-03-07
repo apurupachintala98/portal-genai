@@ -38,13 +38,13 @@ const ProjectTable = () => {
   const [filters, setFilters] = useState({});
   const [showAllOptions, setShowAllOptions] = useState({});
   const [newProject, setNewProject] = useState({
-    PRJ_NM: "",
+    PROJECT_NAME: "",
     LEAD_NM: "",
-    MANAGER_NM: "",
+    STAFF_VP: "",
     CURRENT_PHASE: "",
     LLM_PLATFORM: "",
-    DEPLOYMENT_DT: "",
-    CATEGORY: "",
+    DEPLOYMENT_DATE: "",
+    LLM_PLATFORM: "",
   });
   useEffect(() => {
     fetchProjects();
@@ -114,26 +114,23 @@ const ProjectTable = () => {
       SL_NO: projects.length > 0
         ? Math.max(...projects.map((p) => p.SL_NO)) + 1
         : 1, // Assign the next SL_NO
-      PRJ_NM: "",
-      LEAD_NM: "",
-      MANAGER_NM: "",
-      CURRENT_PHASE: "Build", // Default status
-      LLM_PLATFORM: "",
-      DEPLOYMENT_DT: "",
-      TGOV_NO: "",
-      APM_NO: "",
-      LLM_MODEL: "",
-      APP_TYPE: "",
-      PRJ_DESC: "",
-      BASE_APLCTN_NM: "",
-      EKS_ENABLED_YN: "",
-      REACT_UI_ENABLED_YN: "",
-      AI_TASKFORCE_REVIEWED_YN: "",
-      AI_TASKFORCE_APPROVED_YN: "",
-      TARGET_USERS: "",
-      COMMENTS: "",
-      CATEGORY: "",
-      BU: "",
+    STAFF_VP: "",
+    DIRECTOR: "",
+    LEAD_NM: "",
+    TGOV_NO: "",
+    PROGRAM_TYPE: "",
+    PROJECT_NAME: "",
+    PROJECT_DESCRIPTION: "",
+    LLM_PLATFORM: "",
+    LLM_MODEL: "",
+    PLATFORM_SERVICES: "",
+    DATA: "",
+    BUSINESS_USER: "",
+    START_DATE: "",
+    DEPLOYMENT_DATE: "",
+    CURRENT_PHASE: "",
+    STATUS: "",
+    LINK_TO_SLIDE: ""
     });
   };
 
@@ -230,13 +227,12 @@ const ProjectTable = () => {
             <TableHead>
               <TableRow>
                 {[
-                  { label: "Key Projects/ Milestone", key: "PRJ_NM" },
+                  { label: "Key Projects/ Milestone", key: "PROJECT_NAME" },
                   { label: "Assigned", key: "LEAD_NM" },
-                  { label: "Manager", key: "MANAGER_NM" },
+                  { label: "Staff VP", key: "STAFF_VP" },
                   { label: "Status", key: "CURRENT_PHASE" },
-                  { label: "Domain", key: "LLM_PLATFORM" },
-                  { label: "Date", key: "DEPLOYMENT_DT" },
-                  { label: "Platform", key: "CATEGORY" },
+                  { label: "Platform", key: "LLM_PLATFORM" },
+                  { label: "Date", key: "DEPLOYMENT_DATE" },
                   { label: "Actions", key: null },
                 ].map((column, index) => (
                   <TableCell key={column.key ? column.key : `column-${index}`} sx={{ fontWeight: "bold", fontSize: "16px", textAlign: index !== 0 ? "center" : "left" }}>
@@ -259,12 +255,12 @@ const ProjectTable = () => {
                   <TableCell sx={{ fontSize: "14px", padding: "6px" , paddingLeft: "18px"}}>
                     {editRowId === project.SL_NO ? (
                       <TextField
-                        value={editedData.PRJ_NM ?? project.PRJ_NM}
-                        onChange={(e) => handleChange(e, "PRJ_NM")}
+                        value={editedData.PROJECT_NAME ?? project.PROJECT_NAME}
+                        onChange={(e) => handleChange(e, "PROJECT_NAME")}
                         fullWidth
                       />
                     ) : (
-                      <Typography>{project.PRJ_NM}</Typography>
+                      <Typography>{project.PROJECT_NAME}</Typography>
                     )}
                   </TableCell>
                   <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
@@ -281,12 +277,12 @@ const ProjectTable = () => {
                   <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
                     {editRowId === project.SL_NO ? (
                       <TextField
-                        value={editedData.MANAGER_NM ?? project.MANAGER_NM}
-                        onChange={(e) => handleChange(e, "MANAGER_NM")}
+                        value={editedData.STAFF_VP ?? project.STAFF_VP}
+                        onChange={(e) => handleChange(e, "STAFF_VP")}
                         fullWidth
                       />
                     ) : (
-                      <Typography>{project.MANAGER_NM}</Typography>
+                      <Typography>{project.STAFF_VP}</Typography>
                     )}
                   </TableCell>
                   <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
@@ -325,15 +321,15 @@ const ProjectTable = () => {
                     {editRowId === project.SL_NO ? (
                       <TextField
                         type="date"
-                        value={(editedData.DEPLOYMENT_DT ?? project.DEPLOYMENT_DT)?.split(" ")[0]}
-                        onChange={(e) => handleChange(e, "DEPLOYMENT_DT")}
+                        value={(editedData.DEPLOYMENT_DATE ?? project.DEPLOYMENT_DATE)?.split(" ")[0]}
+                        onChange={(e) => handleChange(e, "DEPLOYMENT_DATE")}
                         fullWidth
                       />
                     ) : (
-                      <Typography>{project.DEPLOYMENT_DT.split(" ")[0]}</Typography>
+                      <Typography>{project.DEPLOYMENT_DATE.split(" ")[0]}</Typography>
                     )}
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
+                  {/* <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
                     {editRowId === project.SL_NO ? (
                       <TextField
                         value={editedData.CATEGORY ?? project.CATEGORY}
@@ -343,7 +339,7 @@ const ProjectTable = () => {
                     ) : (
                       <Typography>{project.CATEGORY}</Typography>
                     )}
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
                     {editRowId === project.SL_NO ? (
                       <Button
@@ -374,8 +370,8 @@ const ProjectTable = () => {
                 <TableRow hover>
                   <TableCell >
                     <TextField
-                      value={newProject.PRJ_NM}
-                      onChange={(e) => handleChange(e, "PRJ_NM")}
+                      value={newProject.PROJECT_NAME}
+                      onChange={(e) => handleChange(e, "PROJECT_NAME")}
                       fullWidth
                       placeholder="Enter Project Name"
                       sx={{padding: "6.5px 14px"}}
@@ -392,8 +388,8 @@ const ProjectTable = () => {
                   </TableCell>
                   <TableCell>
                     <TextField
-                      value={newProject.MANAGER_NM}
-                      onChange={(e) => handleChange(e, "MANAGER_NM")}
+                      value={newProject.STAFF_VP}
+                      onChange={(e) => handleChange(e, "STAFF_VP")}
                       fullWidth
                       placeholder="Enter Manager Name"
                       sx={{padding: "6.5px 14px"}}
@@ -420,13 +416,13 @@ const ProjectTable = () => {
                   <TableCell>
                     <TextField
                       type="date"
-                      value={newProject.DEPLOYMENT_DT}
-                      onChange={(e) => handleChange(e, "DEPLOYMENT_DT")}
+                      value={newProject.DEPLOYMENT_DATE}
+                      onChange={(e) => handleChange(e, "DEPLOYMENT_DATE")}
                       fullWidth
                       sx={{padding: "6.5px 14px"}}
                     />
                   </TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     <TextField
                       value={newProject.CATEGORY}
                       onChange={(e) => handleChange(e, "CATEGORY")}
@@ -434,7 +430,7 @@ const ProjectTable = () => {
                       placeholder="Enter Category"
                       sx={{padding: "6.5px 14px"}}
                     />
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
                     <Button
                       variant="contained"
