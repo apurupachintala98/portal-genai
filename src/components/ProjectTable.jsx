@@ -200,7 +200,7 @@ const handleAddClick = () => {
   const handleEditClick = (sl_no) => {
     const project = projects.find((p) => p.SL_NO === sl_no);
     setEditRowId(sl_no);
-    setEditedData({ }); // Clone the selected project for editing
+    setEditedData({...editedData }); // Clone the selected project for editing
   };
 
   if (loading) {
