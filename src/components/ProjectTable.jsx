@@ -255,7 +255,7 @@ const handleAddClick = () => {
                     {editRowId === project.SL_NO ? (
                       <TextField
                         value={editedData.PROJECT_NAME ?? project.PROJECT_NAME}
-                        onChange={(e) => handleChange(e, "PROJECT_NAME")}
+                        onChange={(e) => handleChange(e, "Project_Name")}
                         fullWidth
                       />
                     ) : (
@@ -277,7 +277,7 @@ const handleAddClick = () => {
                     {editRowId === project.SL_NO ? (
                       <TextField
                         value={editedData.STAFF_VP ?? project.STAFF_VP}
-                        onChange={(e) => handleChange(e, "STAFF_VP")}
+                        onChange={(e) => handleChange(e, "Staff_VP")}
                         fullWidth
                       />
                     ) : (
@@ -288,7 +288,7 @@ const handleAddClick = () => {
                     {editRowId === project.SL_NO ? (
                       <TextField
                         value={editedData.CURRENT_PHASE ?? project.CURRENT_PHASE}
-                        onChange={(e) => handleChange(e, "CURRENT_PHASE")}
+                        onChange={(e) => handleChange(e, "Current_Phase")}
                         fullWidth
                       />
                     ) : (
@@ -321,7 +321,7 @@ const handleAddClick = () => {
                       <TextField
                         type="date"
                         value={(editedData.DEPLOYMENT_DATE ?? project.DEPLOYMENT_DATE)?.split(" ")[0]}
-                        onChange={(e) => handleChange(e, "DEPLOYMENT_DATE")}
+                        onChange={(e) => handleChange(e, "Deployment_Date")}
                         fullWidth
                       />
                     ) : (
@@ -370,7 +370,7 @@ const handleAddClick = () => {
                   <TableCell >
                     <TextField
                       value={newProject.PROJECT_NAME}
-                      onChange={(e) => handleChange(e, "PROJECT_NAME")}
+                      onChange={(e) => handleChange(e, "Project_Name")}
                       fullWidth
                       placeholder="Enter Project Name"
                       sx={{padding: "6.5px 14px"}}
@@ -388,7 +388,7 @@ const handleAddClick = () => {
                   <TableCell>
                     <TextField
                       value={newProject.STAFF_VP}
-                      onChange={(e) => handleChange(e, "STAFF_VP")}
+                      onChange={(e) => handleChange(e, "Staff_VP")}
                       fullWidth
                       placeholder="Enter Manager Name"
                       sx={{padding: "6.5px 14px"}}
@@ -397,7 +397,7 @@ const handleAddClick = () => {
                   <TableCell>
                     <TextField
                       value={newProject.CURRENT_PHASE}
-                      onChange={(e) => handleChange(e, "CURRENT_PHASE")}
+                      onChange={(e) => handleChange(e, "Current_Phase")}
                       fullWidth
                       placeholder="Enter Current Phase"
                       sx={{padding: "6.5px 14px"}}
@@ -416,7 +416,7 @@ const handleAddClick = () => {
                     <TextField
                       type="date"
                       value={newProject.DEPLOYMENT_DATE}
-                      onChange={(e) => handleChange(e, "DEPLOYMENT_DATE")}
+                      onChange={(e) => handleChange(e, "Deployment_Date")}
                       fullWidth
                       sx={{padding: "6.5px 14px"}}
                     />
