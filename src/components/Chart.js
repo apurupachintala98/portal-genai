@@ -3,10 +3,12 @@ import Highcharts from 'highcharts';
 import HighchartsGantt from 'highcharts/modules/gantt';
 import HighchartsReact from 'highcharts-react-official';
 import { getAllProjectDetails } from "../services/apiService";
+// import Exporting from 'highcharts/modules/exporting';
 
 if (typeof HighchartsGantt === 'function') {
   HighchartsGantt(Highcharts);
 }
+// Exporting(Highcharts);
 
 const Chart = ({ onCaptureImage }) => {
   const chartRef = useRef(null);
@@ -55,6 +57,8 @@ const Chart = ({ onCaptureImage }) => {
       filtered = filtered.filter(project => project.LLM_PLATFORM === selectedCategory);
     }
 
+    // Calculate the maximum deployment date from the filtered data
+    // const maxDate = new Date(Math.max(...filtered.map(project => new Date(project.DEPLOYMENT_DT).getTime())));
     const maxDeploymentDate = new Date(Math.max(...filtered.map(project => {
       const d = new Date(project.DEPLOYMENT_DATE);
       return d.getTime();
@@ -85,7 +89,7 @@ const Chart = ({ onCaptureImage }) => {
 
   const options = {
     chart: {
-      height: filteredData.length * 40  // Adjusting height based on number of rows
+      height: filteredData.length * 60  // Adjusting height based on number of rows
     },
     title: {
       text: ''
@@ -110,7 +114,7 @@ const Chart = ({ onCaptureImage }) => {
       tickInterval: 1000 * 60 * 60 * 24 * 365, // Year
       gridLineWidth: 1,
       grid: {
-        cellHeight: 35
+        cellHeight: 22
       },
       labels: {
         format: '{value:%Y}',
