@@ -200,7 +200,25 @@ const handleAddClick = () => {
   const handleEditClick = (sl_no) => {
     const project = projects.find((p) => p.SL_NO === sl_no);
     setEditRowId(sl_no);
-    setEditedData({...editedData }); // Clone the selected project for editing
+    setEditedData({
+      Staff_VP: project.STAFF_VP || "",
+      Director: project.DIRECTOR || "",
+      LEAD_NM: project.LEAD_NM || "",
+      TGOV_NO: project.TGOV_NO || "",
+      Program_Type: project.PROGRAM_TYPE || "",
+      Project_Name: project.PROJECT_NAME || "",
+      Project_Description: project.PROJECT_DESCRIPTION || "",
+      LLM_PLATFORM: project.LLM_PLATFORM || "",
+      LLM_MODEL: project.LLM_MODEL || "",
+      Platform_Services: project.PLATFORM_SERVICES || "",
+      data: project.DATA || "",
+      Business_User: project.BUSINESS_USER || "",
+      Start_Date: project.START_DATE || "",
+      Deployment_Date: project.DEPLOYMENT_DATE || "",
+      Current_Phase: project.CURRENT_PHASE || "",
+      status: project.STATUS || "",
+      Link_to_Slide: project.LINK_TO_SLIDE || ""
+    });
   };
 
   if (loading) {
