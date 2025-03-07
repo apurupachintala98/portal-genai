@@ -44,7 +44,6 @@ const ProjectTable = () => {
     CURRENT_PHASE: "",
     LLM_PLATFORM: "",
     DEPLOYMENT_DATE: "",
-    LLM_PLATFORM: "",
   });
   useEffect(() => {
     fetchProjects();

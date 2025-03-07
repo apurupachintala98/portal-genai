@@ -21,34 +21,7 @@ const Chart = ({ onCaptureImage }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [maxDeploymentDate, setMaxDeploymentDate] = useState();
-
-//   useEffect(() => {
-//     const captureChart = () => {
-//         if (chartRef.current && chartRef.current.chart && chartRef.current.chart.exportChart) {
-//             chartRef.current.chart.exportChart({
-//                 type: 'image/png',
-//                 filename: 'project-gantt-chart'
-//             }, {
-//                 chartOptions: { // Add custom options for the exported chart
-//                     title: {
-//                         text: 'Exported Chart'
-//                     }
-//                 }
-//             }, function(dataUrl) {
-//                 onCaptureImage(dataUrl);
-//             });
-//         } else {
-//             console.log("Chart or exportChart function not available");
-//         }
-//     };
-
-//     const timer = setTimeout(() => {
-//         captureChart();
-//     }, 3000); // Adjust the delay if necessary
-
-//     return () => clearTimeout(timer);
-// }, [onCaptureImage]);
-
+  const [minStartDate, setMinStartDate] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -91,6 +64,19 @@ const Chart = ({ onCaptureImage }) => {
       return d.getTime();
     })));
 
+    // Calculate the minimum start date from the filtered data
+    const minStartDate = new Date(Math.min(...filtered.map(project => {
+      const d = new Date(project.START_DATE);
+      return d.getTime();
+    })));
+
+    // Ensure minStartDate is a valid date before setting it
+    if (!isNaN(minStartDate.getTime())) {
+      setMinStartDate(minStartDate);
+    } else {
+      setMinStartDate(undefined); // Default or fallback min date
+    }
+
     // Ensure maxDate is a valid date before setting it
     if (!isNaN(maxDeploymentDate.getTime())) {
       setMaxDeploymentDate(maxDeploymentDate);
@@ -122,10 +108,8 @@ const Chart = ({ onCaptureImage }) => {
           lineHeight: '1'
         }
       },
-      min: Date.UTC(2024, 8, 1), // September 2024
-      // max: Date.UTC(2025, 11, 31), // December 2025
-      // max: maxDeploymentDate.getTime(),
-      max: maxDeploymentDate ? maxDeploymentDate.getTime() : undefined,
+      min: minStartDate ? minStartDate.getTime() : undefined,
+      max: maxDeploymentDate ? maxDeploymentDate.getTime() : undefined, 
     }, {
       tickInterval: 1000 * 60 * 60 * 24 * 365, // Year
       gridLineWidth: 1,
