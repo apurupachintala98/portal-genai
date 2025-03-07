@@ -38,12 +38,12 @@ const ProjectTable = () => {
   const [filters, setFilters] = useState({});
   const [showAllOptions, setShowAllOptions] = useState({});
   const [newProject, setNewProject] = useState({
-    PROJECT_NAME: "",
+    Project_Name: "",
     LEAD_NM: "",
-    STAFF_VP: "",
-    CURRENT_PHASE: "",
+    Staff_VP: "",
+    Current_Phase: "",
     LLM_PLATFORM: "",
-    DEPLOYMENT_DATE: "",
+    Deployment_Date: "",
   });
   useEffect(() => {
     fetchProjects();
