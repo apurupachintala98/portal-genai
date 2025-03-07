@@ -37,6 +37,7 @@ const ProjectTable = () => {
   const [selectedOptions, setSelectedOptions] = useState({});
   const [filters, setFilters] = useState({});
   const [showAllOptions, setShowAllOptions] = useState({});
+  const dateFields = new Set(["Deployment_Date", "Start_Date"]); 
   const [newProject, setNewProject] = useState({
     Staff_VP: "",
     Director: "",
@@ -168,7 +169,13 @@ const handleAddClick = () => {
   };
 
   const handleChange = (e, field) => {
-    const value = e.target.value;
+    let value = e.target.value;
+    
+    // Check if the field is a date field and the value is empty, then set to null
+    if (dateFields.has(field) && value === "") {
+      value = null;
+    }
+  
     if (isNewRow) {
       setNewProject((prev) => ({ ...prev, [field]: value }));
     } else {
