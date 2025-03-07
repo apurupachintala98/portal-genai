@@ -51,7 +51,7 @@ const ProjectTable = () => {
     Platform_Services: "",
     data: "",
     Business_User: "",
-    Start_Date: "",
+    Start_Date: new Date(),
     Deployment_Date: "",
     Current_Phase: "",
     status: "",
