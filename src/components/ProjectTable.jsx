@@ -150,7 +150,7 @@ const handleAddClick = () => {
       await updateProjectDetails(SL_NO, sanitizedData); // Pass SL_NO as a query parameter
       fetchProjects(); // Refresh the project list
       setEditRowId(null); // Exit edit mode
-      // setEditedData({});
+      setEditedData({});
     } catch (error) {
       console.error("Failed to update project:", error);
     }
