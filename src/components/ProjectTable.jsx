@@ -162,19 +162,49 @@ const ProjectTable = () => {
     });
 };
 
+  // const handleSave = async (SL_NO) => {
+  //   try {
+  //     const sanitizedData = { ...editedData }; // Clone the data
+  //     delete sanitizedData.SL_NO; // Remove SL_NO from the payload
+
+  //     await updateProjectDetails(SL_NO, sanitizedData); // Pass SL_NO as a query parameter
+  //     fetchProjects(); // Refresh the project list
+  //     setEditRowId(null); // Exit edit mode
+  //     setEditedData({});
+  //   } catch (error) {
+  //     console.error("Failed to update project:", error);
+  //   }
+  // };
   const handleSave = async (SL_NO) => {
     try {
-      const sanitizedData = { ...editedData }; // Clone the data
-      delete sanitizedData.SL_NO; // Remove SL_NO from the payload
+        const projectToUpdate = {
+            ...editedData,
+            SL_NO: SL_NO, // Ensure SL_NO is part of the update payload if needed
+        };
 
-      await updateProjectDetails(SL_NO, sanitizedData); // Pass SL_NO as a query parameter
-      fetchProjects(); // Refresh the project list
-      setEditRowId(null); // Exit edit mode
-      setEditedData({});
+        // Optionally validate data before sending
+        if (!validateProjectData(projectToUpdate)) {
+            console.error("Validation failed: Missing or invalid data.");
+            return; // Stop execution if data is invalid
+        }
+
+        await updateProjectDetails(SL_NO, projectToUpdate);
+        fetchProjects(); // Refresh the project list
+        setEditRowId(null); // Exit edit mode
+        setEditedData({});
     } catch (error) {
-      console.error("Failed to update project:", error);
+        console.error("Failed to update project:", error);
+        // Optionally, update the UI to show an error message
+        alert("Failed to update project. Please check the data and try again.");
     }
-  };
+};
+
+function validateProjectData(data) {
+    // Example validation function
+    const requiredFields = ["PROJECT_NAME", "LEAD_NM", "STAFF_VP", "CURRENT_PHASE", "LLM_PLATFORM", "DEPLOYMENT_DATE"];
+    return requiredFields.every(field => data[field] !== undefined && data[field] !== "");
+}
+
 
   const handleDelete = async (sl_no) => {
     try {
