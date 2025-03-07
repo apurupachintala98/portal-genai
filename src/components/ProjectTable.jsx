@@ -107,84 +107,42 @@ const ProjectTable = () => {
     }
   };
 
-  // const handleAddClick = () => {
-  //   setIsNewRow(true);
-  //   setNewProject({
-  //     SL_NO: projects.length > 0
-  //       ? Math.max(...projects.map((p) => p.SL_NO)) + 1
-  //       : 1, // Assign the next SL_NO
-  //   STAFF_VP: "",
-  //   DIRECTOR: "",
-  //   LEAD_NM: "",
-  //   TGOV_NO: "",
-  //   PROGRAM_TYPE: "",
-  //   PROJECT_NAME: "",
-  //   PROJECT_DESCRIPTION: "",
-  //   LLM_PLATFORM: "",
-  //   LLM_MODEL: "",
-  //   PLATFORM_SERVICES: "",
-  //   DATA: "",
-  //   BUSINESS_USER: "",
-  //   START_DATE: "",
-  //   DEPLOYMENT_DATE: "",
-  //   CURRENT_PHASE: "",
-  //   STATUS: "",
-  //   LINK_TO_SLIDE: ""
-  //   });
-  // };
-
 
 const handleAddClick = () => {
   setIsNewRow(true);
   setEditedData({
     SL_NO: projects.length > 0 ? Math.max(...projects.map(p => p.SL_NO)) + 1 : 1,
-    PROJECT_NAME: "",
-        LEAD_NM: "",
-        STAFF_VP: "",
-        DIRECTOR: "",
-        TGOV_NO: "",
-        PROGRAM_TYPE: "",
-        PROJECT_DESCRIPTION: "",
-        LLM_PLATFORM: "",
-        LLM_MODEL: "",
-        PLATFORM_SERVICES: "",
-        DATA: "",
-        BUSINESS_USER: "",
-        START_DATE: "",
-        DEPLOYMENT_DATE: "",
-        CURRENT_PHASE: "",
-        STATUS: "",
-        LINK_TO_SLIDE: ""
+    Staff_VP: "",
+    Director: "",
+    LEAD_NM: "",
+    TGOV_NO: "",
+    Program_Type: "",
+    Project_Name: "",
+    Project_Description: "",
+    LLM_PLATFORM: "",
+    LLM_MODEL: "",
+    Platform_Services: "",
+    data: "",
+    Business_User: "",
+    Start_Date: "",
+    Deployment_Date: "",
+    Current_Phase: "",
+    status: "",
+    Link_to_Slide: ""
   });
 };
 
-  // const handleSave = async (SL_NO) => {
-  //   try {
-  //     const sanitizedData = { ...editedData }; // Clone the data
-  //     delete sanitizedData.SL_NO; // Remove SL_NO from the payload
-
-  //     await updateProjectDetails(SL_NO, sanitizedData); // Pass SL_NO as a query parameter
-  //     fetchProjects(); // Refresh the project list
-  //     setEditRowId(null); // Exit edit mode
-  //     setEditedData({});
-  //   } catch (error) {
-  //     console.error("Failed to update project:", error);
-  //   }
-  // };
-  const handleSave = async () => {
-    if (!editRowId) {
-      console.error("No project selected for saving.");
-      return;
-    }
-
+  const handleSave = async (SL_NO) => {
     try {
-      await updateProjectDetails(editRowId, editedData);
-      fetchProjects();
-      setEditRowId(null);
+      const sanitizedData = { ...editedData }; // Clone the data
+      delete sanitizedData.SL_NO; // Remove SL_NO from the payload
+
+      await updateProjectDetails(SL_NO, sanitizedData); // Pass SL_NO as a query parameter
+      fetchProjects(); // Refresh the project list
+      setEditRowId(null); // Exit edit mode
       setEditedData({});
     } catch (error) {
       console.error("Failed to update project:", error);
-      setError("Failed to update project. Please try again.");
     }
   };
 
@@ -198,59 +156,37 @@ const handleAddClick = () => {
     }
   };
 
-  // const handleChange = (e, field) => {
-  //   const value = e.target.value;
-  //   if (isNewRow) {
-  //     setNewProject((prev) => ({ ...prev, [field]: value }));
-  //   } else {
-  //     setEditedData((prev) => ({ ...prev, [field]: value }));
-  //   }
-  // };
-
-  const handleChange = (event, field) => {
-    const value = event.target.value;
-    setEditedData(prev => ({ ...prev, [field]: value }));
+  const handleChange = (e, field) => {
+    const value = e.target.value;
+    if (isNewRow) {
+      setNewProject((prev) => ({ ...prev, [field]: value }));
+    } else {
+      setEditedData((prev) => ({ ...prev, [field]: value }));
+    }
   };
 
-  // const handleAddProject = async () => {
-  //   try {
-  //     // Save the new project to the database
-  //     await insertNewProjectDetails(newProject);
-
-  //     // Refresh the project list and reset the state
-  //     fetchProjects();
-  //     setNewProject({});
-  //     setIsNewRow(false);
-  //   } catch (error) {
-  //     console.error("Failed to add project:", error);
-  //     setError("Failed to add project. Please try again.");
-  //   }
-  // };
-
-
-
-  // const handleEditClick = (sl_no) => {
-  //   const project = projects.find((p) => p.SL_NO === sl_no);
-  //   setEditRowId(sl_no);
-  //   setEditedData({ ...project }); // Clone the selected project for editing
-  // };
-
-
+ 
   const handleAddProject = async () => {
     try {
-      await insertNewProjectDetails(editedData);
+      // Save the new project to the database
+      await insertNewProjectDetails(newProject);
+
+      // Refresh the project list and reset the state
       fetchProjects();
+      setNewProject({});
       setIsNewRow(false);
-      setEditedData({});
     } catch (error) {
       console.error("Failed to add project:", error);
       setError("Failed to add project. Please try again.");
     }
   };
 
-  const handleEditClick = (project) => {
-    setEditRowId(project.SL_NO);
-    setEditedData({ ...project });
+
+
+  const handleEditClick = (sl_no) => {
+    const project = projects.find((p) => p.SL_NO === sl_no);
+    setEditRowId(sl_no);
+    setEditedData({ ...project }); // Clone the selected project for editing
   };
 
   if (loading) {
@@ -286,7 +222,7 @@ const handleAddClick = () => {
 
       <Paper elevation={3} sx={{ borderRadius: 3 }}>
         <TableContainer>
-          {/* <Table>
+          <Table>
             <TableHead>
               <TableRow>
                 {[
@@ -392,7 +328,7 @@ const handleAddClick = () => {
                       <Typography>{project.DEPLOYMENT_DATE.split(" ")[0]}</Typography>
                     )}
                   </TableCell>
-                  {/* <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
+                   {/* <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
                     {editRowId === project.SL_NO ? (
                       <TextField
                         value={editedData.CATEGORY ?? project.CATEGORY}
@@ -402,7 +338,7 @@ const handleAddClick = () => {
                     ) : (
                       <Typography>{project.CATEGORY}</Typography>
                     )}
-                  </TableCell> 
+                  </TableCell>  */}
                   <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
                     {editRowId === project.SL_NO ? (
                       <Button
@@ -485,7 +421,7 @@ const handleAddClick = () => {
                       sx={{padding: "6.5px 14px"}}
                     />
                   </TableCell>
-                  {/* <TableCell>
+                   {/* <TableCell>
                     <TextField
                       value={newProject.CATEGORY}
                       onChange={(e) => handleChange(e, "CATEGORY")}
@@ -493,7 +429,7 @@ const handleAddClick = () => {
                       placeholder="Enter Category"
                       sx={{padding: "6.5px 14px"}}
                     />
-                  </TableCell> 
+                  </TableCell>  */}
                   <TableCell>
                     <Button
                       variant="contained"
@@ -511,47 +447,8 @@ const handleAddClick = () => {
             </TableBody>
 
 
-          </Table> */}
+          </Table>
 
-<Table>
-          <TableHead>
-            <TableRow>
-              {["Key Projects/Milestone", "Assigned", "Staff VP", "Status", "Platform", "Date", "Actions"].map((label, index) => (
-                <TableCell key={index} sx={{ fontWeight: 'bold', fontSize: '16px' }}>{label}</TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {(isNewRow ? [editedData, ...projects] : projects).map((project, index) => (
-              <TableRow key={project.SL_NO || index} hover>
-                {["PROJECT_NAME", "LEAD_NM", "STAFF_VP", "CURRENT_PHASE", "LLM_PLATFORM", "DEPLOYMENT_DATE"].map((field, idx) => (
-                  <TableCell key={idx}>
-                    {(editRowId === project.SL_NO || isNewRow) ? (
-                      <TextField
-                        value={editedData[field] || ''}
-                        onChange={(e) => handleChange(e, field)}
-                        type={field === "DEPLOYMENT_DATE" ? "date" : "text"}
-                        fullWidth
-                      />
-                    ) : (
-                      <Typography>{project[field]}</Typography>
-                    )}
-                  </TableCell>
-                ))}
-                <TableCell>
-                  {editRowId === project.SL_NO || isNewRow ? (
-                    <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={handleSave}>Save</Button>
-                  ) : (
-                    <>
-                      <IconButton color="primary" onClick={() => handleEditClick(project)}><EditIcon /></IconButton>
-                      <IconButton color="error" onClick={() => handleDelete(project.SL_NO)}><DeleteIcon /></IconButton>
-                    </>
-                  )}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
         </TableContainer>
 
         <Menu
