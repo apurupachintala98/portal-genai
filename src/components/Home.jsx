@@ -17,20 +17,34 @@ import bgImage from "../assets/images/bg-AI.jpeg";
 import logo from '../assets/images/logo.png';
 
 const menuData = [
+  // {
+  //   title: "Services/Frameworks",
+  //   items: [
+  //     { name: "LLM Gateway", url: "/llm-gateway" },
+  //     { name: "RAG Chat Assist (Hedis)", url: "/hedis" },
+  //     { name: "Text2SQL (SafetyNet)", url: "/safety-net" },
+  //     { name: "Workflow Manager (ARB Scheduler)", url: "/arb-scheduler" },
+  //     { name: "Semantic Router (ARB Assist)", url: "/arb-assist" },
+  //     { name: "Data Genie", url: "/data-genie" },
+  //     { name: "Knowledge Graph (EDA Ontology)", url: "/" },
+  //     { name: "Conversational Chat", url: "/conversational-chat" },
+  //     { name: "FHIR Chat", url: "/fhir-chat" },
+  //   ],
+  // },
   {
-    title: "Services/Frameworks",
-    items: [
-      { name: "LLM Gateway", url: "/llm-gateway" },
-      { name: "RAG Chat Assist (Hedis)", url: "/hedis" },
-      { name: "Text2SQL (SafetyNet)", url: "/safety-net" },
-      { name: "Workflow Manager (ARB Scheduler)", url: "/arb-scheduler" },
-      { name: "Semantic Router (ARB Assist)", url: "/arb-assist" },
-      { name: "Data Genie", url: "/data-genie" },
-      { name: "Knowledge Graph (EDA Ontology)", url: "/" },
-      { name: "Conversational Chat", url: "/conversational-chat" },
-      { name: "FHIR Chat", url: "/fhir-chat" },
-    ],
-  },
+        title: "Services/Frameworks",
+        items: [
+          { name: "LLM Gateway", url: "/llm-gateway" },
+          { name: "RAG Chat Assist (Hedis)", url: "http://10.126.192.122:3020/" },
+          { name: "Text2SQL (SafetyNet)", url: "http://10.126.192.122:3010/" },
+          { name: "Workflow Manager (ARB Scheduler)", url: "https://arbassist.edagenaidev.awsdns.internal.das/" },
+          { name: "Semantic Router (ARB Assist)", url: "https://arbassist.edagenaidev.awsdns.internal.das/" },
+          { name: "Data Genie", url: "http://10.126.192.122:3040/" },
+          { name: "Knowledge Graph (EDA Ontology)", url: "/" },
+          { name: "Conversational Chat", url: "http://10.126.192.122:3050/" },
+          { name: "FHIR Chat", url: "http://10.126.192.122:3090/" },
+        ],
+      },
   {
     title: "Applications",
     items: [{ name: "CII SmartHelp", url: "https://evolve.antheminc.com" },

@@ -126,13 +126,13 @@ function App() {
             }
           />
 
-          <Route path="/hedis" element={<RedirectComponent src="http://10.126.192.122:3020/" />} />
+          {/* <Route path="/hedis" element={<RedirectComponent src="http://10.126.192.122:3020/" />} />
           <Route path="/safety-net" element={<RedirectComponent src="http://10.126.192.122:3010/" />} />
           <Route path="/arb-scheduler" element={<RedirectComponent src="https://arbassist.edagenaidev.awsdns.internal.das/" />} />
           <Route path="/arb-assist" element={<RedirectComponent src="https://arbassist.edagenaidev.awsdns.internal.das/" />} />
           <Route path="/data-genie" element={<RedirectComponent src="http://10.126.192.122:3040/" />} />
           <Route path="/conversational-chat" element={<RedirectComponent src="http://10.126.192.122:3050/" />} />
-          <Route path="/fhir-chat" element={<RedirectComponent src="http://10.126.192.122:3090/" />} />
+          <Route path="/fhir-chat" element={<RedirectComponent src="http://10.126.192.122:3090/" />} /> */}
 
           <Route path="*" element={<h1>404 - Page Not Found</h1>} />
         </Routes>
