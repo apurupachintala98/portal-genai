@@ -133,16 +133,12 @@ const ProjectTable = () => {
   //   });
   // };
 
-  const handleAddClick = () => {
-    setIsNewRow(true);
 
-    const nextSlNo = projects.length > 0
-        ? Math.max(...projects.map(p => p.SL_NO)) + 1
-        : 1;
-
-    setNewProject({
-        SL_NO: nextSlNo, 
-        PROJECT_NAME: "",
+const handleAddClick = () => {
+  setIsNewRow(true);
+  setEditedData({
+    SL_NO: projects.length > 0 ? Math.max(...projects.map(p => p.SL_NO)) + 1 : 1,
+    PROJECT_NAME: "",
         LEAD_NM: "",
         STAFF_VP: "",
         DIRECTOR: "",
@@ -159,7 +155,7 @@ const ProjectTable = () => {
         CURRENT_PHASE: "",
         STATUS: "",
         LINK_TO_SLIDE: ""
-    });
+  });
 };
 
   // const handleSave = async (SL_NO) => {
@@ -175,76 +171,86 @@ const ProjectTable = () => {
   //     console.error("Failed to update project:", error);
   //   }
   // };
-  const handleSave = async (SL_NO) => {
-    try {
-        const projectToUpdate = {
-            ...editedData,
-            SL_NO: SL_NO, // Ensure SL_NO is part of the update payload if needed
-        };
-
-        // Optionally validate data before sending
-        if (!validateProjectData(projectToUpdate)) {
-            console.error("Validation failed: Missing or invalid data.");
-            return; // Stop execution if data is invalid
-        }
-
-        await updateProjectDetails(SL_NO, projectToUpdate);
-        fetchProjects(); // Refresh the project list
-        setEditRowId(null); // Exit edit mode
-        setEditedData({});
-    } catch (error) {
-        console.error("Failed to update project:", error);
-        // Optionally, update the UI to show an error message
-        alert("Failed to update project. Please check the data and try again.");
+  const handleSave = async () => {
+    if (!editRowId) {
+      console.error("No project selected for saving.");
+      return;
     }
-};
 
-function validateProjectData(data) {
-    // Example validation function
-    const requiredFields = ["PROJECT_NAME", "LEAD_NM", "STAFF_VP", "CURRENT_PHASE", "LLM_PLATFORM", "DEPLOYMENT_DATE"];
-    return requiredFields.every(field => data[field] !== undefined && data[field] !== "");
-}
-
+    try {
+      await updateProjectDetails(editRowId, editedData);
+      fetchProjects();
+      setEditRowId(null);
+      setEditedData({});
+    } catch (error) {
+      console.error("Failed to update project:", error);
+      setError("Failed to update project. Please try again.");
+    }
+  };
 
   const handleDelete = async (sl_no) => {
     try {
-      await deleteProjectDetails(sl_no); // Call the API to delete the project
-      fetchProjects(); // Refresh the project list
+      await deleteProjectDetails(sl_no);
+      fetchProjects();
     } catch (error) {
       console.error("Failed to delete project:", error);
+      setError("Failed to delete project. Please try again.");
     }
   };
 
-  const handleChange = (e, field) => {
-    const value = e.target.value;
-    if (isNewRow) {
-      setNewProject((prev) => ({ ...prev, [field]: value }));
-    } else {
-      setEditedData((prev) => ({ ...prev, [field]: value }));
-    }
+  // const handleChange = (e, field) => {
+  //   const value = e.target.value;
+  //   if (isNewRow) {
+  //     setNewProject((prev) => ({ ...prev, [field]: value }));
+  //   } else {
+  //     setEditedData((prev) => ({ ...prev, [field]: value }));
+  //   }
+  // };
+
+  const handleChange = (event, field) => {
+    const value = event.target.value;
+    setEditedData(prev => ({ ...prev, [field]: value }));
   };
+
+  // const handleAddProject = async () => {
+  //   try {
+  //     // Save the new project to the database
+  //     await insertNewProjectDetails(newProject);
+
+  //     // Refresh the project list and reset the state
+  //     fetchProjects();
+  //     setNewProject({});
+  //     setIsNewRow(false);
+  //   } catch (error) {
+  //     console.error("Failed to add project:", error);
+  //     setError("Failed to add project. Please try again.");
+  //   }
+  // };
+
+
+
+  // const handleEditClick = (sl_no) => {
+  //   const project = projects.find((p) => p.SL_NO === sl_no);
+  //   setEditRowId(sl_no);
+  //   setEditedData({ ...project }); // Clone the selected project for editing
+  // };
+
 
   const handleAddProject = async () => {
     try {
-      // Save the new project to the database
-      await insertNewProjectDetails(newProject);
-
-      // Refresh the project list and reset the state
+      await insertNewProjectDetails(editedData);
       fetchProjects();
-      setNewProject({});
       setIsNewRow(false);
+      setEditedData({});
     } catch (error) {
       console.error("Failed to add project:", error);
       setError("Failed to add project. Please try again.");
     }
   };
 
-
-
-  const handleEditClick = (sl_no) => {
-    const project = projects.find((p) => p.SL_NO === sl_no);
-    setEditRowId(sl_no);
-    setEditedData({ ...project }); // Clone the selected project for editing
+  const handleEditClick = (project) => {
+    setEditRowId(project.SL_NO);
+    setEditedData({ ...project });
   };
 
   if (loading) {
@@ -280,7 +286,7 @@ function validateProjectData(data) {
 
       <Paper elevation={3} sx={{ borderRadius: 3 }}>
         <TableContainer>
-          <Table>
+          {/* <Table>
             <TableHead>
               <TableRow>
                 {[
@@ -396,7 +402,7 @@ function validateProjectData(data) {
                     ) : (
                       <Typography>{project.CATEGORY}</Typography>
                     )}
-                  </TableCell> */}
+                  </TableCell> 
                   <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
                     {editRowId === project.SL_NO ? (
                       <Button
@@ -422,7 +428,7 @@ function validateProjectData(data) {
                 </TableRow>
               ))}
 
-              {/* New row */}
+            
               {isNewRow && (
                 <TableRow hover>
                   <TableCell >
@@ -487,7 +493,7 @@ function validateProjectData(data) {
                       placeholder="Enter Category"
                       sx={{padding: "6.5px 14px"}}
                     />
-                  </TableCell> */}
+                  </TableCell> 
                   <TableCell>
                     <Button
                       variant="contained"
@@ -505,7 +511,47 @@ function validateProjectData(data) {
             </TableBody>
 
 
-          </Table>
+          </Table> */}
+
+<Table>
+          <TableHead>
+            <TableRow>
+              {["Key Projects/Milestone", "Assigned", "Staff VP", "Status", "Platform", "Date", "Actions"].map((label, index) => (
+                <TableCell key={index} sx={{ fontWeight: 'bold', fontSize: '16px' }}>{label}</TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {(isNewRow ? [editedData, ...projects] : projects).map((project, index) => (
+              <TableRow key={project.SL_NO || index} hover>
+                {["PROJECT_NAME", "LEAD_NM", "STAFF_VP", "CURRENT_PHASE", "LLM_PLATFORM", "DEPLOYMENT_DATE"].map((field, idx) => (
+                  <TableCell key={idx}>
+                    {(editRowId === project.SL_NO || isNewRow) ? (
+                      <TextField
+                        value={editedData[field] || ''}
+                        onChange={(e) => handleChange(e, field)}
+                        type={field === "DEPLOYMENT_DATE" ? "date" : "text"}
+                        fullWidth
+                      />
+                    ) : (
+                      <Typography>{project[field]}</Typography>
+                    )}
+                  </TableCell>
+                ))}
+                <TableCell>
+                  {editRowId === project.SL_NO || isNewRow ? (
+                    <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={handleSave}>Save</Button>
+                  ) : (
+                    <>
+                      <IconButton color="primary" onClick={() => handleEditClick(project)}><EditIcon /></IconButton>
+                      <IconButton color="error" onClick={() => handleDelete(project.SL_NO)}><DeleteIcon /></IconButton>
+                    </>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
         </TableContainer>
 
         <Menu
