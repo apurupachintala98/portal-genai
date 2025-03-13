@@ -254,7 +254,7 @@ const handleAddClick = () => {
 
       <Paper elevation={3} sx={{ borderRadius: 3 }}>
         <TableContainer>
-          <Table>
+        <Table>
             <TableHead>
               <TableRow>
                 {[
@@ -284,46 +284,19 @@ const handleAddClick = () => {
               {filteredProjects.map((project) => (
                 <TableRow key={project.SL_NO} hover>
                   <TableCell sx={{ fontSize: "14px", padding: "6px" , paddingLeft: "18px"}}>
-                    {editRowId === project.SL_NO ? (
-                      <TextField
-                        value={editedData.Project_Name ?? project.PROJECT_NAME}
-                        onChange={(e) => handleChange(e, "Project_Name")}
-                        fullWidth
-                      />
-                    ) : (
+                   
                       <Typography>{project.PROJECT_NAME}</Typography>
-                    )}
                   </TableCell>
                   <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
-                    {editRowId === project.SL_NO ? (
-                      <TextField
-                        value={editedData.LEAD_NM ?? project.LEAD_NM}
-                        onChange={(e) => handleChange(e, "LEAD_NM")}
-                        fullWidth
-                      />
-                    ) : (
+                   
                       <Typography>{project.LEAD_NM}</Typography>
-                    )}
                   </TableCell>
                   <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
-                    {editRowId === project.SL_NO ? (
-                      <TextField
-                        value={editedData.Staff_VP ?? project.STAFF_VP}
-                        onChange={(e) => handleChange(e, "Staff_VP")}
-                        fullWidth
-                      />
-                    ) : (
+                   
                       <Typography>{project.STAFF_VP}</Typography>
-                    )}
                   </TableCell>
                   <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
-                    {editRowId === project.SL_NO ? (
-                      <TextField
-                        value={editedData.Current_Phase ?? project.CURRENT_PHASE}
-                        onChange={(e) => handleChange(e, "Current_Phase")}
-                        fullWidth
-                      />
-                    ) : (
+                   
                       <Chip
                         label={project.CURRENT_PHASE}
                         color={
@@ -335,42 +308,13 @@ const handleAddClick = () => {
                         }
                         variant="outlined"
                       />
-                    )}
                   </TableCell>
                   <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
-                    {editRowId === project.SL_NO ? (
-                      <TextField
-                        value={editedData.LLM_PLATFORM ?? project.LLM_PLATFORM}
-                        onChange={(e) => handleChange(e, "LLM_PLATFORM")}
-                        fullWidth
-                      />
-                    ) : (
                       <Typography>{project.LLM_PLATFORM}</Typography>
-                    )}
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px" , padding: "6px",  paddingLeft: "18px", textAlign: "center"}}>
-                    {editRowId === project.SL_NO ? (
-                      <TextField
-                        type="date"
-                        value={(editedData.Deployment_Date ?? project.DEPLOYMENT_DATE)?.split(" ")[0]}
-                        onChange={(e) => handleChange(e, "Deployment_Date")}
-                        fullWidth
-                      />
-                    ) : (
+                  <TableCell sx={{ fontSize: "14px" , padding: "6px",  paddingLeft: "18px", textAlign: "center"}}>            
                       <Typography>{project.DEPLOYMENT_DATE.split(" ")[0]}</Typography>
-                    )}
                   </TableCell>
-                   {/* <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
-                    {editRowId === project.SL_NO ? (
-                      <TextField
-                        value={editedData.CATEGORY ?? project.CATEGORY}
-                        onChange={(e) => handleChange(e, "CATEGORY")}
-                        fullWidth
-                      />
-                    ) : (
-                      <Typography>{project.CATEGORY}</Typography>
-                    )}
-                  </TableCell>  */}
                   <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
                     {editRowId === project.SL_NO ? (
                       <Button
@@ -395,92 +339,8 @@ const handleAddClick = () => {
                   </TableCell>
                 </TableRow>
               ))}
-
-            
-              {isNewRow && (
-                <TableRow hover>
-                  <TableCell >
-                    <TextField
-                      value={newProject.Project_Name}
-                      onChange={(e) => handleChange(e, "Project_Name")}
-                      fullWidth
-                      placeholder="Enter Project Name"
-                      sx={{padding: "6.5px 14px"}}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <TextField
-                      value={newProject.LEAD_NM}
-                      onChange={(e) => handleChange(e, "LEAD_NM")}
-                      fullWidth
-                      placeholder="Enter Lead Name"
-                      sx={{padding: "6.5px 14px"}}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <TextField
-                      value={newProject.Staff_VP}
-                      onChange={(e) => handleChange(e, "Staff_VP")}
-                      fullWidth
-                      placeholder="Enter Manager Name"
-                      sx={{padding: "6.5px 14px"}}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <TextField
-                      value={newProject.Current_Phase}
-                      onChange={(e) => handleChange(e, "Current_Phase")}
-                      fullWidth
-                      placeholder="Enter Current Phase"
-                      sx={{padding: "6.5px 14px"}}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <TextField
-                      value={newProject.LLM_PLATFORM}
-                      onChange={(e) => handleChange(e, "LLM_PLATFORM")}
-                      fullWidth
-                      placeholder="Enter Domain"
-                      sx={{padding: "6.5px 14px"}}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <TextField
-                      type="date"
-                      value={newProject.Deployment_Date}
-                      onChange={(e) => handleChange(e, "Deployment_Date")}
-                      fullWidth
-                      sx={{padding: "6.5px 14px"}}
-                    />
-                  </TableCell>
-                   {/* <TableCell>
-                    <TextField
-                      value={newProject.CATEGORY}
-                      onChange={(e) => handleChange(e, "CATEGORY")}
-                      fullWidth
-                      placeholder="Enter Category"
-                      sx={{padding: "6.5px 14px"}}
-                    />
-                  </TableCell>  */}
-                  <TableCell>
-                    <Button
-                      variant="contained"
-                      color="success"
-                      size="small"
-                      startIcon={<SaveIcon />}
-                      onClick={handleAddProject}
-                      sx={{padding: "6.5px 14px"}}
-                    >
-                      Save
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              )}
             </TableBody>
-
-
           </Table>
-
         </TableContainer>
 
         <Menu
