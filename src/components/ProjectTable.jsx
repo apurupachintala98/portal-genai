@@ -390,6 +390,7 @@ const ProjectTable = () => {
             <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
             <Button variant="contained" onClick={handleSaveProject} disabled={!editedData.Deployment_Date || !editedData.Start_Date}>{isNewRow ? "Add" : "Save"}</Button>
           </DialogActions>
+          
         </Dialog>
         <Menu
           anchorEl={filterAnchor}
