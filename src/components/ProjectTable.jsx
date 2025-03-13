@@ -335,26 +335,15 @@ const ProjectTable = () => {
                     <Typography>{project.DEPLOYMENT_DATE.split(" ")[0]}</Typography>
                   </TableCell>
                   <TableCell sx={{ fontSize: "14px", padding: "6px", paddingLeft: "18px", textAlign: "center" }}>
-                    {editRowId === project.SL_NO ? (
-                      <Button
-                        variant="contained"
-                        color="success"
-                        size="small"
-                        startIcon={<SaveIcon />}
-                        onClick={() => handleSave(project.SL_NO)}
-                      >
-                        Save
-                      </Button>
-                    ) : (
-                      <>
-                        <IconButton color="primary" onClick={() => handleEditClick(project.SL_NO)}>
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton color="error" size="small" onClick={() => handleDelete(project.SL_NO)}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </>
-                    )}
+                    <>
+                      <IconButton color="primary" onClick={() => handleEditClick(project.SL_NO)}>
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton color="error" size="small" onClick={() => handleDelete(project.SL_NO)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </>
+
                   </TableCell>
                 </TableRow>
               ))}
