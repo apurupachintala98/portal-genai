@@ -154,7 +154,6 @@ const Chart = ({ onCaptureImage }) => {
     series: [
       {
         name: 'Projects',
-        color: "#2caffe",
         data: filteredData.map(project => {
           const deploymentDate = new Date(project.DEPLOYMENT_DATE).getTime();
           // const startDate = new Date('2024-09-01').getTime();
@@ -166,6 +165,7 @@ const Chart = ({ onCaptureImage }) => {
             end: deploymentDate,
             manager: project.STAFF_VP,
             status: project.STATUS,
+            color: "#2caffe",
             y: filteredData.indexOf(project)
           };
         })
