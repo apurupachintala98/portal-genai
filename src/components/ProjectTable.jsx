@@ -361,7 +361,7 @@ const ProjectTable = () => {
                     type={field === 'Deployment_Date' || field === 'Start_Date' ? 'date' : 'text'}
                     label={field.replace('_', ' ')}
                     value={editedData[field] || ''}
-                    InputLabelProps={{ shrink: field === 'Deployment_Date' || field === 'Start_Date' }}
+                    InputLabelProps={{ shrink: field === 'Deployment_Date' || field === 'Start_Date' ? true : undefined }}
                     required={field === 'Deployment_Date' || field === 'Start_Date'}
                     onChange={(e) => handleChange(field, e.target.value)}
                   />
