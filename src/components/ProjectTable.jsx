@@ -17,7 +17,7 @@ import {
   FormControlLabel,
   Button,
   Menu,
-  MenuItem,
+  MenuItem, Dialog, DialogContent, Grid, DialogActions
 } from "@mui/material";
 import { CircularProgress } from "@mui/material";
 import "../App.css";
@@ -36,7 +36,8 @@ const ProjectTable = () => {
   const [selectedOptions, setSelectedOptions] = useState({});
   const [filters, setFilters] = useState({});
   const [showAllOptions, setShowAllOptions] = useState({});
-  const dateFields = new Set(["Deployment_Date", "Start_Date"]); 
+  const dateFields = new Set(["Deployment_Date", "Start_Date"]);
+  const [openDialog, setOpenDialog] = useState(false);
   const [newProject, setNewProject] = useState({
     Staff_VP: "",
     Director: "",
@@ -119,29 +120,30 @@ const ProjectTable = () => {
   };
 
 
-const handleAddClick = () => {
-  setIsNewRow(true);
-  setEditedData({
-    SL_NO: projects.length > 0 ? Math.max(...projects.map(p => p.SL_NO)) + 1 : 1,
-    Staff_VP: "",
-    Director: "",
-    LEAD_NM: "",
-    TGOV_NO: "",
-    Program_Type: "",
-    Project_Name: "",
-    Project_Description: "",
-    LLM_PLATFORM: "",
-    LLM_MODEL: "",
-    Platform_Services: "",
-    data: "",
-    Business_User: "",
-    Start_Date: "",
-    Deployment_Date: "",
-    Current_Phase: "",
-    status: "",
-    Link_to_Slide: ""
-  });
-};
+  const handleAddClick = () => {
+    setIsNewRow(true);
+    setEditedData({
+      SL_NO: projects.length > 0 ? Math.max(...projects.map(p => p.SL_NO)) + 1 : 1,
+      Staff_VP: "",
+      Director: "",
+      LEAD_NM: "",
+      TGOV_NO: "",
+      Program_Type: "",
+      Project_Name: "",
+      Project_Description: "",
+      LLM_PLATFORM: "",
+      LLM_MODEL: "",
+      Platform_Services: "",
+      data: "",
+      Business_User: "",
+      Start_Date: "",
+      Deployment_Date: "",
+      Current_Phase: "",
+      status: "",
+      Link_to_Slide: ""
+    });
+    setOpenDialog(true);
+  };
 
   const handleSave = async (SL_NO) => {
     try {
@@ -156,6 +158,15 @@ const handleAddClick = () => {
     }
   };
 
+  const handleSaveProject = async () => {
+    if (isNewRow) {
+      await handleAddProject();
+    } else {
+      await handleSave(editRowId);
+    }
+    setOpenDialog(false);
+  };
+
   const handleDelete = async (sl_no) => {
     try {
       await deleteProjectDetails(sl_no);
@@ -166,22 +177,26 @@ const handleAddClick = () => {
     }
   };
 
-  const handleChange = (e, field) => {
-    let value = e.target.value;
-    
-    // Check if the field is a date field and the value is empty, then set to null
-    if (dateFields.has(field) && value === "") {
-      value = null;
-    }
-  
-    if (isNewRow) {
-      setNewProject((prev) => ({ ...prev, [field]: value }));
-    } else {
-      setEditedData((prev) => ({ ...prev, [field]: value }));
-    }
+  const handleChange = (field, value) => {
+    setEditedData(prev => ({ ...prev, [field]: value }));
   };
 
- 
+  // const handleChange = (e, field) => {
+  //   let value = e.target.value;
+
+  //   // Check if the field is a date field and the value is empty, then set to null
+  //   if (dateFields.has(field) && value === "") {
+  //     value = null;
+  //   }
+
+  //   if (isNewRow) {
+  //     setNewProject((prev) => ({ ...prev, [field]: value }));
+  //   } else {
+  //     setEditedData((prev) => ({ ...prev, [field]: value }));
+  //   }
+  // };
+
+
   const handleAddProject = async () => {
     try {
       // Save the new project to the database
@@ -219,6 +234,8 @@ const handleAddClick = () => {
       status: project.STATUS || "",
       Link_to_Slide: project.LINK_TO_SLIDE || ""
     });
+    setOpenDialog(true);
+    setIsNewRow(false);
   };
 
   if (loading) {
@@ -254,7 +271,7 @@ const handleAddClick = () => {
 
       <Paper elevation={3} sx={{ borderRadius: 3 }}>
         <TableContainer>
-        <Table>
+          <Table>
             <TableHead>
               <TableRow>
                 {[
@@ -283,39 +300,39 @@ const handleAddClick = () => {
             <TableBody>
               {filteredProjects.map((project) => (
                 <TableRow key={project.SL_NO} hover>
-                  <TableCell sx={{ fontSize: "14px", padding: "6px" , paddingLeft: "18px"}}>
-                   
-                      <Typography>{project.PROJECT_NAME}</Typography>
+                  <TableCell sx={{ fontSize: "14px", padding: "6px", paddingLeft: "18px" }}>
+
+                    <Typography>{project.PROJECT_NAME}</Typography>
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
-                   
-                      <Typography>{project.LEAD_NM}</Typography>
+                  <TableCell sx={{ fontSize: "14px", padding: "6px", paddingLeft: "18px", textAlign: "center" }}>
+
+                    <Typography>{project.LEAD_NM}</Typography>
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
-                   
-                      <Typography>{project.STAFF_VP}</Typography>
+                  <TableCell sx={{ fontSize: "14px", padding: "6px", paddingLeft: "18px", textAlign: "center" }}>
+
+                    <Typography>{project.STAFF_VP}</Typography>
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
-                   
-                      <Chip
-                        label={project.CURRENT_PHASE}
-                        color={
-                          project.CURRENT_PHASE === "Production"
-                            ? "success"
-                            : project.CURRENT_PHASE === "In Progress"
-                              ? "warning"
-                              : "error"
-                        }
-                        variant="outlined"
-                      />
+                  <TableCell sx={{ fontSize: "14px", padding: "6px", paddingLeft: "18px", textAlign: "center" }}>
+
+                    <Chip
+                      label={project.CURRENT_PHASE}
+                      color={
+                        project.CURRENT_PHASE === "Production"
+                          ? "success"
+                          : project.CURRENT_PHASE === "In Progress"
+                            ? "warning"
+                            : "error"
+                      }
+                      variant="outlined"
+                    />
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
-                      <Typography>{project.LLM_PLATFORM}</Typography>
+                  <TableCell sx={{ fontSize: "14px", padding: "6px", paddingLeft: "18px", textAlign: "center" }}>
+                    <Typography>{project.LLM_PLATFORM}</Typography>
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px" , padding: "6px",  paddingLeft: "18px", textAlign: "center"}}>            
-                      <Typography>{project.DEPLOYMENT_DATE.split(" ")[0]}</Typography>
+                  <TableCell sx={{ fontSize: "14px", padding: "6px", paddingLeft: "18px", textAlign: "center" }}>
+                    <Typography>{project.DEPLOYMENT_DATE.split(" ")[0]}</Typography>
                   </TableCell>
-                  <TableCell sx={{ fontSize: "14px", padding: "6px",  paddingLeft: "18px", textAlign: "center" }}>
+                  <TableCell sx={{ fontSize: "14px", padding: "6px", paddingLeft: "18px", textAlign: "center" }}>
                     {editRowId === project.SL_NO ? (
                       <Button
                         variant="contained"
@@ -342,7 +359,27 @@ const handleAddClick = () => {
             </TableBody>
           </Table>
         </TableContainer>
-
+        <Dialog open={openDialog} onClose={() => setOpenDialog(false)} maxWidth="md" fullWidth>
+          <DialogContent>
+            <Grid container spacing={2}>
+              {Object.keys(editedData).map((field) => (
+                <Grid item xs={6} key={field}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label={field.replace("_", " ")}
+                    value={editedData[field] || ''}
+                    onChange={(e) => handleChange(field, e.target.value)}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
+            <Button variant="contained" onClick={handleSaveProject}>{isNewRow ? "Add" : "Save"}</Button>
+          </DialogActions>
+        </Dialog>
         <Menu
           anchorEl={filterAnchor}
           open={Boolean(filterAnchor)}
