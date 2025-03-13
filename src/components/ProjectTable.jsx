@@ -21,6 +21,8 @@ import {
 } from "@mui/material";
 import { CircularProgress } from "@mui/material";
 import "../App.css";
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 import { FilterList, Save as SaveIcon, Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon } from "@mui/icons-material";
 import { getAllProjectDetails, insertNewProjectDetails, updateProjectDetails, deleteProjectDetails } from '../services/apiService';
 
@@ -364,20 +366,29 @@ const ProjectTable = () => {
             <Grid container spacing={2}>
               {Object.keys(editedData).map((field) => (
                 <Grid item xs={6} key={field}>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    label={field.replace("_", " ")}
-                    value={editedData[field] || ''}
-                    onChange={(e) => handleChange(field, e.target.value)}
-                  />
+                  {field === 'Deployment_Date' || field === 'Start_Date' ? (
+                    <DatePicker
+                      label={field.replace('_', ' ')}
+                      value={editedData[field] ? dayjs(editedData[field]) : null}
+                      onChange={(newValue) => handleChange(field, newValue ? newValue.format('YYYY-MM-DD') : '')}
+                      slotProps={{ textField: { fullWidth: true, size: 'small', required: true } }}
+                    />
+                  ) : (
+                    <TextField
+                      fullWidth
+                      size="small"
+                      label={field.replace('_', ' ')}
+                      value={editedData[field] || ''}
+                      onChange={(e) => handleChange(field, e.target.value)}
+                    />
+                  )}
                 </Grid>
               ))}
             </Grid>
           </DialogContent>
           <DialogActions>
             <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
-            <Button variant="contained" onClick={handleSaveProject}>{isNewRow ? "Add" : "Save"}</Button>
+            <Button variant="contained" onClick={handleSaveProject} disabled={!editedData.Deployment_Date || !editedData.Start_Date}>{isNewRow ? "Add" : "Save"}</Button>
           </DialogActions>
         </Dialog>
         <Menu
