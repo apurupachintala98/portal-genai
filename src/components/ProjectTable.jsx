@@ -350,7 +350,7 @@ const ProjectTable = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        <Dialog open={openDialog} onClose={() => setOpenDialog(false)} maxWidth="md" fullWidth>
+        {/* <Dialog open={openDialog} onClose={() => setOpenDialog(false)} maxWidth="md" fullWidth>
           <DialogContent>
             <Grid container spacing={2}>
               {Object.keys(editedData).map((field) => (
@@ -374,7 +374,51 @@ const ProjectTable = () => {
             <Button variant="contained" onClick={handleSaveProject} disabled={!editedData.Deployment_Date || !editedData.Start_Date}>{isNewRow ? "Add" : "Save"}</Button>
           </DialogActions>
 
+        </Dialog> */}
+        <Dialog open={openDialog} onClose={() => setOpenDialog(false)} maxWidth="md" fullWidth>
+          <DialogContent>
+            <Grid container spacing={2}>
+              {Object.keys(isNewRow ? newProject : editedData).map((field) => (
+                <Grid item xs={6} key={field}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    type={field === 'Deployment_Date' || field === 'Start_Date' ? 'date' : 'text'}
+                    label={field.replace('_', ' ')}
+                    value={(isNewRow ? newProject[field] : editedData[field]) || ''}
+                    InputLabelProps={{
+                      shrink: field === 'Deployment_Date' || field === 'Start_Date' ? true : undefined,
+                    }}
+                    required={field === 'Deployment_Date' || field === 'Start_Date'}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (isNewRow) {
+                        setNewProject((prev) => ({ ...prev, [field]: value }));
+                      } else {
+                        setEditedData((prev) => ({ ...prev, [field]: value }));
+                      }
+                    }}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
+            <Button
+              variant="contained"
+              onClick={handleSaveProject}
+              disabled={
+                isNewRow
+                  ? !newProject.Deployment_Date || !newProject.Start_Date
+                  : !editedData.Deployment_Date || !editedData.Start_Date
+              }
+            >
+              {isNewRow ? 'Add' : 'Save'}
+            </Button>
+          </DialogActions>
         </Dialog>
+
         <Menu
           anchorEl={filterAnchor}
           open={Boolean(filterAnchor)}
