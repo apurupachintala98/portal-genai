@@ -350,31 +350,6 @@ const ProjectTable = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        {/* <Dialog open={openDialog} onClose={() => setOpenDialog(false)} maxWidth="md" fullWidth>
-          <DialogContent>
-            <Grid container spacing={2}>
-              {Object.keys(editedData).map((field) => (
-                <Grid item xs={6} key={field}>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    type={field === 'Deployment_Date' || field === 'Start_Date' ? 'date' : 'text'}
-                    label={field.replace('_', ' ')}
-                    value={editedData[field] || ''}
-                    InputLabelProps={{ shrink: field === 'Deployment_Date' || field === 'Start_Date' ? true : undefined }}
-                    required={field === 'Deployment_Date' || field === 'Start_Date'}
-                    onChange={(e) => handleChange(field, e.target.value)}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
-            <Button variant="contained" onClick={handleSaveProject} disabled={!editedData.Deployment_Date || !editedData.Start_Date}>{isNewRow ? "Add" : "Save"}</Button>
-          </DialogActions>
-
-        </Dialog> */}
         <Dialog open={openDialog} onClose={() => setOpenDialog(false)} maxWidth="md" fullWidth>
           <DialogContent>
             <Grid container spacing={2}>
