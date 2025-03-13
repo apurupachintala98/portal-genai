@@ -29,7 +29,6 @@ const Chart = ({ onCaptureImage }) => {
       try {
         const data = await getAllProjectDetails();
         const uniqueManagers = [...new Set(data.map(project => project.STAFF_VP))];
-        console.log("Unique Managers:", uniqueManagers); // Check the fetched and processed manager names
         setManagers(uniqueManagers);
 
         const uniqueCategories = [...new Set(data.map(project => project.LLM_PLATFORM))];
@@ -143,14 +142,9 @@ const Chart = ({ onCaptureImage }) => {
             labels: { format: '{point.manager}' }
           },
           {
-            title: { text: 'Start date' },
-            labels: { format: '{point.start:%d %b %Y}' }
+            title: { text: 'Status' },
+            labels: { format: '{point.status}' }
           },
-          {
-            title: { text: 'End date' },
-            offset: 30,
-            labels: { format: '{point.end:%d %b %Y}' }
-          }
         ]
       }
     },
@@ -160,6 +154,7 @@ const Chart = ({ onCaptureImage }) => {
     series: [
       {
         name: 'Projects',
+        color: "#2caffe",
         data: filteredData.map(project => {
           const deploymentDate = new Date(project.DEPLOYMENT_DATE).getTime();
           // const startDate = new Date('2024-09-01').getTime();
@@ -170,6 +165,7 @@ const Chart = ({ onCaptureImage }) => {
             start: startDate,
             end: deploymentDate,
             manager: project.STAFF_VP,
+            status: project.STATUS,
             y: filteredData.indexOf(project)
           };
         })
