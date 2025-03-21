@@ -47,8 +47,8 @@ const menuData = [
       },
   {
     title: "Applications",
-    items: [{ name: "CII SmartHelp", url: "https://evolve.antheminc.com" },
-    { name: "Clara.ai", url: "https://claraai.carelon.com" },
+    items: [{ name: "CII SmartHelp", url: "https://sit1.evolve.antheminc.com" },
+    { name: "Clara.ai", url: "https://sit1.evolve.antheminc.com" },
     { name: "EDM IntelliQ", url: "/" },
     { name: "Prov360", url: "/" },
     { name: "RMA.ai", url: "/" },
