@@ -40,6 +40,8 @@ const ProjectTable = () => {
   const [showAllOptions, setShowAllOptions] = useState({});
   const dateFields = new Set(["Deployment_Date", "Start_Date"]);
   const [openDialog, setOpenDialog] = useState(false);
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+  const [rowToDelete, setRowToDelete] = useState(null);
   const [newProject, setNewProject] = useState({
     Staff_VP: "",
     Director: "",
@@ -277,8 +279,9 @@ const ProjectTable = () => {
             <TableHead>
               <TableRow>
                 {[
+                  { label: "SL.NO", key: "SL_NO" },
                   { label: "Key Projects/ Milestone", key: "PROJECT_NAME" },
-                  { label: "Assigned", key: "LEAD_NM" },
+                  { label: "Lead", key: "LEAD_NM" },
                   { label: "Staff VP", key: "STAFF_VP" },
                   { label: "Status", key: "CURRENT_PHASE" },
                   { label: "Platform", key: "LLM_PLATFORM" },
@@ -300,8 +303,11 @@ const ProjectTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredProjects.map((project) => (
-                <TableRow key={project.SL_NO} hover>
+              {filteredProjects.map((project, index) => (
+                <TableRow key={index} hover>
+                  <TableCell sx={{ fontSize: "14px", padding: "6px", paddingLeft: "18px" }}>
+                    <Typography>{index + 1}</Typography>
+                  </TableCell>
                   <TableCell sx={{ fontSize: "14px", padding: "6px", paddingLeft: "18px" }}>
 
                     <Typography>{project.PROJECT_NAME}</Typography>
@@ -339,7 +345,10 @@ const ProjectTable = () => {
                       <IconButton color="primary" onClick={() => handleEditClick(project.SL_NO)}>
                         <EditIcon />
                       </IconButton>
-                      <IconButton color="error" size="small" onClick={() => handleDelete(project.SL_NO)}>
+                      <IconButton color="error" size="small" onClick={() => {
+                        setRowToDelete(project.SL_NO);
+                        setConfirmDeleteOpen(true);
+                      }} >
                         <DeleteIcon />
                       </IconButton>
                     </>
@@ -393,6 +402,30 @@ const ProjectTable = () => {
             </Button>
           </DialogActions>
         </Dialog>
+
+        <Dialog
+          open={confirmDeleteOpen}
+          onClose={() => setConfirmDeleteOpen(false)}
+        >
+          <DialogContent>
+            <Typography>Are you sure you want to delete this project?</Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setConfirmDeleteOpen(false)}>Cancel</Button>
+            <Button
+              onClick={async () => {
+                await handleDelete(rowToDelete);
+                setConfirmDeleteOpen(false);
+                setRowToDelete(null);
+              }}
+              color="error"
+              variant="contained"
+            >
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
+
 
         <Menu
           anchorEl={filterAnchor}
