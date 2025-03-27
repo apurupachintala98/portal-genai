@@ -59,7 +59,8 @@ const ProjectTable = () => {
     Deployment_Date: "",
     Current_Phase: "",
     status: "",
-    Link_to_Slide: ""
+    Link_to_Slide: "",
+    Notes: ""
   });
   useEffect(() => {
     fetchProjects();
@@ -123,7 +124,6 @@ const ProjectTable = () => {
     }
   };
 
-
   const handleAddClick = () => {
     setIsNewRow(true);
     setEditedData({
@@ -144,7 +144,8 @@ const ProjectTable = () => {
       Deployment_Date: "",
       Current_Phase: "",
       status: "",
-      Link_to_Slide: ""
+      Link_to_Slide: "",
+      Notes: ""
     });
     setOpenDialog(true);
   };
@@ -185,22 +186,6 @@ const ProjectTable = () => {
     setEditedData(prev => ({ ...prev, [field]: value }));
   };
 
-  // const handleChange = (e, field) => {
-  //   let value = e.target.value;
-
-  //   // Check if the field is a date field and the value is empty, then set to null
-  //   if (dateFields.has(field) && value === "") {
-  //     value = null;
-  //   }
-
-  //   if (isNewRow) {
-  //     setNewProject((prev) => ({ ...prev, [field]: value }));
-  //   } else {
-  //     setEditedData((prev) => ({ ...prev, [field]: value }));
-  //   }
-  // };
-
-
   const handleAddProject = async () => {
     try {
       // Save the new project to the database
@@ -236,7 +221,8 @@ const ProjectTable = () => {
       Deployment_Date: project.DEPLOYMENT_DATE || "",
       Current_Phase: project.CURRENT_PHASE || "",
       status: project.STATUS || "",
-      Link_to_Slide: project.LINK_TO_SLIDE || ""
+      Link_to_Slide: project.LINK_TO_SLIDE || "",
+      Notes: project.Notes || ""
     });
     setOpenDialog(true);
     setIsNewRow(false);
