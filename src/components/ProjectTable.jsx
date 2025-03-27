@@ -222,7 +222,7 @@ const ProjectTable = () => {
       Current_Phase: project.CURRENT_PHASE || "",
       status: project.STATUS || "",
       Link_to_Slide: project.LINK_TO_SLIDE || "",
-      Notes: project.Notes || ""
+      Notes: project.NOTES || ""
     });
     setOpenDialog(true);
     setIsNewRow(false);
