@@ -58,7 +58,7 @@ const Dashboard = ({
     const menuItems = [
         { text: "Dashboard", icon: <DashboardIcon />, id: "dashboard" },
         { text: "Project Status Chat", icon: <ChatIcon />, id: "chat" },
-        { text: "Project", icon: <ChatIcon />, id: "project" },
+        { text: "Project", icon: <DashboardIcon />, id: "project" },
 
     ];
 

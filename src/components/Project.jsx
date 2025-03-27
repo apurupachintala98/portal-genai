@@ -7,7 +7,7 @@ const Project = () => {
   
 
     return (
-       <div>Text</div>
+        <ProjectTable />
     );
 };
 

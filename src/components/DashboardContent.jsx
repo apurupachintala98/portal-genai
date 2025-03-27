@@ -297,7 +297,7 @@ const DashboardContent = ({
                     </Paper>
                 </Grid>
             </Grid>
-            <ProjectTable />
+            {/* <ProjectTable /> */}
             <Chart theme={theme} themeColor={primaryColor} />
 
             <Dialog open={open} onClose={() => setOpen(false)} PaperProps={{ style: { width: '90%' } }}>
