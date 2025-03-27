@@ -57,6 +57,8 @@ const Dashboard = ({
     const menuItems = [
         { text: "Dashboard", icon: <DashboardIcon />, id: "dashboard" },
         { text: "Project Status Chat", icon: <ChatIcon />, id: "chat" },
+        { text: "Project", icon: <ChatIcon />, id: "project" },
+
     ];
 
     return (
@@ -172,6 +174,8 @@ const Dashboard = ({
                 </Breadcrumbs>
                 {currentTab === 'dashboard' && <DashboardContent />}
                 {currentTab === 'chat' && <Chat />}
+                {currentTab === 'project' && <Project />}
+
             </Box>
         </Box>
     );
