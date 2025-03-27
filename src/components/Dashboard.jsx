@@ -23,6 +23,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import ChatIcon from '@mui/icons-material/Chat';
 import DashboardContent from './DashboardContent';
 import Chat from './Chat';
+import Project from './Project';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/images/logo.png';
 import shortLogo from '../assets/images/logo-s.png';
