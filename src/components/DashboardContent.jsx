@@ -5,7 +5,6 @@ import {
     Typography, Button, Checkbox, FormGroup, FormControlLabel,
     Paper, Dialog, DialogActions, DialogContent, DialogTitle, Select, MenuItem, InputLabel, FormControl
 } from "@mui/material";
-import ProjectTable from "./ProjectTable";
 import DashboardCard from "./DashboardCard";
 import projectsIcon from "../assets/images/projects.svg";
 import Chart from "./Chart";
