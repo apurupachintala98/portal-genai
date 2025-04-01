@@ -152,7 +152,6 @@ const Chart = ({ onCaptureImage }) => {
           {
             title: { 
               text: 'Project',
-              align: 'left',
               style: {
                 fontWeight: 'bold',
                 fontSize: '16px',
@@ -187,7 +186,6 @@ const Chart = ({ onCaptureImage }) => {
               format: '{point.status}',
             }
           },
-          
         ]
       }
     },
