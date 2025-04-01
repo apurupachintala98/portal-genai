@@ -160,7 +160,8 @@ const Chart = ({ onCaptureImage }) => {
             labels: {
               format: '{point.name}',
               align: 'left'
-            }
+            },
+            width: 100,
           },
           {
             title: { 
@@ -173,7 +174,7 @@ const Chart = ({ onCaptureImage }) => {
             labels: {
               format: '{point.manager}',
             },
-            width: 200
+            width: 100
           },
           {
             title: { 
@@ -185,7 +186,8 @@ const Chart = ({ onCaptureImage }) => {
             },
             labels: {
               format: '{point.status}',
-            }
+            },
+            width: 100
           },
         ]
       }
