@@ -155,14 +155,13 @@ const Chart = ({ onCaptureImage }) => {
               style: {
                 fontWeight: 'bold',
                 fontSize: '14px',
-                textAlign: 'left'
-              }
+              },
+              align: 'left'
             },
             labels: {
               format: '{point.name}',
               style: {
                 fontSize: '12px',
-                textAlign: 'left'
               },
               align: 'left'
             }
