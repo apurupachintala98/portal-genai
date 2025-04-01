@@ -182,8 +182,19 @@ const Chart = ({ onCaptureImage }) => {
                 fontSize: '14px',
               }
             },
+            // labels: {
+            //   format: '{point.status}',
+            // }
             labels: {
-              format: '{point.status}',
+              useHTML: true,
+              formatter: function () {
+                const status = this.point.status?.toLowerCase() || "";
+                let color = 'gray';
+                if (status === 'on-track') color = 'green';
+                else if (status === 'completed') color = 'blue';
+                else if (status === 'delayed') color = 'red';
+                return `<span style="color: ${color};">${this.point.status}</span>`;
+              }
             }
           },
         ]
