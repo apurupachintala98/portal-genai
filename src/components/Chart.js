@@ -161,7 +161,8 @@ const Chart = ({ onCaptureImage }) => {
             labels: {
               format: '{point.name}',
               align: 'left'
-            }
+            },
+            width: 200
           },
           {
             title: { 
