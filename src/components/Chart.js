@@ -193,7 +193,7 @@ const Chart = ({ onCaptureImage }) => {
                 if (status === 'on-track') color = 'green';
                 else if (status === 'completed') color = 'blue';
                 else if (status === 'delayed') color = 'red';
-                return `<span style="color: ${color};">${this.point.status}</span>`;
+                return `<span style="color: ${color}; display: inline-block; width: 100%;">${this.point.status}</span>`;
               }
             }
           },
