@@ -209,7 +209,7 @@ const Chart = ({ onCaptureImage }) => {
                 // Pad text to prevent truncation and visually align width
                 const displayText = (this.point.status || '');
           
-                return `<div style="color: ${color}; width: 90px; text-align: center; display: inline-block;">${displayText}</div>`;
+                return `<div style="color: ${color}; width: 60px; text-align: center; display: inline-block;">${displayText}</div>`;
               }
             },
           },
