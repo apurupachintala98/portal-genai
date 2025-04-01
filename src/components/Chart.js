@@ -172,7 +172,8 @@ const Chart = ({ onCaptureImage }) => {
             },
             labels: {
               format: '{point.manager}',
-            }
+            },
+            width: 200
           },
           {
             title: { 
