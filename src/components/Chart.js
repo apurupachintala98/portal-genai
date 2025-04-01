@@ -207,7 +207,7 @@ const Chart = ({ onCaptureImage }) => {
                 else if (status === 'delayed') color = 'red';
           
                 // Pad text to prevent truncation and visually align width
-                const displayText = '&nbsp;&ndbsp;' + (this.point.status || '');
+                const displayText = '&nbsp;&nbsp;' + (this.point.status || '');
           
                 return `<div style="color: ${color}; width: 60px; text-align: center; display: inline-block;">${displayText}</div>`;
               }
