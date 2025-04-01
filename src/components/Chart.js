@@ -152,17 +152,14 @@ const Chart = ({ onCaptureImage }) => {
           {
             title: { 
               text: 'Project',
+              align: 'left',
               style: {
                 fontWeight: 'bold',
-                fontSize: '14px',
-              },
-              align: 'left'
-            },
+                fontSize: '16px',
+              }
+                        },
             labels: {
               format: '{point.name}',
-              style: {
-                fontSize: '12px',
-              },
               align: 'left'
             }
           },
@@ -171,25 +168,47 @@ const Chart = ({ onCaptureImage }) => {
               text: 'Manager',
               style: {
                 fontWeight: 'bold',
-                fontSize: '14px',
+                fontSize: '16px',
               }
             },
             labels: {
               format: '{point.manager}',
             }
           },
+          // {
+          //   title: { 
+          //     text: 'Status',
+          //     style: {
+          //       fontWeight: 'bold',
+          //       fontSize: '16px',
+          //     }
+          //   },
+          //   labels: {
+          //     format: '{point.status}',
+          //   }
+          // },
           {
             title: { 
               text: 'Status',
               style: {
                 fontWeight: 'bold',
-                fontSize: '14px',
+                fontSize: '16px'
               }
             },
             labels: {
-              format: '{point.status}',
+              useHTML: true,
+              formatter: function () {
+                const status = this.point.status?.toLowerCase() || "";
+                let color = 'gray';
+          
+                if (status === 'on track') color = 'green';
+                else if (status === 'completed') color = 'blue';
+                else if (status === 'delayed') color = 'red';
+          
+                return `<span style="color: ${color}; font-size: 12px;">${this.point.status}</span>`;
+              }
             }
-          },
+          }
         ]
       }
     },
