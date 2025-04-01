@@ -201,11 +201,11 @@ const Chart = ({ onCaptureImage }) => {
                 const status = this.point.status?.toLowerCase() || "";
                 let color = 'gray';
           
-                if (status === 'on track') color = 'green';
+                if (status === 'on-track') color = 'green';
                 else if (status === 'completed') color = 'blue';
                 else if (status === 'delayed') color = 'red';
           
-                return `<span style="color: ${color}; font-size: 12px;">${this.point.status}</span>`;
+                return `<span style="color: ${color};">${this.point.status}</span>`;
               }
             }
           }
