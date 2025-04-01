@@ -185,17 +185,33 @@ const Chart = ({ onCaptureImage }) => {
             // labels: {
             //   format: '{point.status}',
             // }
+            // labels: {
+            //   useHTML: true,
+            //   formatter: function () {
+            //     const status = this.point.status?.toLowerCase() || "";
+            //     let color = 'gray';
+            //     if (status === 'on-track') color = 'green';
+            //     else if (status === 'completed') color = 'blue';
+            //     else if (status === 'delayed') color = 'red';
+            //     return `<span style="color: ${color}; display: inline-block; width: 100%;">${this.point.status}</span>`;
+            //   }
+            // }
             labels: {
               useHTML: true,
+              align: 'left',
               formatter: function () {
                 const status = this.point.status?.toLowerCase() || "";
                 let color = 'gray';
                 if (status === 'on-track') color = 'green';
                 else if (status === 'completed') color = 'blue';
                 else if (status === 'delayed') color = 'red';
-                return `<span style="color: ${color}; display: inline-block; width: 100%;">${this.point.status}</span>`;
+          
+                // Pad text to prevent truncation and visually align width
+                const displayText = (this.point.status || '') + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+          
+                return `<div style="color: ${color}; font-size: 12px; width: 120px; display: inline-block;">${displayText}</div>`;
               }
-            }
+            },
           },
         ]
       }
