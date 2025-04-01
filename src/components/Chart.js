@@ -108,25 +108,25 @@ const Chart = ({ onCaptureImage }) => {
         }
       },
       min: minStartDate ? minStartDate.getTime() : undefined,
-      max: maxDeploymentDate ? maxDeploymentDate.getTime() : undefined,
+      max: maxDeploymentDate ? maxDeploymentDate.getTime() : undefined, 
     },
-      //{
-      //   tickInterval: 1000 * 60 * 60 * 24 * 365, // Year
-      //   gridLineWidth: 1,
-      //   grid: {
-      //     cellHeight: 22
-      //   },
-      //   labels: {
-      //     format: '{value:%Y}',
-      //     padding: 0,
-      //     style: {
-      //       fontSize: '0.75rem',
-      //       lineHeight: '1',
-      //       fontWeight: 'bold'
-      //     }
-      //   },
-      // }
-    ],
+     //{
+    //   tickInterval: 1000 * 60 * 60 * 24 * 365, // Year
+    //   gridLineWidth: 1,
+    //   grid: {
+    //     cellHeight: 22
+    //   },
+    //   labels: {
+    //     format: '{value:%Y}',
+    //     padding: 0,
+    //     style: {
+    //       fontSize: '0.75rem',
+    //       lineHeight: '1',
+    //       fontWeight: 'bold'
+    //     }
+    //   },
+    // }
+     ],
 
     yAxis: {
       type: 'category',
@@ -134,28 +134,41 @@ const Chart = ({ onCaptureImage }) => {
         enabled: true,
         borderColor: 'rgba(0,0,0,0.3)',
         borderWidth: 1,
-       
+        // columns: [
+        //   {
+        //     title: { text: 'Project' },
+        //     labels: { format: '{point.name}' }
+        //   },
+        //   {
+        //     title: { text: 'Manager' },
+        //     labels: { format: '{point.manager}' }
+        //   },
+        //   {
+        //     title: { text: 'Status' },
+        //     labels: { format: '{point.status}' }
+        //   },
+        // ]
         columns: [
           {
-            title: {
+            title: { 
               text: 'Project',
               align: 'left',
               style: {
                 fontWeight: 'bold',
                 fontSize: '16px',
               }
-            },
+                        },
             labels: {
               format: '{point.name}',
               align: 'left'
             }
           },
           {
-            title: {
+            title: { 
               text: 'Manager',
               style: {
                 fontWeight: 'bold',
-                fontSize: '16px'
+                fontSize: '16px',
               }
             },
             labels: {
@@ -163,27 +176,18 @@ const Chart = ({ onCaptureImage }) => {
             }
           },
           {
-            title: {
+            title: { 
               text: 'Status',
               style: {
                 fontWeight: 'bold',
-                fontSize: '16px'
+                fontSize: '16px',
               }
             },
             labels: {
-              useHTML: true,
-              formatter: function () {
-                const status = this.point.status?.toLowerCase() || "";
-                let color = 'gray';
-
-                if (status === 'on-track') color = 'green';
-                else if (status === 'completed') color = 'blue';
-                else if (status === 'delayed') color = 'red';
-
-                return `<span style="color: ${color};">${this.point.status}</span>`;
-              }
+              format: '{point.status}',
             }
-          }
+          },
+          
         ]
       }
     },
