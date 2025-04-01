@@ -154,40 +154,37 @@ const Chart = ({ onCaptureImage }) => {
               text: 'Project',
               style: {
                 fontWeight: 'bold',
-                fontSize: '16px',
+                fontSize: '14px',
               }
                         },
             labels: {
               format: '{point.name}',
               align: 'left'
-            },
-            width: 100,
+            }
           },
           {
             title: { 
               text: 'Manager',
               style: {
                 fontWeight: 'bold',
-                fontSize: '16px',
+                fontSize: '14px',
               }
             },
             labels: {
               format: '{point.manager}',
             },
-            width: 100
           },
           {
             title: { 
               text: 'Status',
               style: {
                 fontWeight: 'bold',
-                fontSize: '16px',
+                fontSize: '14px',
               }
             },
             labels: {
               format: '{point.status}',
-            },
-            width: 100
+            }
           },
         ]
       }
